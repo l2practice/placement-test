@@ -5,446 +5,92 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chi Tiết Thí Sinh — Venus English</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
 <style>
-/* ═══════════════════════════════════════
-   VENUS ENGLISH PLACEMENT TEST
-   IELTS Professional Design System
-   ═══════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+/* ── Profile header ── */
+.profile { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--brand-grad); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 21px; font-weight: 700; border: 2px solid var(--gold); flex-shrink: 0; }
+.profile h1 { font-family: var(--serif); font-size: 21px; line-height: 1.2; color: var(--text); }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+.meta div { background: var(--cream); border-radius: var(--r-sm); padding: 8px 10px; min-width: 0; }
+.meta small { display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-lt); }
+.meta b { font-size: 13.5px; color: var(--ink); word-break: break-word; }
+.status-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
 
-:root {
-  --navy:      #1a3557;
-  --navy-dk:   #0f2038;
-  --navy-md:   #2a4d7a;
-  --teal:      #1a7a6e;
-  --teal-lt:   #22a394;
-  --gold:      #c8942a;
-  --gold-lt:   #e8b84b;
-  --sky:       #e8f4f8;
-  --sky-dk:    #d0e8f0;
-  --white:     #ffffff;
-  --cream:     #fafbfc;
-  --text:      #1a2535;
-  --text-md:   #4a5568;
-  --text-lt:   #718096;
-  --border:    #e2e8f0;
-  --border-md: #cbd5e0;
-  --green:     #2d7a4f;
-  --green-lt:  #e6f7ee;
-  --red:       #c53030;
-  --red-lt:    #fff5f5;
-  --amber:     #b7791f;
-  --amber-lt:  #fffbeb;
-  --r:         12px;
-  --r-sm:      8px;
-  --r-lg:      16px;
-  --sh:        0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(26,53,87,.08);
-  --sh-md:     0 4px 24px rgba(26,53,87,.14);
-  --sh-lg:     0 8px 40px rgba(26,53,87,.18);
-}
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+@media (max-width: 480px) { .stats { gap: 6px; } .stat-num { font-size: 20px; } }
 
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; }
+.sub-h { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--ink); margin: 16px 0 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sub-h .link { font-size: 12px; text-transform: none; letter-spacing: 0; }
+.note { width: 100%; min-height: 96px; padding: 10px 12px; border: 1.5px solid var(--border-md); border-radius: var(--r-sm); font: inherit; font-size: 14px; line-height: 1.55; resize: vertical; outline: none; background: #fff; }
+.note:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(200,16,46,.1); }
+@media (max-width: 600px) { .note { font-size: 16px; } }
 
-body {
-  font-family: 'Source Sans 3', system-ui, sans-serif;
-  background: var(--cream);
-  color: var(--text);
-  min-height: 100vh;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+/* ── Wrong-answer cards ── */
+.err-list { display: grid; gap: 8px; }
+.err { border: 1px solid var(--border); border-left: 4px solid var(--brand); border-radius: var(--r-sm); padding: 10px 12px; background: #fff; font-size: 13.5px; }
+.err-top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+.err-no { font-weight: 800; color: var(--brand); white-space: nowrap; }
+.err-point { font-weight: 700; color: var(--text); }
+.err-lv { font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 10px; background: var(--cream-dark); color: var(--text-md); }
+.err-q { font-style: italic; color: var(--text-md); margin-bottom: 6px; }
+.err-ans { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.ans { font-size: 12.5px; padding: 2px 8px; border-radius: 6px; }
+.ans.no { background: var(--red-lt); color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+.ans.ok { background: var(--green-lt); color: var(--green); font-weight: 600; }
+.err p { margin-top: 3px; line-height: 1.5; }
+.err .lbl { font-weight: 700; }
+.lbl.r { color: var(--red); } .lbl.g { color: var(--green); } .lbl.n { color: var(--ink); }
 
-/* ── HERO ── */
-.hero {
-  background: linear-gradient(135deg, var(--navy-dk) 0%, var(--navy) 55%, var(--navy-md) 100%);
-  color: var(--white);
-  padding: 40px 24px 36px;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -80px; right: -80px;
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  background: rgba(200,148,42,.1);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--teal), var(--gold), var(--teal-lt));
-}
-.hero-logo {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 20px;
-  position: relative;
-}
-.hero-logo-mark {
-  width: 38px; height: 38px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-lt));
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 23px; font-weight: 700;
-  color: var(--navy-dk);
-  font-family: 'Merriweather', serif;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(200,148,42,.4);
-}
-.hero-logo-text { font-size: 20px; font-weight: 600; color: rgba(255,255,255,.85); line-height: 1.2; }
-.hero-logo-sub  { font-size: 14px; color: rgba(255,255,255,.55); letter-spacing: .5px; }
-.hero h1 {
-  font-family: 'Merriweather', serif;
-  font-size: clamp(29px, 5vw, 42px);
-  font-weight: 700;
-  line-height: 1.25;
-  position: relative;
-  letter-spacing: -.3px;
-}
-.hero p { margin-top: 8px; font-size: 18px; color: rgba(255,255,255,.68); position: relative; }
+.groups { display: flex; gap: 6px; flex-wrap: wrap; }
+.grp { font-size: 12.5px; padding: 4px 10px; border-radius: 20px; background: #EEF2F9; color: var(--ink); font-weight: 600; }
+.grp em { font-style: normal; color: var(--brand); margin-left: 4px; }
 
-/* ── NAV ── */
-.nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-}
-.nav-brand {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Merriweather', serif;
-  font-size: 21px; font-weight: 700; color: var(--navy);
-}
-.nav-brand-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--gold);
-}
-.nav-r { display: flex; align-items: center; gap: 8px; }
-.nav-user { font-size: 17px; color: var(--text-md); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details.raw summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--ink); padding: 8px 0; }
 
-/* ── LAYOUT ── */
-.wrap     { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
-.wrap-lg  { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+/* ── AI feedback ── */
+.key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+@media (max-width: 600px) { .key-grid { grid-template-columns: 1fr; } }
+.key-grid label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-lt); }
+.key-row { display: flex; gap: 6px; margin-top: 4px; }
+.key-row input { flex: 1; min-width: 0; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px; font: inherit; font-size: 13px; }
+.key-st { font-size: 11.5px; color: var(--text-lt); margin-top: 3px; }
+.ai-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; background: var(--nav-bg); color: #fff; border-radius: var(--r-sm); margin-bottom: 10px; }
+.ai-head b { font-size: 17px; }
+.ai-bands { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.ai-bands span { background: rgba(255,255,255,.14); border-radius: 6px; padding: 1px 7px; font-size: 12px; }
+.ai-sec { background: #fff; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 12px; margin-bottom: 8px; font-size: 13.5px; }
+.ai-sec h4 { font-size: 13px; color: #0a6ebd; margin-bottom: 6px; }
+.ai-sec ol, .ai-sec ul { padding-left: 18px; }
+.ai-sec li { margin-bottom: 6px; line-height: 1.5; }
+.fx-w { color: #c5221f; font-weight: 700; } .fx-a { color: #8a97a3; font-weight: 700; } .fx-r { color: #1e7e42; font-weight: 700; }
+.fx-n { display: block; color: #5b6b7a; font-style: italic; }
 
-/* ── CARDS ── */
-.card {
-  background: var(--white);
-  border-radius: var(--r);
-  padding: 22px 20px;
-  box-shadow: var(--sh);
-  margin-bottom: 16px;
-  border: 1px solid var(--border);
-}
-.card-title {
-  font-family: 'Merriweather', serif;
-  font-size: 22px; font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 4px;
-}
-.card-sub { font-size: 17px; color: var(--text-lt); margin-bottom: 16px; }
+/* ── Export card ── */
+.export { background: linear-gradient(135deg, #fff 0%, #FBF6EA 100%); }
+.export-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.export-row .ico { font-size: 32px; }
+.export-row .txt { flex: 1; min-width: 200px; }
 
-/* ── SECTION HEADER (colored bar) ── */
-.sec-head {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 16px;
-  border-radius: var(--r-sm);
-  margin-bottom: 14px;
-  font-weight: 700; font-size: 20px;
-}
-.sec-head.vg      { background:#e8f0fb; color:#1a3b7a; }
-.sec-head.writing { background:#e6f7ee; color:#1a5c35; }
-.sec-head.listen  { background:#e8f4f8; color:#0f4c6b; }
-.sec-head.speak   { background:#f3e8fb; color:#4a1a7a; }
-
-/* ── FORM FIELDS ── */
-.field { margin-bottom: 14px; }
-.field label {
-  display: block;
-  font-size: 14px; font-weight: 700;
-  letter-spacing: .6px; text-transform: uppercase;
-  color: var(--text-md);
-  margin-bottom: 5px;
-}
-.field input, .field select, .field textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid var(--border-md);
-  border-radius: var(--r-sm);
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 20px; color: var(--text);
-  background: var(--cream);
-  transition: border-color .15s, box-shadow .15s;
-  outline: none;
-  -webkit-appearance: none;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color: var(--navy-md);
-  box-shadow: 0 0 0 3px rgba(26,53,87,.1);
-  background: var(--white);
-}
-.field textarea { resize: vertical; min-height: 150px; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media(max-width:480px){ .field-row { grid-template-columns: 1fr; } }
-
-/* ── PILLS (single select) ── */
-.pills { display: flex; flex-wrap: wrap; gap: 7px; }
-.pill {
-  padding: 7px 14px;
-  border: 1.5px solid var(--border-md);
-  border-radius: 20px;
-  cursor: pointer; font-size: 17px; font-weight: 500;
-  transition: all .15s; user-select: none; color: var(--text-md);
-}
-.pill:hover { border-color: var(--navy-md); color: var(--navy); }
-.pill.on { background: var(--navy); color: var(--white); border-color: var(--navy); }
-
-/* ── CHECKS (multi select) ── */
-.checks { display: flex; flex-wrap: wrap; gap: 7px; }
-.chk {
-  padding: 7px 14px;
-  border: 1.5px solid var(--border-md);
-  border-radius: var(--r-sm);
-  cursor: pointer; font-size: 17px; font-weight: 500;
-  transition: all .15s; user-select: none; color: var(--text-md);
-}
-.chk:hover { border-color: var(--teal); }
-.chk.on { background: rgba(26,122,110,.08); border-color: var(--teal); color: var(--teal); }
-
-/* ── BUTTONS ── */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 11px 22px;
-  border-radius: var(--r-sm);
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 18px; font-weight: 700;
-  cursor: pointer; border: none;
-  transition: all .15s; text-decoration: none;
-  letter-spacing: .2px;
-}
-.btn-primary   { background: var(--navy); color: var(--white); }
-.btn-primary:hover { background: var(--navy-dk); box-shadow: var(--sh-md); transform: translateY(-1px); }
-.btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-teal      { background: var(--teal); color: var(--white); }
-.btn-teal:hover { background: var(--teal-lt); }
-.btn-gold      { background: var(--gold); color: var(--white); }
-.btn-gold:hover { background: #a87820; }
-.btn-outline   { background: transparent; color: var(--navy); border: 1.5px solid var(--navy-md); }
-.btn-outline:hover { background: var(--sky); }
-.btn-ghost     { background: transparent; color: var(--text-md); border: 1.5px solid var(--border-md); }
-.btn-ghost:hover { border-color: var(--navy-md); color: var(--navy); }
-.btn-full      { width: 100%; }
-.btn-sm        { padding: 7px 14px; font-size: 17px; }
-
-/* ── PROGRESS BAR ── */
-.prog-wrap { width: 100%; height: 6px; background: var(--sky-dk); border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
-.prog-fill { height: 100%; background: linear-gradient(90deg, var(--navy-md), var(--teal-lt)); border-radius: 3px; transition: width .4s ease; }
-
-/* ── STEP INDICATOR ── */
-.step-row { display: flex; gap: 4px; margin-bottom: 18px; }
-.step-dot { flex: 1; height: 3px; border-radius: 2px; background: var(--border-md); }
-.step-dot.done  { background: var(--teal); }
-.step-dot.active{ background: var(--navy); }
-
-/* ── ALERTS ── */
-.alert {
-  padding: 11px 14px;
-  border-radius: var(--r-sm);
-  font-size: 18px;
-  display: none;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 12px;
-  line-height: 1.5;
-}
-.alert.show, .alert[style*="display:flex"], .alert[style*="display: flex"] { display: flex; }
-.al-info    { background: var(--sky); color: #0f4c6b; border-left: 3px solid #4a9bc4; }
-.al-success { background: var(--green-lt); color: var(--green); border-left: 3px solid var(--green); }
-.al-warn    { background: var(--amber-lt); color: var(--amber); border-left: 3px solid var(--gold); }
-.al-error   { background: var(--red-lt); color: var(--red); border-left: 3px solid var(--red); display:block; font-size:17px; padding:9px 12px; border-radius:var(--r-sm); margin-bottom:10px; }
-.al-error[style*="none"],.al-error:empty { display:none!important; }
-
-/* ── QUESTION BLOCKS ── */
-.qblock {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  transition: border-color .15s;
-}
-.qblock:hover { border-color: var(--navy-md); }
-.qblock.answered { border-color: var(--teal); border-left-width: 3px; }
-.q-num { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-.q-text { font-size: 18px; line-height: 1.55; margin-bottom: 10px; color: var(--text); }
-.q-opts { display: flex; flex-direction: column; gap: 6px; }
-.q-opt {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  cursor: pointer; font-size: 17px;
-  transition: all .12s; color: var(--text-md);
-}
-.q-opt:hover { background: var(--sky); border-color: var(--navy-md); color: var(--navy); }
-.q-opt.on { background: var(--sky); border-color: var(--navy); color: var(--navy); font-weight: 600; }
-.q-opt input[type=radio] { accent-color: var(--navy); width: 15px; height: 15px; flex-shrink: 0; }
-
-/* ── DASHBOARD TEST CARDS ── */
-.test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media(max-width:420px){ .test-grid { grid-template-columns: 1fr; } }
-
-.tcard {
-  border-radius: var(--r);
-  padding: 18px 16px;
-  position: relative; overflow: hidden;
-  border: 2px solid transparent;
-  transition: all .2s;
-}
-.tcard-icon { font-size: 31px; margin-bottom: 8px; }
-.tcard-name { font-family: 'Merriweather', serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
-.tcard-info { font-size: 14px; color: var(--text-lt); }
-.tcard-badge { position: absolute; top: 10px; right: 10px; font-size: 12px; font-weight: 700; padding: 3px 7px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px; }
-
-.tcard.avail { background: var(--white); border-color: var(--border); box-shadow: var(--sh); cursor: pointer; }
-.tcard.avail:hover { border-color: var(--navy-md); box-shadow: var(--sh-md); transform: translateY(-2px); }
-.tcard.done  { background: var(--green-lt); border-color: #a3d9be; cursor: default; }
-.tcard.done .tcard-name { color: var(--green); }
-.tcard.locked { background: var(--cream); opacity: .55; cursor: not-allowed; }
-
-.badge-done { background: #a3d9be; color: var(--green); }
-.badge-new  { background: #fde68a; color: #78350f; }
-
-/* ── DEADLINE BAR ── */
-.dl-bar {
-  background: linear-gradient(90deg, var(--navy-dk), var(--navy));
-  color: var(--white);
-  border-radius: var(--r-sm);
-  padding: 14px 16px;
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 18px;
-  box-shadow: var(--sh);
-}
-.dl-label { font-size: 14px; opacity: .7; margin-bottom: 2px; letter-spacing: .5px; text-transform: uppercase; }
-.dl-date  { font-family: 'Merriweather', serif; font-size: 21px; font-weight: 700; }
-.dl-pill  { background: rgba(255,255,255,.15); border-radius: 20px; padding: 4px 12px; font-size: 17px; font-weight: 600; }
-.dl-pill.urgent { background: rgba(220,38,38,.35); }
-
-/* ── AUDIO PLAYER ── */
-.audio-wrap {
-  background: linear-gradient(135deg, var(--navy-dk), var(--navy-md));
-  border-radius: var(--r);
-  padding: 16px;
-  color: var(--white);
-  margin-bottom: 16px;
-  box-shadow: var(--sh);
-}
-.audio-wrap audio { width: 100%; margin-top: 8px; height: 36px; }
-.audio-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 3px; }
-.audio-title { font-size: 17px; font-weight: 600; }
-.audio-plays { font-size: 14px; margin-top: 4px; opacity: .7; }
-
-/* ── WRITING TOPIC CARDS ── */
-.topic-card {
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 13px 14px;
-  margin-bottom: 8px;
-  cursor: pointer; transition: all .15s;
-}
-.topic-card:hover { border-color: var(--navy-md); background: var(--sky); }
-.topic-card.on    { border-color: var(--navy); background: var(--sky); border-left: 3px solid var(--navy); }
-.topic-card h4    { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-.topic-card p     { font-size: 16px; color: var(--text-lt); line-height: 1.5; }
-
-/* ── RECORDING ── */
-.rec-area {
-  border: 2px dashed var(--border-md);
-  border-radius: var(--r);
-  padding: 26px;
-  text-align: center;
-  background: var(--cream);
-  transition: all .3s;
-}
-.rec-area.live {
-  border-color: #e53e3e;
-  background: #fff5f5;
-  animation: rpulse 1.5s infinite;
-}
-@keyframes rpulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(229,62,62,.25); }
-  50%      { box-shadow: 0 0 0 10px rgba(229,62,62,0); }
-}
-.rec-icon  { font-size: 52px; margin-bottom: 8px; }
-.rec-timer { font-family: 'Merriweather', serif; font-size: 36px; font-weight: 700; color: var(--navy); }
-
-/* ── TEACHER TABLE ── */
-.tbl { width: 100%; border-collapse: collapse; font-size: 17px; }
-.tbl th { background: var(--navy); color: var(--white); padding: 9px 12px; text-align: left; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
-.tbl td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-.tbl tr:hover td { background: var(--sky); }
-.tbl tr:last-child td { border-bottom: none; }
-
-.chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; }
-.chip-done  { background: var(--green-lt); color: var(--green); }
-.chip-none  { background: var(--sky-dk); color: var(--text-lt); }
-.chip-warn  { background: var(--amber-lt); color: var(--amber); }
-.chip-navy  { background: var(--navy); color: var(--white); }
-
-/* ── STAT CARD ── */
-.stat-card { background: var(--white); border-radius: var(--r-sm); padding: 16px; text-align: center; box-shadow: var(--sh); border: 1px solid var(--border); }
-.stat-num  { font-family: 'Merriweather', serif; font-size: 34px; font-weight: 700; line-height: 1; }
-.stat-lbl  { font-size: 14px; color: var(--text-lt); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
-
-/* ── LOADING OVERLAY ── */
-#ov { position: fixed; inset: 0; background: rgba(250,251,252,.9); backdrop-filter: blur(3px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 999; gap: 12px; }
-.spinner { width: 32px; height: 32px; border: 3px solid var(--border-md); border-top-color: var(--navy); border-radius: 50%; animation: spin .7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-#ovMsg { font-size: 18px; color: var(--text-md); }
-
-/* ── MISC ── */
-.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-.mt-16 { margin-top: 16px; }
-.mt-20 { margin-top: 20px; }
-.txt-center { text-align: center; }
-.txt-sm { font-size: 17px; color: var(--text-lt); }
-.word-count { font-size: 16px; color: var(--text-lt); text-align: right; margin-top: 4px; }
-.link { color: var(--navy); font-weight: 600; text-decoration: none; }
-.link:hover { color: var(--teal); text-decoration: underline; }
-
-/* ── SUCCESS PAGE ── */
-.success-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-.success-box { max-width: 440px; width: 100%; text-align: center; }
-.success-icon-wrap { width: 80px; height: 80px; border-radius: 50%; background: var(--green-lt); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 47px; }
-.success-box h1 { font-family: 'Merriweather', serif; font-size: 29px; color: var(--navy); margin-bottom: 8px; }
-.success-box p  { font-size: 18px; color: var(--text-md); line-height: 1.6; margin-bottom: 20px; }
-
-/* ── ESSAY BOX ── */
-.essay-box { background: var(--cream); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px; font-size: 18px; line-height: 1.75; white-space: pre-wrap; max-height: 260px; overflow-y: auto; color: var(--text); }
-
-/* ── WRONG ANSWER TABLE ── */
-.wa-tbl { width: 100%; border-collapse: collapse; font-size: 16px; }
-.wa-tbl th { padding: 6px 10px; background: var(--sky-dk); font-size: 13px; text-transform: uppercase; letter-spacing: .5px; text-align: left; }
-.wa-tbl td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
-.wa-tbl .ok { color: var(--green); font-weight: 700; }
-.wa-tbl .no { color: var(--red); font-weight: 700; }
-
-/* ── GRADE ROW ── */
-.grade-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-top: 12px; }
-.grade-row .field { margin: 0; }
-
-/* ── AI RESULT ── */
-.ai-box { background: var(--sky); border-left: 3px solid var(--teal); border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 14px; margin-top: 12px; font-size: 17px; display: none; }
-.ai-box table { width: 100%; border-collapse: collapse; font-size: 17px; margin-top: 8px; }
-.ai-box table td { padding: 5px 8px; border-bottom: 1px solid var(--sky-dk); }
-.ai-box table td:first-child { font-weight: 700; width: 120px; color: var(--navy); white-space: nowrap; }
-
+/* ── Document preview modal ── */
+.modal { position: fixed; inset: 0; background: rgba(10,16,30,.72); backdrop-filter: blur(2px); z-index: 500; display: none; flex-direction: column; }
+.modal.open { display: flex; }
+.modal-bar { background: var(--nav-bg); border-bottom: 2px solid var(--gold); color: #fff; padding: 10px 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.modal-bar .ttl { font-family: var(--serif); font-weight: 700; font-size: 16px; margin-right: auto; }
+.modal-bar .btn-ghost { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.3); }
+.modal-bar .btn-ghost:hover { background: rgba(255,255,255,.16); }
+.modal-status { font-size: 13px; padding: 8px 14px; background: #FFF7E6; color: var(--amber); display: none; }
+.modal-status.ok { background: var(--green-lt); color: var(--green); }
+.modal-status.err { background: var(--red-lt); color: var(--red); }
+.modal-body { flex: 1; overflow: auto; padding: 18px 12px 40px; -webkit-overflow-scrolling: touch; }
+.paper { background: #fff; max-width: 794px; margin: 0 auto; padding: 54px 60px; box-shadow: 0 10px 40px rgba(0,0,0,.35); border-radius: 4px; outline: none; }
+.paper:focus { box-shadow: 0 0 0 3px var(--gold), 0 10px 40px rgba(0,0,0,.35); }
+.paper table { table-layout: fixed; }
+.paper td { word-wrap: break-word; }
+@media (max-width: 700px) { .paper { padding: 20px 14px; } .modal-bar .btn { flex: 1 1 auto; } }
+.hint { font-size: 12px; color: rgba(255,255,255,.7); width: 100%; }
 </style>
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwwx6KoClB_kwvEOC4-5lQcQgh6J8n0xm1x3SI33EHxzhc5PXugKlrVsNSdUnDjZDVZ/exec';
@@ -468,8 +114,9 @@ async function api(action, payload, msg) {
   finally{showLoading(false);}
 }
 function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;document.getElementById('ovMsg').textContent=msg||'Đang xử lý...';el.style.display=on?'flex':'none';}
-function showErr(id,msg){var el=document.getElementById(id);if(!el)return;el.textContent=msg;el.style.display='block';}
 </script>
+<script src="assets/report-data.js"></script>
+<script src="assets/report.js"></script>
 </head>
 <body>
 <div id="ov" style="display:none"><div class="spinner"></div><p id="ovMsg">Đang tải...</p></div>
@@ -477,463 +124,730 @@ function showErr(id,msg){var el=document.getElementById(id);if(!el)return;el.tex
 <nav class="nav">
   <a href="teacher.html" class="btn btn-ghost btn-sm">← Danh sách</a>
   <div class="nav-brand"><div class="nav-brand-dot"></div><span id="navName">Chi tiết</span></div>
-  <div class="nav-r" style="gap:8px">
-    <button class="btn btn-outline btn-sm" onclick="toggleSurvey()" style="font-size:12px">📋 Survey</button>
-    <button class="btn btn-gold btn-sm" id="btnExport" onclick="exportFeedback()">📄 Xuất Google Doc</button>
+  <div class="nav-r">
+    <button class="btn btn-ghost btn-sm" onclick="toggleSurvey()">📋 Khảo sát</button>
+    <button class="btn btn-gold btn-sm" onclick="openPreview()">📄 Phiếu nhận xét</button>
   </div>
 </nav>
 
 <div class="wrap-lg">
 
-  <!-- Info bar -->
-  <div class="card" style="padding:14px 18px;margin-bottom:14px">
-    <div style="display:flex;flex-wrap:wrap;gap:20px">
-      <div><div class="txt-sm" style="text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Username</div><code style="color:var(--navy);font-size:14px" id="iUser">—</code></div>
-      <div><div class="txt-sm" style="text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Họ tên</div><strong id="iName">—</strong></div>
-      <div><div class="txt-sm" style="text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Email</div><span id="iEmail">—</span></div>
-      <div><div class="txt-sm" style="text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Hạn</div><span id="iDl">—</span></div>
+  <!-- Profile -->
+  <div class="card">
+    <div class="profile">
+      <div class="avatar" id="pAvatar">?</div>
+      <div style="min-width:0">
+        <h1 id="pName">—</h1>
+        <code style="font-size:12.5px;color:var(--text-lt)" id="pUser"></code>
+      </div>
     </div>
+    <div class="meta">
+      <div><small>Email</small><b id="pEmail">—</b></div>
+      <div><small>Mục tiêu band</small><b id="pTarget" style="color:var(--brand)">—</b></div>
+      <div><small>Dự định thi</small><b id="pExam">—</b></div>
+      <div><small>Hạn nộp</small><b id="pDl">—</b></div>
+    </div>
+    <div class="status-row" id="pStatus"></div>
   </div>
 
-  <!-- Survey Info (collapsible) -->
-  <div class="card" id="secSurvey" style="display:none;margin-bottom:14px">
-    <div class="sec-head" style="background:#f0f7ff;color:var(--navy)">📋 Thông tin khảo sát học viên</div>
-    <div id="surveyContent" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px"></div>
+  <!-- Survey (collapsible) -->
+  <div class="card" id="secSurvey" style="display:none">
+    <div class="sec-head" style="background:#EEF2F9;color:var(--ink)">📋 Thông tin khảo sát học viên</div>
+    <div id="surveyContent" class="meta" style="margin-top:0"></div>
   </div>
 
-  <div class="alert al-warn" id="notDone" style="margin-bottom:14px">⚠️ Thí sinh chưa nộp đủ 4 bài thi.</div>
+  <div class="alert al-warn" id="notDone">⚠️ Thí sinh chưa nộp đủ 4 bài thi.</div>
 
-  <!-- V&G -->
+  <!-- ══ V&G ══ -->
   <div class="card" id="secVG" style="display:none">
     <div class="sec-head vg">📝 Ngữ Pháp &amp; Từ Vựng</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+    <div class="stats">
       <div class="stat-card"><div class="stat-num" id="vgScore">—</div><div class="stat-lbl">/ 50 câu</div></div>
-      <div class="stat-card"><div class="stat-num" id="vgLevel">—</div><div class="stat-lbl">Level</div></div>
+      <div class="stat-card"><div class="stat-num" id="vgLevel">—</div><div class="stat-lbl">Trình độ</div></div>
       <div class="stat-card"><div class="stat-num" id="vgWrong" style="color:var(--red)">—</div><div class="stat-lbl">Câu sai</div></div>
     </div>
-    <details>
-      <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--navy);padding:8px 0">Xem chi tiết từng câu ▾</summary>
-      <div style="overflow-x:auto;margin-top:10px"><table class="wa-tbl" id="vgTbl"></table></div>
-    </details>
+    <div class="sub-h">Nhận xét chung <a href="#" class="link" onclick="regen('vgComment');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_vgComment" data-note="vgComment"></textarea>
+    <div class="sub-h">📋 Phân tích chi tiết câu sai</div>
+    <div class="err-list" id="vgErrs"></div>
+    <div class="sub-h">📊 Tổng hợp dạng lỗi</div>
+    <div class="groups" id="vgGroups"></div>
+    <div class="sub-h">✅ Khuyến nghị theo thứ tự ưu tiên <a href="#" class="link" onclick="regen('vgRecs');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_vgRecs" data-note="vgRecs" style="min-height:140px"></textarea>
+    <details class="raw"><summary>Xem đáp án từng câu ▾</summary><div class="scroll-x"><table class="wa-tbl" id="vgTbl"></table></div></details>
   </div>
 
-  <!-- Writing -->
+  <!-- ══ Writing ══ -->
   <div class="card" id="secW" style="display:none">
     <div class="sec-head writing">✍️ Kỹ Năng Viết</div>
-    <div class="txt-sm" style="margin-bottom:6px">Chủ đề: <strong id="wTopic">—</strong></div>
+    <div class="txt-sm" style="margin-bottom:6px">Chủ đề: <strong id="wTopic" style="color:var(--text)">—</strong></div>
     <div class="essay-box" id="wEssay"></div>
+
+    <div class="sub-h">🤖 AI chấm bài theo mẫu phiếu nhận xét</div>
+    <div class="key-grid">
+      <div>
+        <label>Anthropic Claude API Key</label>
+        <div class="key-row"><input type="password" id="inputClaudeKey" placeholder="sk-ant-..." autocomplete="off">
+          <button onclick="saveKey('claude')" class="btn btn-teal btn-sm">Lưu</button></div>
+        <div id="claudeKeyStatus" class="key-st">Chưa có key</div>
+      </div>
+      <div>
+        <label>Google Gemini API Key</label>
+        <div class="key-row"><input type="password" id="inputGeminiKey" placeholder="AIza..." autocomplete="off">
+          <button onclick="saveKey('gemini')" class="btn btn-sm" style="background:#4285f4;color:#fff">Lưu</button></div>
+        <div id="geminiKeyStatus" class="key-st">Chưa có key</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-primary btn-sm" onclick="aiGrade('claude')">✨ Chấm bằng Claude</button>
+      <button class="btn btn-sm" onclick="aiGrade('gemini')" style="background:#4285f4;color:#fff">🔷 Chấm bằng Gemini</button>
+      <span class="txt-sm">Key chỉ lưu trong trình duyệt này.</span>
+    </div>
+    <div id="aiBox" style="margin-top:12px"></div>
+
+    <div class="sub-h">⭐ Nhận xét chung (đưa vào phiếu) <a href="#" class="link" onclick="regen('wOverall');return false">↺ Lấy từ AI</a></div>
+    <textarea class="note" id="n_wOverall" data-note="wOverall" placeholder="Chấm AI hoặc tự nhập nhận xét chung cho bài viết..."></textarea>
+    <div class="sub-h">⚠️ Lỗi lặp lại <a href="#" class="link" onclick="regen('wRepeated');return false">↺ Lấy từ AI</a></div>
+    <textarea class="note" id="n_wRepeated" data-note="wRepeated" style="min-height:64px"></textarea>
+
     <div class="grade-row">
       <div class="field"><label>Band (1–9)</label>
-        <input type="number" id="wBand" min="1" max="9" step="0.5" placeholder="5.5" style="width:90px"></div>
-      <div class="field" style="flex:1;min-width:180px"><label>Nhận xét</label>
-        <input type="text" id="wCmt" placeholder="Nhận xét ngắn..."></div>
-      <button class="btn btn-outline btn-sm" onclick="gradeW()">💾 Lưu</button>
+        <input type="number" id="wBand" min="1" max="9" step="0.5" placeholder="5.5" style="width:96px"></div>
+      <div class="field" style="flex:1;min-width:200px"><label>Ghi chú thêm của giáo viên</label>
+        <input type="text" id="wCmt" placeholder="(tuỳ chọn)"></div>
+      <button class="btn btn-outline btn-sm" onclick="gradeW()">💾 Lưu Writing</button>
     </div>
-
-    <!-- AI Key setup + grading -->
-    <div id="aiKeySection" style="background:var(--cream);border-radius:var(--r-sm);padding:14px;margin-bottom:10px">
-      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px">🤖 AI Chấm Bài Writing</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-        <div>
-          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-lt)">Google Gemini API Key</label>
-          <div style="display:flex;gap:6px;margin-top:4px">
-            <input type="password" id="inputGeminiKey" placeholder="AIza..." style="flex:1;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit">
-            <button onclick="saveKey('gemini')" class="btn btn-sm" style="background:#4285f4;color:#fff;border:none;white-space:nowrap">Lưu</button>
-          </div>
-          <div id="geminiKeyStatus" style="font-size:11px;color:var(--text-lt);margin-top:3px">Chưa có key</div>
-        </div>
-        <div>
-          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-lt)">Anthropic Claude API Key</label>
-          <div style="display:flex;gap:6px;margin-top:4px">
-            <input type="password" id="inputClaudeKey" placeholder="sk-ant-..." style="flex:1;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit">
-            <button onclick="saveKey('claude')" class="btn btn-sm" style="background:var(--teal);color:#fff;border:none;white-space:nowrap">Lưu</button>
-          </div>
-          <div id="claudeKeyStatus" style="font-size:11px;color:var(--text-lt);margin-top:3px">Chưa có key</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-teal btn-sm" onclick="aiGrade('claude')">✨ Chấm bằng Claude</button>
-        <button class="btn btn-sm" onclick="aiGrade('gemini')" style="background:#4285f4;color:#fff;border:none">🔷 Chấm bằng Gemini</button>
-        <span style="font-size:11px;color:var(--text-lt);align-self:center">Key lưu trong trình duyệt (localStorage)</span>
-      </div>
-    </div>
-    <div class="ai-box" id="aiBox"></div>
   </div>
 
-  <!-- Listening -->
+  <!-- ══ Listening ══ -->
   <div class="card" id="secL" style="display:none">
     <div class="sec-head listen">🎧 Kỹ Năng Nghe</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div class="stats">
       <div class="stat-card"><div class="stat-num" id="lScore">—</div><div class="stat-lbl">/ 24 câu</div></div>
-      <div class="stat-card"><div class="stat-num" id="lLevel">—</div><div class="stat-lbl">Level</div></div>
+      <div class="stat-card"><div class="stat-num" id="lLevel">—</div><div class="stat-lbl">Trình độ</div></div>
+      <div class="stat-card"><div class="stat-num" id="lWrong" style="color:var(--red)">—</div><div class="stat-lbl">Câu sai</div></div>
     </div>
-    <details>
-      <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--navy);padding:8px 0">Xem chi tiết từng câu ▾</summary>
-      <div style="overflow-x:auto;margin-top:10px"><table class="wa-tbl" id="lTbl"></table></div>
-    </details>
+    <div class="sub-h">Nhận xét chung <a href="#" class="link" onclick="regen('lisComment');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_lisComment" data-note="lisComment"></textarea>
+    <div class="sub-h">📋 Phân tích chi tiết câu sai</div>
+    <div class="err-list" id="lErrs"></div>
+    <div class="sub-h">📊 Tổng hợp theo dạng câu hỏi</div>
+    <div class="groups" id="lGroups"></div>
+    <div class="sub-h">✅ Khuyến nghị theo thứ tự ưu tiên <a href="#" class="link" onclick="regen('lisRecs');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_lisRecs" data-note="lisRecs" style="min-height:120px"></textarea>
+    <details class="raw"><summary>Xem đáp án từng câu ▾</summary><div class="scroll-x"><table class="wa-tbl" id="lTbl"></table></div></details>
   </div>
 
-  <!-- Speaking -->
+  <!-- ══ Speaking ══ -->
   <div class="card" id="secSp" style="display:none">
     <div class="sec-head speak">🎙️ Kỹ Năng Nói</div>
-    <a id="spLink" href="#" target="_blank" class="btn btn-outline btn-sm" style="margin-bottom:14px;display:inline-flex">▶ Nghe file ghi âm (Drive)</a>
+    <a id="spLink" href="#" target="_blank" rel="noopener" class="btn btn-outline btn-sm">▶ Nghe file ghi âm (Drive)</a>
     <div class="grade-row">
       <div class="field"><label>Band (1–9)</label>
-        <input type="number" id="spBand" min="1" max="9" step="0.5" placeholder="5.0" style="width:90px"></div>
-      <div class="field" style="flex:1;min-width:180px"><label>Nhận xét</label>
-        <input type="text" id="spCmt" placeholder="Nhận xét ngắn..."></div>
-      <button class="btn btn-outline btn-sm" onclick="gradeSp()">💾 Lưu</button>
+        <input type="number" id="spBand" min="1" max="9" step="0.5" placeholder="5.0" style="width:96px"></div>
+      <div class="field" style="flex:1;min-width:200px"><label>Nhận xét</label>
+        <input type="text" id="spCmt" placeholder="Nhận xét phát âm, độ trôi chảy, từ vựng..."></div>
+      <button class="btn btn-outline btn-sm" onclick="gradeSp()">💾 Lưu Speaking</button>
     </div>
   </div>
 
-  <div style="margin-top:8px">
-    <button class="btn btn-gold" id="btnExportBot" onclick="exportFeedback()" style="font-size:15px;padding:12px 24px">📄 Xuất Google Doc — Phiếu Nhận Xét & Phản Hồi</button>
-    <p class="txt-sm" style="margin-top:8px;color:var(--text-lt)">Tạo Google Doc đầy đủ nhận xét từng kỹ năng, lưu vào Drive và mở trong tab mới.</p>
+  <!-- ══ Overall ══ -->
+  <div class="card" id="secSum">
+    <div class="sec-head" style="background:#F6F1E6;color:#6E5A2C">📊 Tổng kết đánh giá</div>
+    <div class="field-row">
+      <div class="field"><label>Trình độ chung</label>
+        <select id="n_overallLevel" data-note="overallLevel">
+          <option value="">— Tự động —</option>
+          <option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option><option>C2</option>
+        </select>
+        <div class="txt-sm" id="autoLevelHint" style="margin-top:4px"></div></div>
+      <div class="field"><label>Khuyến nghị lớp học</label>
+        <input type="text" id="n_classRec" data-note="classRec" placeholder="Tự động theo trình độ"></div>
+    </div>
+    <div class="sub-h">Điểm mạnh (mỗi dòng một ý) <a href="#" class="link" onclick="regen('strengths');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_strengths" data-note="strengths"></textarea>
+    <div class="sub-h">Điểm cần cải thiện <a href="#" class="link" onclick="regen('improvements');return false">↺ Tạo lại tự động</a></div>
+    <textarea class="note" id="n_improvements" data-note="improvements"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px">
+      <button class="btn btn-outline btn-sm" onclick="saveNotes(true)">💾 Lưu tất cả nhận xét</button>
+      <span class="txt-sm" id="notesState"></span>
+    </div>
   </div>
 
-  <!-- ══ EXPORT SECTION ══ -->
-  <div class="card" style="border:2px solid var(--gold);background:linear-gradient(135deg,#fffbeb,#fef3c7)">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="font-size:36px">📄</div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:16px;color:var(--navy);margin-bottom:4px">Xuất Phiếu Nhận Xét — Google Doc</div>
-        <div style="font-size:13px;color:var(--text-md);line-height:1.5">Tạo Google Doc đầy đủ kết quả + nhận xét từng kỹ năng theo template Venus English.<br>Lưu tự động vào Google Drive và mở trong tab mới để gửi cho sinh viên.</div>
+  <!-- ══ Export ══ -->
+  <div class="card export">
+    <div class="export-row">
+      <div class="ico">📄</div>
+      <div class="txt">
+        <div class="card-title" style="font-size:17px">Phiếu Nhận Xét — Google Doc</div>
+        <div class="txt-sm" style="color:var(--text-md)">Xem trước phiếu theo đúng template (font, màu, heading), chỉnh sửa trực tiếp rồi tạo Google Doc trong thư mục Drive, copy để dán vào Google Docs, hoặc tải file .doc.</div>
       </div>
-      <button onclick="exportFeedback()" style="background:var(--gold);color:#78350f;border:none;border-radius:var(--r-sm);padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">
-        📄 Xuất Google Doc →
-      </button>
+      <button class="btn btn-primary" onclick="openPreview()">👁 Xem trước &amp; xuất →</button>
     </div>
-    <div id="exportStatus" style="display:none;margin-top:10px;font-size:13px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px"></div>
   </div>
 
-  <!-- Activity Log -->
+  <!-- Activity log -->
   <div class="card" id="secActivity" style="display:none">
-    <div class="sec-head" style="background:#fef9ec;color:#92400e">📊 Nhật ký hoạt động khi làm bài</div>
+    <div class="sec-head" style="background:#FFF7E6;color:var(--amber)">📊 Nhật ký hoạt động khi làm bài</div>
     <div id="activityTable"></div>
   </div>
-  <div style="height:40px"></div>
+</div>
+
+<!-- Document preview -->
+<div class="modal" id="docModal" role="dialog" aria-modal="true" aria-label="Xem trước phiếu nhận xét">
+  <div class="modal-bar">
+    <div class="ttl">📄 Xem trước phiếu nhận xét</div>
+    <button class="btn btn-gold btn-sm" onclick="exportGoogleDoc()">☁️ Tạo Google Doc</button>
+    <button class="btn btn-ghost btn-sm" onclick="copyDoc()">📋 Copy để dán</button>
+    <button class="btn btn-ghost btn-sm" onclick="downloadDoc()">⬇️ Tải .doc</button>
+    <button class="btn btn-ghost btn-sm" onclick="closePreview()">✕ Đóng</button>
+    <div class="hint">Có thể bấm vào phiếu để sửa trực tiếp trước khi xuất.</div>
+  </div>
+  <div class="modal-status" id="docStatus"></div>
+  <div class="modal-body"><div class="paper" id="paper" contenteditable="true" spellcheck="false"></div></div>
 </div>
 
 <script>
-var VG_KEY = {1:'b',2:'a',3:'c',4:'b',5:'b',6:'c',7:'a',8:'a',9:'b',10:'c',11:'a',12:'b',13:'a',14:'c',15:'b',16:'b',17:'a',18:'c',19:'a',20:'a',21:'b',22:'b',23:'c',24:'c',25:'b',26:'a',27:'b',28:'a',29:'a',30:'c',31:'c',32:'b',33:'a',34:'b',35:'b',36:'c',37:'b',38:'b',39:'a',40:'c',41:'b',42:'a',43:'a',44:'c',45:'a',46:'c',47:'b',48:'c',49:'b',50:'c'};
-var LIS_KEY = {1:'b',2:'d',3:'b',4:'d',5:'d',6:'d',7:'a',8:'a',9:'b',10:'b',11:'a',12:'b',13:'c',14:'d',15:'b',16:'b',17:'a',18:'b',19:'b',20:'d',21:'b',22:'d',23:'c',24:'d'};
-
 var pwd = Session.tRequire();
-if (!pwd) { location.href='teacher.html'; }
 var params = new URLSearchParams(location.search);
 var username = params.get('u') || '';
-var detailData = null;
+var esc = Report.esc;
+
+var detail = null;       // raw backend response
+var vgA = null, lisA = null;
+var aiResult = null;     // structured AI writing feedback
+var notes = {};          // teacher-editable report text (see NOTE_FIELDS)
+var NOTE_FIELDS = ['vgComment','vgRecs','lisComment','lisRecs','wOverall','wRepeated','overallLevel','classRec','strengths','improvements'];
+var CLASS_REC = {
+  A1:'Lớp Foundation (A1 → A2)', A2:'Lớp Elementary IELTS (A2 → B1)', B1:'Lớp Pre-IELTS (B1 → B2, mục tiêu 4.5–5.5)',
+  B2:'Lớp IELTS 5.5+ (B2 → C1, mục tiêu 6.0–7.0)', C1:'Lớp IELTS Advanced (mục tiêu 7.0+)', C2:'Lớp IELTS Master (mục tiêu 8.0+)'
+};
+var LOCAL_NOTES = 'venus_notes_' + username, LOCAL_AI = 'venus_ai_' + username;
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+function parseJSON(s){ if(!s || typeof s !== 'string' || s.trim().charAt(0) !== '{') return null; try { return JSON.parse(s); } catch(e){ return null; } }
 
 document.getElementById('navName').textContent = username;
 
+// ─────────────── LOAD ───────────────
 async function load() {
-  var res = await api('getStudentDetail', {password: pwd, username: username});
+  var res = await api('getStudentDetail', {password: pwd, username: username}, 'Đang tải dữ liệu...');
   if (!res.ok) { alert(res.error); return; }
-  detailData = res;
-
+  detail = res;
   var s = res.student || {};
-  document.getElementById('iUser').textContent = username;
-  document.getElementById('iName').textContent = s.fullName || '—';
-  document.getElementById('iEmail').textContent = s.email || '—';
-  document.getElementById('iDl').textContent = s.deadline || '—';
 
-  // Render survey info
-  var surveyFields = [
-    {label:'Trường / Nơi công tác', val:s.school},
-    {label:'Đã học tiếng Anh chưa', val:s.studiedBefore},
-    {label:'Học ở đâu', val:s.whereStudied},
-    {label:'Số năm học', val:s.yearsLearning},
-    {label:'Chứng chỉ đã có', val:s.certificates},
-    {label:'Mục tiêu band', val:s.targetBand},
-    {label:'Dự định thi', val:s.examDate},
-    {label:'Lý do học IELTS', val:s.whyIELTS},
-    {label:'Tự đánh giá Nghe', val:s.listeningAbility},
-    {label:'Tự đánh giá Nói', val:s.speakingAbility},
-    {label:'Tự đánh giá Đọc', val:s.readingAbility},
-    {label:'Tự đánh giá Viết', val:s.writingAbility},
-  ];
-  document.getElementById('surveyContent').innerHTML = surveyFields.map(function(f){
-    return '<div style="padding:8px 10px;background:var(--cream);border-radius:6px">'
-      +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-lt);margin-bottom:2px">'+f.label+'</div>'
-      +'<div style="font-size:14px;font-weight:600;color:var(--navy)">'+((f.val&&f.val!=='')?f.val:'—')+'</div>'
-      +'</div>';
-  }).join('');
-
+  document.getElementById('pName').textContent = s.fullName || username;
+  document.getElementById('pAvatar').textContent = (Report.firstName(s.fullName || username)[0] || '?').toUpperCase();
+  document.getElementById('pUser').textContent = username;
+  document.getElementById('pEmail').textContent = s.email || '—';
+  document.getElementById('pTarget').textContent = s.targetBand || '—';
+  document.getElementById('pExam').textContent = s.examDate || '—';
+  document.getElementById('pDl').textContent = fmtDate(s.deadline) || '—';
+  document.getElementById('pStatus').innerHTML = [['V&G',s.vgDone],['Viết',s.writingDone],['Nghe',s.listeningDone],['Nói',s.speakingDone]]
+    .map(function(x){ return '<span class="chip '+(x[1]?'chip-done':'chip-none')+'">'+(x[1]?'✓ ':'○ ')+esc(x[0])+'</span>'; }).join('');
   var allDone = s.vgDone && s.writingDone && s.listeningDone && s.speakingDone;
   document.getElementById('notDone').style.display = allDone ? 'none' : 'flex';
+  renderSurvey(s);
 
-  // VG
-  if (res.vg) {
-    var vg = res.vg;
-    document.getElementById('secVG').style.display = 'block';
-    document.getElementById('vgScore').textContent = vg.score;
-    document.getElementById('vgLevel').textContent = vg.level;
-    document.getElementById('vgWrong').textContent = 50 - vg.score;
-    var rows = '<tr><th>Câu</th><th>HS chọn</th><th>Đáp án</th><th>KQ</th></tr>';
-    for (var q=1;q<=50;q++) {
-      var given = (vg.answers[q]||'').toLowerCase();
-      var ok = given === VG_KEY[q];
-      rows += '<tr><td>'+q+'</td><td class="'+(ok?'ok':'no')+'">'+given+'</td><td>'+VG_KEY[q]+'</td><td>'+(ok?'<span class="ok">✓</span>':'<span class="no">✗</span>')+'</td></tr>';
-    }
-    document.getElementById('vgTbl').innerHTML = rows;
-  }
+  // Saved report text: backend copy wins, then this browser's copy.
+  var saved = parseJSON(res.reportNotes) || parseJSON(lsGet(LOCAL_NOTES)) || {};
+  NOTE_FIELDS.forEach(function(k){ if (saved[k] !== undefined) notes[k] = saved[k]; });
 
-  // Writing
-  if (res.writing) {
-    var w = res.writing;
-    document.getElementById('secW').style.display = 'block';
-    document.getElementById('wTopic').textContent = w.topic || '—';
-    document.getElementById('wEssay').textContent = w.essay || '—';
-    if (w.teacherBand) document.getElementById('wBand').value = w.teacherBand;
-    if (w.teacherComment) document.getElementById('wCmt').value = w.teacherComment;
-  }
-
-  // Listening
-  if (res.listening) {
-    var l = res.listening;
-    document.getElementById('secL').style.display = 'block';
-    document.getElementById('lScore').textContent = l.score;
-    document.getElementById('lLevel').textContent = l.level;
-    var lrows = '<tr><th>Câu</th><th>HS chọn</th><th>Đáp án</th><th>KQ</th></tr>';
-    for (var lq=1;lq<=24;lq++) {
-      var lg = (l.answers[lq]||'').toLowerCase();
-      var lok = lg === LIS_KEY[lq];
-      lrows += '<tr><td>'+lq+'</td><td class="'+(lok?'ok':'no')+'">'+lg+'</td><td>'+LIS_KEY[lq]+'</td><td>'+(lok?'<span class="ok">✓</span>':'<span class="no">✗</span>')+'</td></tr>';
-    }
-    document.getElementById('lTbl').innerHTML = lrows;
-  }
-
-  // Activity log
-  var actRes = await api('getActivityLog', {password: pwd, username: username});
-  if (actRes.ok && actRes.logs && actRes.logs.length > 0) {
-    document.getElementById('secActivity').style.display = 'block';
-    var logs = actRes.logs;
-    // Count per test
-    var stats = {vg:{enter:0,exit:0,tab:0}, listening:{enter:0,exit:0,tab:0}};
-    logs.forEach(function(l) {
-      var t = l.testType; var a = l.action;
-      if (!stats[t]) stats[t] = {enter:0,exit:0,tab:0};
-      if (a==='enter') stats[t].enter++;
-      else if (a==='exit') stats[t].exit++;
-      else if (a==='tab_hidden') stats[t].tab++;
-    });
-
-    var statHtml = '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">';
-    Object.entries(stats).forEach(function(entry) {
-      var t = entry[0]; var s = entry[1];
-      if (s.enter>0||s.exit>0||s.tab>0) {
-        statHtml += '<div style="background:var(--cream);border-radius:var(--r-sm);padding:10px 14px;flex:1;min-width:140px">'
-          + '<div style="font-weight:700;color:var(--navy);font-size:13px;margin-bottom:6px">'
-          + (t==='vg'?'Ngữ Pháp & Từ Vựng':'Kỹ Năng Nghe') + '</div>'
-          + '<div style="font-size:12px;color:var(--text-md)">Đăng nhập: <strong>' + s.enter + ' lần</strong></div>'
-          + '<div style="font-size:12px;color:' + (s.exit>0?'var(--red)':'var(--text-lt)') + '">Thoát giữa chừng: <strong>' + s.exit + ' lần</strong></div>'
-          + '<div style="font-size:12px;color:' + (s.tab>1?'var(--amber)':'var(--text-lt)') + '">Chuyển tab: <strong>' + s.tab + ' lần</strong></div>'
-          + '</div>';
-      }
-    });
-    statHtml += '</div>';
-
-    var tableHtml = '<table class="tbl" style="font-size:12px"><thead><tr>'
-      + '<th>Thời gian</th><th>Bài thi</th><th>Hành động</th><th>Chi tiết</th>'
-      + '</tr></thead><tbody>';
-    logs.slice().reverse().forEach(function(l) {
-      var actionLabel = l.action==='enter'?'✅ Vào bài':l.action==='exit'?'🚪 Thoát bài':l.action==='tab_hidden'?'👁 Chuyển tab':'↩ Quay lại';
-      var rowStyle = l.action==='exit'?'background:#fff5f5':l.action==='tab_hidden'?'background:#fffbeb':'';
-      tableHtml += '<tr style="'+rowStyle+'"><td>'+l.time+'</td><td>'+(l.testType||'—')+'</td><td>'+actionLabel+'</td><td style="color:var(--text-lt);font-size:11px">'+l.note+'</td></tr>';
-    });
-    tableHtml += '</tbody></table>';
-
-    document.getElementById('activityTable').innerHTML = statHtml + tableHtml;
-  }
-
-  // Speaking
-  if (res.speaking) {
-    document.getElementById('secSp').style.display = 'block';
-    document.getElementById('spLink').href = res.speaking.fileUrl || '#';
-    if (res.speaking.teacherBand) document.getElementById('spBand').value = res.speaking.teacherBand;
-    if (res.speaking.teacherComment) document.getElementById('spCmt').value = res.speaking.teacherComment;
-  }
-}
-
-load().then(function(){ initKeyStatus(); });
-
-async function gradeW() {
-  var band = document.getElementById('wBand').value;
-  var cmt = document.getElementById('wCmt').value;
-  var res = await api('gradeWriting', {password:pwd, username:username, band:band, comment:cmt});
-  if (res.ok) toast('Đã lưu nhận xét Writing ✓');
-  else alert(res.error);
-}
-
-async function gradeSp() {
-  var band = document.getElementById('spBand').value;
-  var cmt = document.getElementById('spCmt').value;
-  var res = await api('gradeSpeaking', {password:pwd, username:username, band:band, comment:cmt});
-  if (res.ok) toast('Đã lưu nhận xét Speaking ✓');
-  else alert(res.error);
-}
-
-// ── API Key Management ──
-function initKeyStatus() {
-  var gk = localStorage.getItem('venus_gemini_key');
-  var ck = localStorage.getItem('venus_claude_key');
-  var gs = document.getElementById('geminiKeyStatus');
-  var cs = document.getElementById('claudeKeyStatus');
-  if (gs) gs.textContent = gk ? '✅ Key đã lưu (' + gk.substring(0,8) + '...)' : '⚠️ Chưa có key';
-  if (cs) cs.textContent = ck ? '✅ Key đã lưu (' + ck.substring(0,8) + '...)' : '⚠️ Chưa có key';
-  if (gk) { var gi = document.getElementById('inputGeminiKey'); if(gi) gi.value = gk; }
-  if (ck) { var ci = document.getElementById('inputClaudeKey'); if(ci) ci.value = ck; }
-}
-
-function saveKey(provider) {
-  var inputId = provider === 'gemini' ? 'inputGeminiKey' : 'inputClaudeKey';
-  var statusId = provider === 'gemini' ? 'geminiKeyStatus' : 'claudeKeyStatus';
-  var storageKey = provider === 'gemini' ? 'venus_gemini_key' : 'venus_claude_key';
-  var input = document.getElementById(inputId);
-  var k = (input && input.value) ? input.value.trim() : '';
-  if (!k) { alert('Vui lòng nhập API key.'); return; }
-  localStorage.setItem(storageKey, k);
-  var st = document.getElementById(statusId);
-  if (st) st.textContent = '✅ Đã lưu (' + k.substring(0,8) + '...)';
-  toast('Đã lưu ' + (provider==='gemini'?'Gemini':'Claude') + ' API key ✓');
-}
-
-function getKey(provider) {
-  var storageKey = provider === 'gemini' ? 'venus_gemini_key' : 'venus_claude_key';
-  var inputId = provider === 'gemini' ? 'inputGeminiKey' : 'inputClaudeKey';
-  // Check input field first, then localStorage
-  var input = document.getElementById(inputId);
-  var k = (input && input.value.trim()) ? input.value.trim() : localStorage.getItem(storageKey);
-  if (!k) {
-    alert('Vui lòng nhập API key cho ' + (provider==='gemini'?'Gemini':'Claude') + ' trong ô bên trên và nhấn Lưu.');
-    var inp = document.getElementById(inputId);
-    if (inp) inp.focus();
-    return null;
-  }
-  localStorage.setItem(storageKey, k);  // auto-save if typed
-  return k;
-}
-
-function resetKey(provider) {
-  var storageKey = provider === 'gemini' ? 'venus_gemini_key' : 'venus_claude_key';
-  localStorage.removeItem(storageKey);
-  toast('Đã xóa API key (' + provider + ').');
+  if (res.vg) renderVG(res.vg);
+  if (res.writing) renderWriting(res.writing);
+  if (res.listening) renderLIS(res.listening);
+  if (res.speaking) renderSpeaking(res.speaking);
+  NOTE_FIELDS.forEach(function(k){ if (notes[k] === undefined || notes[k] === '') fillAuto(k); });
+  bindNotes();
+  refreshLevelHint();
   initKeyStatus();
+  if (params.get('export') === '1') openPreview();
+  loadActivity();
 }
+
+function fmtDate(v) {
+  if (!v) return '';
+  var d = new Date(v);
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(String(v)) || isNaN(d)) return String(v);
+  return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+}
+
+function renderSurvey(s) {
+  var f = [['Trường / Nơi công tác',s.school],['Đã học tiếng Anh',s.studiedBefore],['Học ở đâu',s.whereStudied],['Số năm học',s.yearsLearning],
+    ['Chứng chỉ',s.certificates],['Mục tiêu band',s.targetBand],['Dự định thi',s.examDate],['Lý do học IELTS',s.whyIELTS],
+    ['Tự đánh giá Nghe',s.listeningAbility],['Tự đánh giá Nói',s.speakingAbility],['Tự đánh giá Đọc',s.readingAbility],['Tự đánh giá Viết',s.writingAbility]];
+  document.getElementById('surveyContent').innerHTML = f.map(function(x){
+    return '<div><small>'+esc(x[0])+'</small><b>'+esc(x[1] || '—')+'</b></div>';
+  }).join('');
+}
+
+// ─────────────── V&G / LISTENING ───────────────
+function errCard(w, extra) {
+  var it = w.item, trap = w.given && it.traps ? it.traps[w.given] : '';
+  return '<div class="err">'
+    + '<div class="err-top"><span class="err-no">Câu '+it.n+'</span><span class="err-point">'+esc(it.point)+'</span>'
+    + (it.lv ? '<span class="err-lv">'+it.lv+'</span>' : '') + (extra || '') + '</div>'
+    + '<div class="err-q">'+esc(it.q)+'</div>'
+    + '<div class="err-ans">'
+    + (w.given ? '<span class="ans no">'+esc(w.given)+'. '+esc(Report.optText(it,w.given))+'</span>' : '<span class="ans no">Bỏ trống</span>')
+    + '<span class="ans ok">'+esc(it.key)+'. '+esc(Report.optText(it,it.key))+'</span></div>'
+    + (it.why ? '<p><span class="lbl n">Vì sao:</span> '+esc(it.why)+'</p>' : '')
+    + '<p><span class="lbl r">Cho thấy:</span> '+esc(trap ? trap+' '+it.gap : it.gap)+'</p>'
+    + '<p><span class="lbl g">Cần cải thiện:</span> '+esc(it.fix)+'</p>'
+    + '</div>';
+}
+function groupChips(a) {
+  if (!a.priorities.length) return '<span class="txt-sm">Không có lỗi 🎉</span>';
+  return a.priorities.map(function(g){ return '<span class="grp">'+esc(g.name)+'<em>'+g.qs.length+' câu · C'+g.qs.join(', C')+'</em></span>'; }).join('');
+}
+function answerTable(bank, answers) {
+  var rows = '<tr><th>Câu</th><th>Chọn</th><th>Đáp án</th><th>KQ</th></tr>';
+  bank.forEach(function(it){
+    var g = String(answers[it.n]||'').toLowerCase(), ok = g === it.key;
+    rows += '<tr><td>'+it.n+'</td><td class="'+(ok?'ok':'no')+'">'+esc(g||'—')+'</td><td>'+it.key+'</td><td>'+(ok?'<span class="ok">✓</span>':'<span class="no">✗</span>')+'</td></tr>';
+  });
+  return rows;
+}
+function renderVG(vg) {
+  vgA = Report.analyseVG(vg.answers);
+  // Score from the answers so the report matches the analysis (the stored score
+  // predates the Q50 answer-key fix for older submissions).
+  vg.storedScore = vg.score; vg.score = vgA.score; vg.level = Report.scoreLevel('vg', vgA.score);
+  document.getElementById('secVG').style.display = 'block';
+  document.getElementById('vgScore').textContent = vgA.score;
+  document.getElementById('vgLevel').textContent = vg.level || '—';
+  if (vg.storedScore !== undefined && vg.storedScore !== '' && +vg.storedScore !== vgA.score)
+    document.getElementById('vgScore').title = 'Điểm lưu trên hệ thống: ' + vg.storedScore + ' (tính lại theo đáp án đã sửa câu 50)';
+  document.getElementById('vgWrong').textContent = vgA.wrong.length;
+  document.getElementById('vgErrs').innerHTML = vgA.wrong.map(function(w){ return errCard(w); }).join('') || '<div class="txt-sm">Không có câu sai.</div>';
+  document.getElementById('vgGroups').innerHTML = groupChips(vgA);
+  document.getElementById('vgTbl').innerHTML = answerTable(VG_BANK, vg.answers || {});
+}
+function renderLIS(l) {
+  lisA = Report.analyseLIS(l.answers);
+  l.level = Report.scoreLevel('lis', lisA.score);
+  document.getElementById('secL').style.display = 'block';
+  document.getElementById('lScore').textContent = lisA.score;
+  document.getElementById('lLevel').textContent = l.level || '—';
+  document.getElementById('lWrong').textContent = lisA.wrong.length;
+  document.getElementById('lErrs').innerHTML = lisA.wrong.map(function(w){
+    return errCard(w, '<span class="err-lv">Part '+w.item.part+' · '+esc(LIS_SKILLS[w.item.skill].name)+'</span>');
+  }).join('') || '<div class="txt-sm">Không có câu sai.</div>';
+  document.getElementById('lGroups').innerHTML = groupChips(lisA);
+  document.getElementById('lTbl').innerHTML = answerTable(LIS_BANK, l.answers || {});
+}
+
+// ─────────────── WRITING ───────────────
+function renderWriting(w) {
+  document.getElementById('secW').style.display = 'block';
+  document.getElementById('wTopic').textContent = w.topic || '—';
+  document.getElementById('wEssay').textContent = w.essay || '—';
+  if (w.teacherBand) document.getElementById('wBand').value = w.teacherBand;
+  // Older rows stored the whole AI summary in teacherComment; only keep short notes here.
+  if (w.teacherComment && String(w.teacherComment).length < 300) document.getElementById('wCmt').value = w.teacherComment;
+  aiResult = parseJSON(w.aiComment) || parseJSON(lsGet(LOCAL_AI));
+  if (aiResult) renderAI(aiResult, aiResult._provider || 'AI');
+}
+function writingBand() {
+  var t = parseFloat(document.getElementById('wBand').value);
+  if (t > 0) return t;
+  return aiResult && aiResult.overall ? aiResult.overall : '';
+}
+
+// ─────────────── SPEAKING ───────────────
+function renderSpeaking(sp) {
+  document.getElementById('secSp').style.display = 'block';
+  var link = document.getElementById('spLink');
+  if (sp.fileUrl) link.href = sp.fileUrl; else link.style.display = 'none';
+  if (sp.teacherBand) document.getElementById('spBand').value = sp.teacherBand;
+  if (sp.teacherComment) document.getElementById('spCmt').value = sp.teacherComment;
+}
+
+// ─────────────── NOTES (auto text + teacher edits) ───────────────
+function autoLevel() {
+  var s = detail || {};
+  return Report.overallLevel([s.vg && s.vg.level, s.listening && s.listening.level,
+    Report.levelFromBand(writingBand()), Report.levelFromBand(document.getElementById('spBand').value)]);
+}
+function currentLevel() { return notes.overallLevel || autoLevel(); }
+function refreshLevelHint() {
+  var l = autoLevel();
+  document.getElementById('autoLevelHint').textContent = l ? 'Tự động: ' + l + ' (kỹ năng thấp nhất trong các phần đã có)' : '';
+  document.getElementById('n_classRec').placeholder = CLASS_REC[currentLevel()] || 'Tự động theo trình độ';
+}
+function autoText(k) {
+  var s = (detail && detail.student) || {};
+  switch (k) {
+    case 'vgComment':  return vgA ? Report.vgComment(vgA, detail.vg.level, s.fullName) : '';
+    case 'vgRecs':     return vgA ? Report.recsText(vgA, 'C') : '';
+    case 'lisComment': return lisA ? Report.lisComment(lisA, detail.listening.level, s.fullName) : '';
+    case 'lisRecs':    return lisA ? Report.recsText(lisA, 'C') : '';
+    case 'wOverall':   return (aiResult && aiResult.overall_feedback_vi) || '';
+    case 'wRepeated':  return (aiResult && aiResult.repeated_errors_vi) || '';
+    case 'strengths':  return autoStrengths().join('\n');
+    case 'improvements': return autoImprovements();
+    default: return '';
+  }
+}
+var CRIT = {TR:'Task Achievement', CC:'Coherence & Cohesion', LR:'Lexical Resource', GRA:'Grammatical Range & Accuracy'};
+function criterion(best) {
+  var sc = aiResult && aiResult.scores; if (!sc) return null;
+  var ks = Object.keys(CRIT).filter(function(k){ return typeof sc[k] === 'number'; });
+  if (!ks.length) return null;
+  ks.sort(function(a,b){ return best ? sc[b]-sc[a] : sc[a]-sc[b]; });
+  return [CRIT[ks[0]], sc[ks[0]]];
+}
+function autoStrengths() {
+  var out = [], d = detail || {};
+  if (lisA && lisA.score >= 18) out.push('Kỹ năng Nghe tốt (' + lisA.score + '/24 — ' + d.listening.level + ')');
+  if (vgA && vgA.score >= 35) out.push('Ngữ pháp & từ vựng nền tảng tốt (' + vgA.score + '/50)');
+  if (vgA && vgA.strengths.length) out.push('Nắm vững: ' + vgA.strengths.slice(0, 3).join(', '));
+  if (lisA && lisA.strengths.length) out.push('Làm tốt dạng câu hỏi nghe: ' + lisA.strengths.slice(0, 3).join(', ').toLowerCase());
+  var wb = parseFloat(writingBand());
+  if (wb >= 6) out.push('Kỹ năng Viết đạt band ' + wb);
+  var best = criterion(true);
+  if (best && best[1] >= 6) out.push('Writing: ' + best[0] + ' là điểm mạnh (band ' + best[1] + ')');
+  return out;
+}
+function autoImprovements() {
+  var out = [];
+  if (vgA && vgA.priorities.length) out.push('Ngữ pháp & từ vựng: ' + vgA.priorities.slice(0, 3).map(function(p){ return p.name; }).join('; ') + '.');
+  if (lisA && lisA.priorities.length) out.push('Nghe: ' + lisA.priorities.slice(0, 2).map(function(p){ return p.name.toLowerCase(); }).join('; ') + '.');
+  var worst = criterion(false);
+  if (worst) out.push('Viết: ' + worst[0] + ' (band ' + worst[1] + ') là tiêu chí thấp nhất.');
+  return out.join('\n');
+}
+function fillAuto(k) {
+  var el = document.getElementById('n_' + k); if (!el) return;
+  if (k === 'overallLevel' || k === 'classRec') { el.value = notes[k] || ''; return; }
+  notes[k] = autoText(k); el.value = notes[k];
+}
+function regen(k) {
+  var el = document.getElementById('n_' + k);
+  if (el.value.trim() && !confirm('Thay nội dung hiện tại bằng bản tạo tự động?')) return;
+  notes[k] = autoText(k); el.value = notes[k]; saveNotes(false);
+}
+function bindNotes() {
+  NOTE_FIELDS.forEach(function(k){
+    var el = document.getElementById('n_' + k); if (!el) return;
+    if (notes[k] !== undefined) el.value = notes[k];
+    var update = function(){ notes[k] = el.value; if (k === 'overallLevel') refreshLevelHint(); saveNotes(false); };
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  ['wBand','spBand'].forEach(function(id){ document.getElementById(id).addEventListener('input', refreshLevelHint); });
+}
+function saveNotes(toServer) {
+  notes.updatedAt = new Date().toISOString();
+  lsSet(LOCAL_NOTES, JSON.stringify(notes));
+  var st = document.getElementById('notesState');
+  st.textContent = '✓ Đã lưu trên trình duyệt này';
+  if (!toServer) return;
+  api('saveReportNotes', {password: pwd, username: username, notes: JSON.stringify(notes)}, 'Đang lưu nhận xét...').then(function(r){
+    if (r.ok) { st.textContent = '✓ Đã lưu lên hệ thống'; toast('Đã lưu nhận xét ✓'); }
+    else if (/Unknown action/i.test(r.error || '')) st.textContent = '⚠️ Backend chưa cập nhật (gas/README.md) — nhận xét mới lưu trên trình duyệt này.';
+    else st.textContent = '⚠️ ' + r.error;
+  });
+}
+
+// ─────────────── GRADING ───────────────
+async function gradeW() {
+  var band = document.getElementById('wBand').value || (aiResult && aiResult.overall) || '';
+  var res = await api('gradeWriting', {password: pwd, username: username, band: band,
+    comment: document.getElementById('wCmt').value,
+    aiBand: aiResult ? aiResult.overall : '', aiFeedback: aiResult ? JSON.stringify(aiResult) : ''});
+  if (res.ok) { toast('Đã lưu Writing ✓'); saveNotes(true); } else alert(res.error);
+}
+async function gradeSp() {
+  var res = await api('gradeSpeaking', {password: pwd, username: username,
+    band: document.getElementById('spBand').value, comment: document.getElementById('spCmt').value});
+  if (res.ok) { toast('Đã lưu Speaking ✓'); refreshLevelHint(); } else alert(res.error);
+}
+
+// ─────────────── API KEYS ───────────────
+var KEY_STORE = {gemini:'venus_gemini_key', claude:'venus_claude_key'};
+var KEY_INPUT = {gemini:'inputGeminiKey', claude:'inputClaudeKey'};
+function initKeyStatus() {
+  ['gemini','claude'].forEach(function(p){
+    var k = lsGet(KEY_STORE[p]);
+    document.getElementById(p+'KeyStatus').textContent = k ? '✅ Đã lưu (' + k.substring(0,8) + '…)' : '⚠️ Chưa có key';
+    if (k) document.getElementById(KEY_INPUT[p]).value = k;
+  });
+}
+function saveKey(p) {
+  var k = document.getElementById(KEY_INPUT[p]).value.trim();
+  if (!k) { alert('Vui lòng nhập API key.'); return; }
+  lsSet(KEY_STORE[p], k); initKeyStatus(); toast('Đã lưu key ✓');
+}
+function getKey(p) {
+  var k = document.getElementById(KEY_INPUT[p]).value.trim() || lsGet(KEY_STORE[p]);
+  if (!k) { alert('Vui lòng nhập API key rồi nhấn Lưu.'); document.getElementById(KEY_INPUT[p]).focus(); return null; }
+  lsSet(KEY_STORE[p], k); return k;
+}
+
+// ─────────────── AI GRADING ───────────────
+var AI_SYS = [
+  'You are a senior IELTS Writing examiner and teacher trainer at Venus English (Vietnam). You write detailed feedback sheets for Vietnamese learners. Grade only the essay provided. Every issue you raise must quote the exact words from the essay.',
+  '',
+  'BAND DESCRIPTORS (summary)',
+  'TR: 7 = covers all parts, clear position throughout, well-extended ideas. 6 = addresses all parts but some less fully; relevant position; some ideas unclear or over-generalised. 5 = partial, position unclear, limited development.',
+  'CC: 7 = logical progression, clear central topic per paragraph, flexible cohesion. 6 = coherent overall, cohesion sometimes faulty or mechanical. 5 = some organisation, inadequate or repetitive linking.',
+  'LR: 7 = flexible, less common items, awareness of style and collocation, occasional errors. 6 = adequate range, some errors in word choice or spelling that do not impede. 5 = limited, noticeable errors.',
+  'GRA: 7 = variety of complex structures, frequent error-free sentences. 6 = mix of simple and complex, some errors. 5 = limited range, frequent errors.',
+  'SCORING: components are whole or .5 bands; most placement candidates score 4.5–6.5; award 7+ only for genuinely strong writing.',
+  '',
+  'HARD LIMITS',
+  '- More than 5 spelling mistakes → LR at most 5. 1–5 spelling mistakes → LR at most 6.',
+  '- Contractions or informal vocabulary in formal writing → penalise LR.',
+  '- Only simple sentences → GRA at most 5.',
+  '- Thesis and conclusion inconsistent → TR at most 6.',
+  '',
+  'WHAT TO WRITE (all *_vi fields in natural Vietnamese; quotes from the essay stay in English)',
+  '1. task_type: the task genre, e.g. "IELTS Writing Task 2 (Essay)", "Informal email", "Review", "Article", "Personal profile".',
+  '2. overall_feedback_vi: one paragraph of 5–7 sentences: what the writer does well (specific), the main weaknesses, and what to prioritise to raise the band.',
+  '3. repeated_errors_vi: systematic errors that recur. Count the spelling mistakes, list them with counts (e.g. \'advices\' x2, \'phenomenom\' x1) and state the consequence under the HARD LIMITS (e.g. "…do đó điểm Lexical Resource bị giới hạn ở Band 6"). If nothing recurs, say so.',
+  '4. tr_comments: one entry per paragraph, in order. paragraph_role = "Opening", "Body 1", "Body 2", …, "Conclusion" (or "Greeting"/"Closing" for letters). assessment_vi = 2–4 sentences: the paragraph\'s job, what works, and the concrete problem (off-topic support, over-generalisation without an example, support that does not prove the topic sentence…) with the reason. suggestion_en = one actionable English sentence with example wording.',
+  '5. gra_errors: every grammar error (at least 2 when they exist). wrong = exact quote, correct = corrected version, explanation_vi = name of the error + the rule + why it is wrong in this sentence.',
+  '6. lr_issues: spelling, wrong word, collocation, register (e.g. "a lot of" in academic writing), unnatural phrasing, uncountable nouns. original = exact quote, better = improved wording (alternatives separated by " / "), explanation_vi = the nuance and why the replacement is better. At least 3.',
+  '7. cc_feedback: assessment_vi = organisation, paragraphing, linking. Then analyse the paragraph with the weakest logic: logic_points = items such as {label_vi:"Câu chủ đề hứa hẹn", content_vi:…}, {label_vi:"Câu bổ trợ (main idea) lại nói về", content_vi:…}, {label_vi:"Ví dụ … bị lạc đề", content_vi:…}, {label_vi:"→ Nhận xét", content_vi:…}. logic_chain = {paragraph:"Body 1", steps:[3–5 short plain-Vietnamese sentences restating each step of that paragraph\'s logic, e.g. "Mở đoạn: …", "Ý chính: …", "Ví dụ: …", "Kết đoạn: …"], verdict_vi:"Các ý chưa liên quan với nhau." or similar}. If every paragraph is logical, say so in logic_points and return steps = [].',
+  '',
+  'Return ONLY a JSON object with exactly these keys: task_type, scores{TR,CC,LR,GRA}, overall_feedback_vi, repeated_errors_vi, tr_comments[{paragraph_role,assessment_vi,suggestion_en}], gra_errors[{wrong,correct,explanation_vi}], lr_issues[{original,better,explanation_vi}], cc_feedback{assessment_vi, logic_points[{label_vi,content_vi}], logic_chain{paragraph,steps[],verdict_vi}}.'
+].join('\n');
+
+function strObj(props) {
+  var p = {}; props.forEach(function(k){ p[k] = {type:'string'}; });
+  return {type:'object', additionalProperties:false, required:props, properties:p};
+}
+var AI_SCHEMA = {
+  type:'object', additionalProperties:false,
+  required:['task_type','scores','overall_feedback_vi','repeated_errors_vi','tr_comments','gra_errors','lr_issues','cc_feedback'],
+  properties:{
+    task_type:{type:'string'},
+    scores:{type:'object', additionalProperties:false, required:['TR','CC','LR','GRA'],
+      properties:{TR:{type:'number'},CC:{type:'number'},LR:{type:'number'},GRA:{type:'number'}}},
+    overall_feedback_vi:{type:'string'},
+    repeated_errors_vi:{type:'string'},
+    tr_comments:{type:'array', items:strObj(['paragraph_role','assessment_vi','suggestion_en'])},
+    gra_errors:{type:'array', items:strObj(['wrong','correct','explanation_vi'])},
+    lr_issues:{type:'array', items:strObj(['original','better','explanation_vi'])},
+    cc_feedback:{type:'object', additionalProperties:false, required:['assessment_vi','logic_points','logic_chain'], properties:{
+      assessment_vi:{type:'string'},
+      logic_points:{type:'array', items:strObj(['label_vi','content_vi'])},
+      logic_chain:{type:'object', additionalProperties:false, required:['paragraph','steps','verdict_vi'], properties:{
+        paragraph:{type:'string'}, steps:{type:'array', items:{type:'string'}}, verdict_vi:{type:'string'}}}
+    }}
+  }
+};
+
+function roundBand(avg) { var w = Math.floor(avg), f = avg - w; return f < 0.25 ? w : (f < 0.75 ? w + 0.5 : w + 1); }
 
 async function aiGrade(provider) {
-  provider = provider || 'gemini';
-  var k = getKey(provider); if(!k) return;
-  var essay = (detailData && detailData.writing) ? detailData.writing.essay : '';
-  var topic = (detailData && detailData.writing) ? detailData.writing.topic : '';
-  var student = (detailData && detailData.student) ? detailData.student : {};
+  var k = getKey(provider); if (!k) return;
+  var w = (detail && detail.writing) || {}, s = (detail && detail.student) || {};
+  if (!w.essay) { alert('Không có bài viết để chấm.'); return; }
   var box = document.getElementById('aiBox');
-  box.style.display = 'block';
-  box.innerHTML = '<div class="spinner" style="margin:8px auto"></div><p style="text-align:center;font-size:13px;color:var(--text-lt)">AI ('+provider+') đang chấm bài theo 4 tiêu chí IELTS chuẩn...</p>';
-
-  var SYS = 'You are a strict IELTS Writing examiner. Grade only the essay provided. Every feedback must quote directly from that essay.\n\nIELTS BAND DESCRIPTORS:\nTR: Band 7=covers all parts, clear position. Band 6=addresses parts but some inadequately. Band 5=partial.\nCC: Band 7=logical, varied cohesion. Band 6=mostly coherent. Band 5=some org.\nLR: Band 7=flexible range, minor errors. Band 6=adequate. Band 5=limited.\nGRA: Band 7=complex structures, frequent error-free. Band 6=mix.\n\nSCORING RULES: Components whole numbers or X.5. Overall=average of 4, round to 0.5. Most students 5-6. Band 7 genuinely good.\n\nHARD LIMITS:\n- IF >5 spelling mistakes THEN cap LR at 5.\n- IF 1-5 spelling mistakes THEN cap LR at 6.\n- IF contractions or informal vocab THEN penalize LR.\n- IF only simple sentences THEN flag Grammar Variety.\n- IF "nowadays" used THEN flag as cliché.\n- IF inconsistent thesis↔conclusion THEN cap TR at 6.\n\nMINIMUM DEPTH: ALWAYS return >= 3 lr_issues and >= 2 gra_errors. Return tr_comments for EVERY paragraph.\n\nReturn ONLY valid JSON: {scores:{TR,CC,LR,GRA}, overall, overall_feedback_vi, tr_comments:[{paragraph_role,assessment_vi,suggestion_en,quote}], gra_errors:[{wrong,correct,explanation_vi}], lr_issues:[{original,better,explanation_vi}], cc_feedback:{assessment_vi,suggestions:[]}, corrected_text}';
-
-  var MSG = 'Grade this IELTS placement test essay.\n\nSTUDENT: '+(student.fullName||'Student')+'\nTARGET BAND: '+(student.targetBand||'not specified')+'\nTASK: '+topic+'\n\nESSAY:\n---\n'+essay+'\n---\n\nAll feedback in Vietnamese.';
-
+  box.innerHTML = '<div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--cream);border-radius:var(--r-sm)"><div class="spinner"></div><span class="txt-sm">AI ('+esc(provider)+') đang chấm bài và viết nhận xét chi tiết… (khoảng 30–90 giây)</span></div>';
+  var msg = 'Grade this placement-test writing.\n\nSTUDENT: ' + (s.fullName || 'Student') + '\nTARGET BAND: ' + (s.targetBand || 'not specified') +
+    '\nTASK / TOPIC: ' + (w.topic || '') + '\n\nESSAY:\n---\n' + w.essay + '\n---';
   try {
-    var raw = '';
+    var raw;
     if (provider === 'gemini') {
-      var fullPrompt = SYS + '\n\n' + MSG;
-      var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+k, {
+      var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(k), {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({contents:[{parts:[{text:fullPrompt}]}], generationConfig:{temperature:0.1,topK:1,topP:0.1,maxOutputTokens:8000}})
+        body: JSON.stringify({ systemInstruction:{parts:[{text:AI_SYS}]}, contents:[{role:'user', parts:[{text:msg}]}],
+          generationConfig:{temperature:0.2, maxOutputTokens:16000, responseMimeType:'application/json'} })
       });
       var d = await r.json();
-      raw = ((((d.candidates||[])[0]||{}).content||{}).parts||[{}])[0].text||'{}';
+      if (d.error) throw new Error(d.error.message);
+      raw = ((((d.candidates||[])[0]||{}).content||{}).parts||[]).map(function(p){ return p.text || ''; }).join('');
     } else {
-      var r = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST', headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01'},
-        body:JSON.stringify({model:'claude-sonnet-4-6', max_tokens:4000, system:SYS, messages:[{role:'user',content:MSG}]})
+      var r2 = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01',
+                 'anthropic-dangerous-direct-browser-access':'true','anthropic-beta':'server-side-fallback-2026-07-01'},
+        body: JSON.stringify({ model:'claude-sonnet-5-5', max_tokens:16000, fallbacks:'default', system:AI_SYS,
+          output_config:{effort:'medium', format:{type:'json_schema', schema:AI_SCHEMA}},
+          messages:[{role:'user', content:msg}] })
       });
-      var d = await r.json();
-      raw = (d.content&&d.content[0]&&d.content[0].text)||'{}';
+      var d2 = await r2.json();
+      if (d2.type === 'error' || d2.error) throw new Error((d2.error && d2.error.message) || 'API error');
+      if (d2.stop_reason === 'refusal') throw new Error('Model từ chối yêu cầu.');
+      if (d2.stop_reason === 'max_tokens') throw new Error('Phản hồi bị cắt do quá dài — thử lại.');
+      raw = (d2.content || []).filter(function(c){ return c.type === 'text'; }).map(function(c){ return c.text; }).join('');
     }
-    // Parse JSON
-    var clean = raw.replace(/<thinking>[\s\S]*?<\/thinking>/gi,'').replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
-    var si=clean.indexOf('{'),depth=0,ei=-1;
-    for(var ci=si;ci<clean.length;ci++){if(clean[ci]==='{')depth++;else if(clean[ci]==='}'){depth--;if(depth===0){ei=ci;break;}}}
-    var j=(si>=0&&ei>=0)?JSON.parse(clean.substring(si,ei+1)):JSON.parse(clean);
-    // Compute overall
-    if(j.scores){var avg=(j.scores.TR+j.scores.CC+j.scores.LR+j.scores.GRA)/4;var w=Math.floor(avg),frac=avg-w;j.overall=frac<0.25?w:(frac<0.75?w+0.5:w+1);}
-    var band=j.overall||j.band||'—';
-    var html2='<div style="margin-bottom:12px;padding:12px 16px;background:var(--navy);border-radius:var(--r-sm);color:#fff;display:flex;justify-content:space-between;align-items:center">'
-      +'<div><strong style="font-size:18px">Band tổng: '+band+'</strong>'
-      +(j.scores?'<span style="font-size:12px;opacity:.7;margin-left:10px">TR:'+j.scores.TR+' CC:'+j.scores.CC+' LR:'+j.scores.LR+' GRA:'+j.scores.GRA+'</span>':'')
-      +'<div style="font-size:11px;opacity:.6;margin-top:2px">('+provider+')</div></div>'
-      +('<button class="btn btn-gold btn-sm" onclick="applyBand(\'"+band+"\')">Dùng band này</button>')
-      +'</div>';
-    if(j.overall_feedback_vi) html2+='<div style="padding:12px;background:#f0f7ff;border-radius:var(--r-sm);margin-bottom:10px;font-size:13px;line-height:1.6"><strong>Đánh giá tổng quan:</strong> '+j.overall_feedback_vi+'</div>';
-    if(j.tr_comments&&j.tr_comments.length){
-      html2+='<div style="padding:12px;background:var(--cream);border-radius:var(--r-sm);margin-bottom:10px"><strong style="font-size:13px;color:var(--navy)">Task Achievement — Theo từng đoạn</strong>';
-      j.tr_comments.forEach(function(tc){html2+='<div style="margin-top:8px;border-left:3px solid var(--teal);padding-left:10px"><div style="font-size:12px;font-weight:700;color:var(--teal)">'+tc.paragraph_role+'</div><div style="font-size:12px">'+tc.assessment_vi+'</div>'+(tc.quote?'<div style="font-size:11px;color:var(--text-lt);font-style:italic">"'+tc.quote+'"</div>':'')+'</div>';});
-      html2+='</div>';
-    }
-    if(j.gra_errors&&j.gra_errors.length){
-      html2+='<div style="padding:12px;background:var(--cream);border-radius:var(--r-sm);margin-bottom:10px"><strong style="font-size:13px;color:var(--navy)">Grammatical Range — Lỗi cụ thể</strong><ul style="font-size:12px;margin:6px 0 0;padding-left:16px">'
-        +j.gra_errors.map(function(e){return '<li><span style="color:var(--red)">✗ '+e.wrong+'</span> → <span style="color:var(--green)">✓ '+e.correct+'</span><br><span style="color:var(--text-lt)">'+e.explanation_vi+'</span></li>';}).join('')
-        +'</ul></div>';
-    }
-    if(j.lr_issues&&j.lr_issues.length){
-      html2+='<div style="padding:12px;background:var(--cream);border-radius:var(--r-sm);margin-bottom:10px"><strong style="font-size:13px;color:var(--navy)">Lexical Resource — Từ vựng</strong><ul style="font-size:12px;margin:6px 0 0;padding-left:16px">'
-        +j.lr_issues.map(function(e){return '<li><em>'+e.original+'</em> → <strong>'+e.better+'</strong><br><span style="color:var(--text-lt)">'+e.explanation_vi+'</span></li>';}).join('')
-        +'</ul></div>';
-    }
-    if(j.cc_feedback){
-      html2+='<div style="padding:12px;background:var(--cream);border-radius:var(--r-sm);margin-bottom:10px"><strong style="font-size:13px;color:var(--navy)">Coherence & Cohesion</strong><div style="font-size:12px;margin-top:6px">'+(j.cc_feedback.assessment_vi||'')+'</div>'
-        +(j.cc_feedback.suggestions&&j.cc_feedback.suggestions.length?'<ul style="font-size:12px;padding-left:16px;margin:4px 0 0">'+j.cc_feedback.suggestions.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul>':'')
-        +'</div>';
-    }
-    box.innerHTML = html2;
-    var autoComment=(j.overall_feedback_vi||'');
-    if(j.gra_errors&&j.gra_errors.length) autoComment+='\n\nNgữ pháp:\n'+j.gra_errors.map(function(e){return '• '+e.wrong+' → '+e.correct+': '+e.explanation_vi;}).join('\n');
-    if(j.lr_issues&&j.lr_issues.length) autoComment+='\n\nTừ vựng:\n'+j.lr_issues.slice(0,3).map(function(e){return '• '+e.original+' → '+e.better;}).join('\n');
-    document.getElementById('wCmt').value=autoComment;
-  } catch(e) {
-    box.innerHTML='<div style="color:var(--red);padding:10px">Lỗi AI ('+provider+'): '+e.message+'<br><small>Kiểm tra API key và thử lại.</small></div>';
+    var j = extractJSON(raw);
+    if (j.scores) j.overall = roundBand((+j.scores.TR + +j.scores.CC + +j.scores.LR + +j.scores.GRA) / 4);
+    j._provider = provider; j._at = new Date().toISOString();
+    aiResult = j;
+    lsSet(LOCAL_AI, JSON.stringify(j));
+    renderAI(j, provider);
+    // Pull the AI text into the editable fields unless the teacher already wrote their own.
+    ['wOverall','wRepeated'].forEach(function(key){
+      var el = document.getElementById('n_' + key);
+      if (!el.value.trim() || confirm('Thay "' + (key === 'wOverall' ? 'Nhận xét chung' : 'Lỗi lặp lại') + '" bằng nội dung AI mới?')) { notes[key] = autoText(key); el.value = notes[key]; }
+    });
+    ['strengths','improvements'].forEach(function(key){ if (!document.getElementById('n_'+key).value.trim()) fillAuto(key); });
+    saveNotes(false); refreshLevelHint();
+    toast('AI đã chấm xong — nhấn "Lưu Writing" để lưu lên hệ thống');
+  } catch (e) {
+    box.innerHTML = '<div class="al-error">Lỗi AI (' + esc(provider) + '): ' + esc(e.message) + '<br><small>Kiểm tra API key và thử lại.</small></div>';
   }
 }
+function extractJSON(raw) {
+  var clean = String(raw || '').replace(/```json\s*/gi, '').replace(/```/g, '').trim();
+  var si = clean.indexOf('{'), depth = 0, ei = -1, inStr = false;
+  for (var i = si; si >= 0 && i < clean.length; i++) {
+    var ch = clean[i];
+    if (inStr) { if (ch === '\\') i++; else if (ch === '"') inStr = false; continue; }
+    if (ch === '"') inStr = true; else if (ch === '{') depth++; else if (ch === '}' && --depth === 0) { ei = i; break; }
+  }
+  if (si < 0 || ei < 0) throw new Error('Không đọc được JSON từ AI.');
+  return JSON.parse(clean.substring(si, ei + 1));
+}
+function renderAI(j, provider) {
+  var sc = j.scores || {}, h = '';
+  h += '<div class="ai-head"><div><b>Band AI: ' + esc(j.overall || '—') + '</b>'
+    + '<div class="ai-bands"><span>TR ' + esc(sc.TR) + '</span><span>CC ' + esc(sc.CC) + '</span><span>LR ' + esc(sc.LR) + '</span><span>GRA ' + esc(sc.GRA) + '</span><span>' + esc(provider) + '</span></div></div>'
+    + '<button class="btn btn-gold btn-sm" onclick="applyBand()">Dùng band này</button></div>';
+  if (j.tr_comments && j.tr_comments.length) {
+    h += '<div class="ai-sec"><h4>🎯 Task Response</h4><ol>' + j.tr_comments.map(function(t){
+      return '<li><b style="color:#0a3d62">' + esc(t.paragraph_role) + ':</b> ' + esc(t.assessment_vi) + (t.suggestion_en ? '<span class="fx-n" style="color:#1e7e42">→ ' + esc(t.suggestion_en) + '</span>' : '') + '</li>';
+    }).join('') + '</ol></div>';
+  }
+  function fx(list, a, b, title) {
+    if (!list || !list.length) return '';
+    return '<div class="ai-sec"><h4>' + title + ' (' + list.length + ')</h4><ul>' + list.map(function(e){
+      return '<li><span class="fx-w">' + esc(e[a]) + '</span> <span class="fx-a">→</span> <span class="fx-r">' + esc(e[b]) + '</span><span class="fx-n">' + esc(e.explanation_vi) + '</span></li>';
+    }).join('') + '</ul></div>';
+  }
+  h += fx(j.gra_errors, 'wrong', 'correct', '🔧 Grammar') + fx(j.lr_issues, 'original', 'better', '📚 Lexical Resource');
+  var cc = j.cc_feedback;
+  if (cc) {
+    h += '<div class="ai-sec"><h4>🔗 Coherence & Cohesion</h4><p>' + esc(cc.assessment_vi) + '</p>'
+      + (cc.logic_points || []).map(function(p){ return '<p style="margin-top:4px"><b>- ' + esc(p.label_vi) + ':</b> ' + esc(p.content_vi) + '</p>'; }).join('');
+    if (cc.logic_chain && cc.logic_chain.steps && cc.logic_chain.steps.length) {
+      h += '<p style="margin-top:8px;color:#ff0000;font-weight:700">Tóm tắt "đường dây logic" (' + esc(cc.logic_chain.paragraph) + '):</p><ol>'
+        + cc.logic_chain.steps.map(function(s){ return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>'
+        + (cc.logic_chain.verdict_vi ? '<p style="color:#ff0000;font-weight:700">→ ' + esc(cc.logic_chain.verdict_vi) + '</p>' : '');
+    }
+    h += '</div>';
+  }
+  document.getElementById('aiBox').innerHTML = h;
+}
+function applyBand() { if (aiResult) { document.getElementById('wBand').value = aiResult.overall; refreshLevelHint(); toast('Áp dụng band ' + aiResult.overall); } }
 
-function applyBand(b) { document.getElementById('wBand').value=b; toast('Áp dụng band '+b); }
+// ─────────────── REPORT / EXPORT ───────────────
+function todayVN() { var d = new Date(); return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear(); }
+function buildCtx() {
+  var d = detail || {}, s = d.student || {}, lvl = currentLevel();
+  var ctx = { student: s, username: username, date: todayVN(), isoDate: new Date().toISOString().slice(0,10),
+    overall: { level: lvl, classRec: notes.classRec || CLASS_REC[lvl] || '', strengths: notes.strengths || '', improvements: notes.improvements || '' } };
+  if (d.vg) ctx.vg = { level: d.vg.level, analysis: vgA, comment: notes.vgComment, recs: notes.vgRecs };
+  if (d.listening) ctx.listening = { level: d.listening.level, analysis: lisA, answers: d.listening.answers || {}, comment: notes.lisComment, recs: notes.lisRecs };
+  if (d.writing) ctx.writing = { topic: d.writing.topic, essay: d.writing.essay, band: writingBand(), ai: aiResult,
+    overallComment: notes.wOverall, repeatedErrors: notes.wRepeated, teacherComment: document.getElementById('wCmt').value.trim() };
+  if (d.speaking) ctx.speaking = { band: document.getElementById('spBand').value, comment: document.getElementById('spCmt').value.trim() };
+  return ctx;
+}
+function docTitle() {
+  var s = (detail && detail.student) || {};
+  return 'Venus English — Phiếu Nhận Xét — ' + (s.fullName || username) + ' — ' + todayVN().replace(/\//g, '-');
+}
+function openPreview() {
+  if (!detail) { toast('Đang tải dữ liệu, thử lại sau giây lát'); return; }
+  document.getElementById('paper').innerHTML = Report.buildDocBody(buildCtx());
+  setStatus('', '');
+  document.getElementById('docModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePreview() { document.getElementById('docModal').classList.remove('open'); document.body.style.overflow = ''; }
+function setStatus(cls, html) {
+  var el = document.getElementById('docStatus');
+  el.className = 'modal-status' + (cls ? ' ' + cls : ''); el.innerHTML = html; el.style.display = html ? 'block' : 'none';
+}
+function paperHtml() { return document.getElementById('paper').innerHTML; }
 
-async function exportFeedback() {
-  var statusEl = document.getElementById('exportStatus');
-  if (statusEl) { statusEl.style.display='block'; statusEl.textContent='⏳ Đang tạo Google Doc, vui lòng chờ...'; statusEl.style.color='var(--navy)'; }
-  
-  var res = await api('exportFeedback', {password:pwd, username:username});
-  
-  if (!res.ok) {
-    if (statusEl) { statusEl.textContent='❌ Lỗi: ' + res.error; statusEl.style.color='var(--red)'; }
-    alert('Lỗi tạo Google Doc: ' + res.error);
+async function exportGoogleDoc() {
+  saveNotes(false);
+  setStatus('', '⏳ Đang tạo Google Doc…');
+  var res = await api('exportReportDoc', { password: pwd, username: username, title: docTitle(),
+    html: Report.wrapDocument(paperHtml(), docTitle()), overallLevel: currentLevel(), notes: JSON.stringify(notes) }, 'Đang tạo Google Doc...');
+  if (res.ok && res.docUrl) {
+    setStatus('ok', '✅ Đã tạo Google Doc. <a href="' + esc(res.docUrl) + '" target="_blank" rel="noopener" style="font-weight:700;color:inherit">Mở Google Doc →</a>');
+    window.open(res.docUrl, '_blank');
     return;
   }
-  
-  if (statusEl) {
-    statusEl.innerHTML = '✅ Google Doc đã tạo thành công! <a href="' + res.docUrl + '" target="_blank" style="color:var(--navy);font-weight:700;text-decoration:underline">Mở Google Doc →</a>';
-    statusEl.style.color = 'var(--green)';
+  var err = res.error || 'không rõ';
+  if (/Unknown action/i.test(err)) {
+    setStatus('err', '⚠️ Backend Apps Script chưa được cập nhật nên chưa tạo được Google Doc (xem hướng dẫn trong <b>gas/README.md</b>). Tạm thời dùng <b>📋 Copy để dán</b> vào một Google Doc trống, hoặc <b>⬇️ Tải .doc</b> rồi mở bằng Google Docs.');
+  } else {
+    setStatus('err', '❌ Lỗi tạo Google Doc: ' + esc(err));
   }
-  window.open(res.docUrl, '_blank');
-  toast('Đã tạo Google Doc thành công ✓');
+}
+async function copyDoc() {
+  var paper = document.getElementById('paper'), html = paper.innerHTML, text = paper.innerText;
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type:'text/html'}), 'text/plain': new Blob([text], {type:'text/plain'}) })]);
+  } catch (e) {
+    // Older browsers: copy the rendered selection instead.
+    var range = document.createRange(), sel = window.getSelection();
+    range.selectNodeContents(paper); sel.removeAllRanges(); sel.addRange(range);
+    var ok = document.execCommand('copy'); sel.removeAllRanges();
+    if (!ok) { setStatus('err', 'Trình duyệt không cho phép copy tự động — hãy bôi đen phiếu và nhấn Ctrl/Cmd + C.'); return; }
+  }
+  setStatus('ok', '📋 Đã copy. Mở một Google Doc trống (docs.new) và dán (Ctrl/Cmd + V) — định dạng được giữ nguyên.');
+}
+function downloadDoc() {
+  var html = Report.wrapDocument(paperHtml(), docTitle());
+  var blob = new Blob(['﻿', html], {type:'application/msword'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = docTitle().replace(/[\\/:*?"<>|]/g, '-') + '.doc';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+  setStatus('ok', '⬇️ Đã tải file .doc — tải lên Google Drive rồi chọn "Mở bằng Google Docs".');
+}
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePreview(); });
+
+// ─────────────── ACTIVITY LOG ───────────────
+async function loadActivity() {
+  var r = await api('getActivityLog', {password: pwd, username: username}, 'Đang tải nhật ký...');
+  if (!r.ok || !r.logs || !r.logs.length) return;
+  document.getElementById('secActivity').style.display = 'block';
+  var stats = {};
+  r.logs.forEach(function(l){
+    var t = stats[l.testType] = stats[l.testType] || {enter:0, exit:0, tab:0};
+    if (l.action === 'enter') t.enter++; else if (l.action === 'exit') t.exit++; else if (l.action === 'tab_hidden') t.tab++;
+  });
+  var NAMES = {vg:'Ngữ Pháp & Từ Vựng', listening:'Kỹ Năng Nghe', writing:'Kỹ Năng Viết', speaking:'Kỹ Năng Nói'};
+  var h = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px">';
+  Object.keys(stats).forEach(function(t){
+    var s = stats[t];
+    h += '<div style="background:var(--cream);border-radius:var(--r-sm);padding:9px 12px;font-size:12.5px">'
+      + '<div style="font-weight:700;color:var(--ink);margin-bottom:4px">' + esc(NAMES[t] || t) + '</div>'
+      + '<div>Vào bài: <b>' + s.enter + '</b></div>'
+      + '<div style="color:' + (s.exit ? 'var(--red)' : 'var(--text-lt)') + '">Thoát giữa chừng: <b>' + s.exit + '</b></div>'
+      + '<div style="color:' + (s.tab > 1 ? 'var(--amber)' : 'var(--text-lt)') + '">Chuyển tab: <b>' + s.tab + '</b></div></div>';
+  });
+  h += '</div><div class="scroll-x"><table class="tbl" style="font-size:12.5px"><thead><tr><th>Thời gian</th><th>Bài thi</th><th>Hành động</th><th>Chi tiết</th></tr></thead><tbody>';
+  r.logs.slice().reverse().forEach(function(l){
+    var lab = l.action === 'enter' ? '✅ Vào bài' : l.action === 'exit' ? '🚪 Thoát bài' : l.action === 'tab_hidden' ? '👁 Chuyển tab' : '↩ Quay lại';
+    var bg = l.action === 'exit' ? 'background:var(--red-lt)' : l.action === 'tab_hidden' ? 'background:var(--amber-lt)' : '';
+    h += '<tr style="' + bg + '"><td>' + esc(l.time) + '</td><td>' + esc(l.testType || '—') + '</td><td>' + lab + '</td><td style="color:var(--text-lt);font-size:11.5px">' + esc(l.note) + '</td></tr>';
+  });
+  document.getElementById('activityTable').innerHTML = h + '</tbody></table></div>';
 }
 
-function toggleSurvey() {
-  var sec = document.getElementById('secSurvey');
-  sec.style.display = (sec.style.display === 'none') ? 'block' : 'none';
-}
-
+function toggleSurvey() { var s = document.getElementById('secSurvey'); s.style.display = s.style.display === 'none' ? 'block' : 'none'; }
 function toast(msg) {
-  var t=document.createElement('div');
-  t.textContent=msg;
-  Object.assign(t.style,{position:'fixed',bottom:'20px',left:'50%',transform:'translateX(-50%)',
-    background:'var(--navy)',color:'#fff',padding:'9px 18px',borderRadius:'20px',
-    fontSize:'13px',fontFamily:'Source Sans 3,sans-serif',boxShadow:'0 3px 16px rgba(0,0,0,.15)',zIndex:'9999'});
-  document.body.appendChild(t);
-  setTimeout(function(){t.remove();},2800);
+  var t = document.createElement('div'); t.textContent = msg;
+  Object.assign(t.style, {position:'fixed', bottom:'20px', left:'50%', transform:'translateX(-50%)', background:'var(--ink)', color:'#fff',
+    padding:'9px 18px', borderRadius:'20px', fontSize:'13px', fontFamily:'var(--font)', boxShadow:'0 3px 16px rgba(0,0,0,.2)', zIndex:'9999', maxWidth:'90vw', textAlign:'center'});
+  document.body.appendChild(t); setTimeout(function(){ t.remove(); }, 2800);
 }
+
+if (pwd) load();
 </script>
 </body>
 </html>
