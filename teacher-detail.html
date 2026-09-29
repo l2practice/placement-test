@@ -171,10 +171,7 @@ function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;
         <button type="button" id="provGemini" onclick="setProvider('gemini')">🔷 Gemini</button>
         <button type="button" id="provClaude" onclick="setProvider('claude')">✨ Claude</button>
       </div>
-      <select id="geminiModel" onchange="lsSet('venus_gemini_model', this.value)" title="Model Gemini">
-        <option value="gemini-2.5-flash">Gemini 2.5 Flash (nhanh)</option>
-        <option value="gemini-2.5-pro">Gemini 2.5 Pro (chi tiết hơn)</option>
-      </select>
+      <select id="geminiModel" onchange="lsSet('venus_gemini_model', this.value)" title="Model Gemini — danh sách lấy từ API key của bạn"></select>
       <div class="key-box" id="keyBox"></div>
     </div>
   </div>
@@ -612,6 +609,7 @@ function saveKey() {
   if (lsGet(KEY_STORE[provider]) !== k) toast('Trình duyệt chặn lưu lâu dài — key chỉ dùng được đến khi đóng trang');
   else toast('Đã lưu key ✓');
   renderKeyBox(false);
+  if (provider === 'gemini') loadGeminiModels();
 }
 function clearKey() {
   if (!confirm('Xoá API key ' + provider + ' khỏi trình duyệt này?')) return;
@@ -624,8 +622,41 @@ function requireKey() {
   return k;
 }
 function initAISettings() {
-  var m = lsGet('venus_gemini_model'); if (m) document.getElementById('geminiModel').value = m;
+  fillGeminiModels(GEMINI_FALLBACK);
   setProvider(provider === 'claude' ? 'claude' : 'gemini');
+  loadGeminiModels();
+}
+
+// ─────────────── GEMINI MODEL LIST ───────────────
+// Google retires Gemini versions often (2.5 is gone), so the list comes from the
+// ListModels API for the teacher's key; this fallback is only used until it loads.
+var GEMINI_FALLBACK = ['gemini-3.6-flash', 'gemini-3.5-pro', 'gemini-3.5-flash'];
+function geminiVersion(id) { var m = id.match(/gemini-(\d+(?:\.\d+)?)/); return m ? parseFloat(m[1]) : 0; }
+function geminiLabel(id) {
+  return id.replace(/^gemini-/, 'Gemini ').replace(/-/g, ' ').replace(/\b(flash|pro|lite|preview|exp)\b/g, function(w){ return w.charAt(0).toUpperCase() + w.slice(1); })
+    + (/pro/.test(id) ? ' — chi tiết hơn' : /flash/.test(id) && !/lite/.test(id) ? ' — nhanh' : '');
+}
+function fillGeminiModels(ids) {
+  var sel = document.getElementById('geminiModel'), saved = lsGet('venus_gemini_model');
+  sel.innerHTML = ids.map(function(id){ return '<option value="' + esc(id) + '">' + esc(geminiLabel(id)) + '</option>'; }).join('');
+  if (saved && ids.indexOf(saved) >= 0) sel.value = saved;
+  else { var pref = ids.filter(function(id){ return /flash$/.test(id); })[0] || ids[0]; if (pref) sel.value = pref; }
+}
+async function loadGeminiModels() {
+  var k = storedKey('gemini'); if (!k) return;
+  try {
+    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000', {headers:{'x-goog-api-key': k}});
+    var d = await r.json(); if (!d.models) return;
+    var ids = d.models.filter(function(m){
+      var id = m.name.replace(/^models\//, '');
+      return /^gemini-\d/.test(id) && (m.supportedGenerationMethods || []).indexOf('generateContent') >= 0
+        && !/(embedding|tts|image|audio|live|native|computer|robotics|thinking-exp)/.test(id);
+    }).map(function(m){ return m.name.replace(/^models\//, ''); });
+    // Newest first; within a version: pro, flash, flash-lite; stable before preview.
+    var rank = function(id){ return (/pro/.test(id) ? 0 : /lite/.test(id) ? 2 : 1) + (/preview|exp|\d{2}-\d{2}/.test(id) ? 0.5 : 0); };
+    ids.sort(function(a, b){ return geminiVersion(b) - geminiVersion(a) || rank(a) - rank(b) || a.localeCompare(b); });
+    if (ids.length) fillGeminiModels(ids);
+  } catch (e) { /* keep the fallback list */ }
 }
 
 // ─────────────── AI CALL (shared) ───────────────
@@ -642,17 +673,21 @@ async function callAI(system, messages, schema) {
   var k = storedKey(provider); if (!k) throw new Error('Chưa có API key.');
   var raw;
   if (provider === 'gemini') {
-    var model = document.getElementById('geminiModel').value || 'gemini-2.5-flash';
+    var model = document.getElementById('geminiModel').value || GEMINI_FALLBACK[0];
     var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
       method:'POST', headers:{'Content-Type':'application/json', 'x-goog-api-key': k},
       body: JSON.stringify({ systemInstruction:{parts:[{text:system}]},
         contents: messages.map(function(m){ return {role: m.role === 'assistant' ? 'model' : 'user', parts:[{text:m.text}]}; }),
-        generationConfig:{temperature:0.3, maxOutputTokens:32000, responseMimeType:'application/json', responseSchema: toGeminiSchema(schema)} })
+        generationConfig:{maxOutputTokens:32000, responseMimeType:'application/json', responseSchema: toGeminiSchema(schema)} })
     });
     var d = await r.json();
-    if (d.error) throw new Error(d.error.status === 'INVALID_ARGUMENT' && /API key/i.test(d.error.message) ? 'API key Gemini không hợp lệ — bấm "Đổi key" và dán lại.' : d.error.message);
+    if (d.error) {
+      if (d.error.status === 'INVALID_ARGUMENT' && /API key/i.test(d.error.message)) throw new Error('API key Gemini không hợp lệ — bấm "Đổi key" và dán lại.');
+      if (d.error.status === 'NOT_FOUND' || d.error.code === 404) { loadGeminiModels(); throw new Error('Model "' + model + '" không còn được Google hỗ trợ — chọn model khác trong danh sách rồi chấm lại.'); }
+      throw new Error(d.error.message);
+    }
     var cand = (d.candidates || [])[0] || {};
-    if (cand.finishReason === 'MAX_TOKENS') throw new Error('Phản hồi bị cắt do quá dài — thử lại hoặc chọn Gemini 2.5 Pro.');
+    if (cand.finishReason === 'MAX_TOKENS') throw new Error('Phản hồi bị cắt do quá dài — thử lại hoặc chọn model Pro.');
     raw = ((cand.content || {}).parts || []).map(function(p){ return p.text || ''; }).join('');
   } else {
     var r2 = await fetch('https://api.anthropic.com/v1/messages', {
@@ -690,7 +725,7 @@ function roundBand(avg) { var w = Math.floor(avg), f = avg - w; return f < 0.25 
 function spinner(msg) {
   return '<div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--cream);border-radius:var(--r-sm)"><div class="spinner"></div><span class="txt-sm">' + esc(msg) + '</span></div>';
 }
-function providerLabel() { return provider === 'gemini' ? document.getElementById('geminiModel').selectedOptions[0].textContent.replace(/\s*\(.*\)/, '') : 'Claude'; }
+function providerLabel() { return provider === 'gemini' ? document.getElementById('geminiModel').selectedOptions[0].textContent.replace(/\s*[—(].*$/, '') : 'Claude'; }
 
 // ─────────────── WRITING AI ───────────────
 var W_SYS = [
