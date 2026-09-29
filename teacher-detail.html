@@ -668,34 +668,47 @@ function toGeminiSchema(s) {
   if (s.items) o.items = toGeminiSchema(s.items);
   return o;
 }
-/** messages: [{role:'user'|'assistant', text}] — returns the parsed JSON object. */
-async function callAI(system, messages, schema) {
-  var k = storedKey(provider); if (!k) throw new Error('Chưa có API key.');
-  var raw;
-  if (provider === 'gemini') {
-    var model = document.getElementById('geminiModel').value || GEMINI_FALLBACK[0];
-    var gen = {maxOutputTokens:32000, responseMimeType:'application/json', responseSchema: toGeminiSchema(schema)};
-    if (/^gemini-3/.test(model)) gen.thinkingConfig = {thinkingLevel:'low'};
-    var geminiReq = function(){
-      return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
-        method:'POST', headers:{'Content-Type':'application/json', 'x-goog-api-key': k},
-        body: JSON.stringify({ systemInstruction:{parts:[{text:system}]},
-          contents: messages.map(function(m){ return {role: m.role === 'assistant' ? 'model' : 'user', parts:[{text:m.text}]}; }),
-          generationConfig: gen })
-      }).then(function(r){ return r.json(); });
-    };
-    var d = await geminiReq();
-    if (d.error && gen.thinkingConfig && /thinking/i.test(d.error.message || '')) { delete gen.thinkingConfig; d = await geminiReq(); }
-    if (d.error) {
-      if (d.error.status === 'INVALID_ARGUMENT' && /API key/i.test(d.error.message)) throw new Error('API key Gemini không hợp lệ — bấm "Đổi key" và dán lại.');
-      if (d.error.status === 'NOT_FOUND' || d.error.code === 404) { loadGeminiModels(); throw new Error('Model "' + model + '" không còn được Google hỗ trợ — chọn model khác trong danh sách rồi chấm lại.'); }
-      throw new Error(d.error.message);
-    }
-    var cand = (d.candidates || [])[0] || {};
-    if (cand.finishReason === 'MAX_TOKENS') throw new Error('Phản hồi bị cắt do quá dài — thử lại hoặc chọn model Pro.');
-    raw = ((cand.content || {}).parts || []).map(function(p){ return p.text || ''; }).join('');
-  } else {
-    var r2 = await fetch('https://api.anthropic.com/v1/messages', {
+// Transient provider errors (503 "high demand", 429 quota, 5xx) are retried, then the
+// next Gemini model is tried, then Claude if a Claude key is saved — the teacher only
+// sees an error when every option has failed.
+function aiError(msg, kind) { var e = new Error(msg); e.kind = kind; return e; }
+function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+var lastModelLabel = '';
+
+async function geminiOnce(model, k, system, messages, schema) {
+  var gen = {maxOutputTokens:32000, responseMimeType:'application/json', responseSchema: toGeminiSchema(schema)};
+  if (/^gemini-3/.test(model)) gen.thinkingConfig = {thinkingLevel:'low'};
+  var req = function(){
+    return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
+      method:'POST', headers:{'Content-Type':'application/json', 'x-goog-api-key': k},
+      body: JSON.stringify({ systemInstruction:{parts:[{text:system}]},
+        contents: messages.map(function(m){ return {role: m.role === 'assistant' ? 'model' : 'user', parts:[{text:m.text}]}; }),
+        generationConfig: gen })
+    }).then(function(r){ return r.json().catch(function(){ return {error:{code:r.status, message:'HTTP ' + r.status}}; }); },
+            function(){ return {error:{code:0, status:'NETWORK', message:'Lỗi kết nối mạng'}}; });
+  };
+  var d = await req();
+  if (d.error && gen.thinkingConfig && /thinking/i.test(d.error.message || '')) { delete gen.thinkingConfig; d = await req(); }
+  if (d.error) {
+    var c = d.error.code, st = d.error.status || '', m = d.error.message || '';
+    if (st === 'INVALID_ARGUMENT' && /API key/i.test(m)) throw aiError('API key Gemini không hợp lệ — bấm "Đổi key" và dán lại.', 'key');
+    if (c === 403 || st === 'PERMISSION_DENIED') throw aiError('API key Gemini không có quyền dùng model này.', 'key');
+    if (c === 404 || st === 'NOT_FOUND') throw aiError(m, 'gone');
+    if (c === 429 || st === 'RESOURCE_EXHAUSTED') throw aiError(m, 'quota');
+    if (c === 0 || c >= 500 || st === 'UNAVAILABLE' || /overloaded|high demand|try again/i.test(m)) throw aiError(m, 'busy');
+    throw aiError(m, 'other');
+  }
+  var cand = (d.candidates || [])[0] || {};
+  if (cand.finishReason === 'MAX_TOKENS') throw aiError('Phản hồi bị cắt do quá dài.', 'busy');
+  var raw = ((cand.content || {}).parts || []).map(function(p){ return p.text || ''; }).join('');
+  if (!raw.trim()) throw aiError('Gemini trả về rỗng.', 'busy');
+  return raw;
+}
+
+async function claudeOnce(k, system, messages, schema) {
+  var r2;
+  try {
+    r2 = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01',
                'anthropic-dangerous-direct-browser-access':'true','anthropic-beta':'server-side-fallback-2026-07-01'},
@@ -703,13 +716,64 @@ async function callAI(system, messages, schema) {
         output_config:{effort:'medium', format:{type:'json_schema', schema:schema}},
         messages: messages.map(function(m){ return {role:m.role, content:m.text}; }) })
     });
-    var d2 = await r2.json();
-    if (d2.type === 'error' || d2.error) throw new Error(d2.error && d2.error.type === 'authentication_error' ? 'API key Claude không hợp lệ — bấm "Đổi key" và dán lại.' : ((d2.error && d2.error.message) || 'API error'));
-    if (d2.stop_reason === 'refusal') throw new Error('Model từ chối yêu cầu.');
-    if (d2.stop_reason === 'max_tokens') throw new Error('Phản hồi bị cắt do quá dài — thử lại.');
-    raw = (d2.content || []).filter(function(c){ return c.type === 'text'; }).map(function(c){ return c.text; }).join('');
+  } catch (e) { throw aiError('Lỗi kết nối mạng', 'busy'); }
+  var d2 = await r2.json().catch(function(){ return {error:{type:'api_error', message:'HTTP ' + r2.status}}; });
+  if (d2.type === 'error' || d2.error) {
+    var t = (d2.error && d2.error.type) || '', m = (d2.error && d2.error.message) || 'API error';
+    if (t === 'authentication_error') throw aiError('API key Claude không hợp lệ — bấm "Đổi key" và dán lại.', 'key');
+    if (r2.status === 429 || r2.status === 529 || r2.status >= 500 || t === 'overloaded_error' || t === 'rate_limit_error') throw aiError(m, 'busy');
+    throw aiError(m, 'other');
   }
-  return extractJSON(raw);
+  if (d2.stop_reason === 'refusal') throw aiError('Model từ chối yêu cầu.', 'other');
+  if (d2.stop_reason === 'max_tokens') throw aiError('Phản hồi bị cắt do quá dài — thử lại.', 'other');
+  return (d2.content || []).filter(function(c){ return c.type === 'text'; }).map(function(c){ return c.text; }).join('');
+}
+
+/** Gemini models to try: the selected one first, then the rest of the list (full models before lite). */
+function geminiChain() {
+  var sel = document.getElementById('geminiModel'), first = sel.value || GEMINI_FALLBACK[0];
+  var rest = Array.prototype.map.call(sel.options, function(o){ return o.value; })
+    .filter(function(id){ return id !== first && !/preview|exp/.test(id); });
+  rest.sort(function(a, b){ return (/lite/.test(a) ? 1 : 0) - (/lite/.test(b) ? 1 : 0); });
+  return [first].concat(rest).slice(0, 3);
+}
+
+/** messages: [{role:'user'|'assistant', text}] — returns the parsed JSON object. */
+async function callAI(system, messages, schema, onStatus) {
+  onStatus = onStatus || function(){};
+  var errors = [];
+  if (provider === 'gemini') {
+    var gk = storedKey('gemini'); if (!gk) throw new Error('Chưa có API key Gemini.');
+    var chain = geminiChain();
+    for (var i = 0; i < chain.length; i++) {
+      var model = chain[i], label = geminiLabel(model).replace(/\s*[—(].*$/, '');
+      if (i > 0) onStatus(geminiLabel(chain[i - 1]).replace(/\s*[—(].*$/, '') + ' không phản hồi — chuyển sang ' + label + '…');
+      for (var attempt = 1; attempt <= 2; attempt++) {
+        try {
+          var raw = await geminiOnce(model, gk, system, messages, schema);
+          lastModelLabel = label;
+          return extractJSON(raw);
+        } catch (e) {
+          if (e.kind === 'key' || e.kind === 'other') throw e;
+          if (e.kind === 'gone') { loadGeminiModels(); errors.push(label + ': không còn hỗ trợ'); break; }
+          if (e.kind === 'quota') { errors.push(label + ': hết lượt'); break; }
+          errors.push(label + ': quá tải');
+          if (attempt < 2) { onStatus(label + ' đang quá tải — tự thử lại sau 4 giây…'); await sleep(4000); }
+        }
+      }
+    }
+    var ck = storedKey('claude');
+    if (!ck) throw aiError('Gemini đang quá tải hoặc hết lượt (' + errors.slice(-3).join('; ') + '). Đây là sự cố tạm thời phía Google — đợi 2–3 phút rồi bấm lại, hoặc lưu thêm key Claude để tự chuyển sang Claude khi Gemini quá tải.', 'busy');
+    onStatus('Gemini đang quá tải — chuyển sang Claude…');
+  }
+  var k = storedKey('claude'); if (!k) throw new Error('Chưa có API key Claude.');
+  for (var a = 1; a <= 2; a++) {
+    try { var r = await claudeOnce(k, system, messages, schema); lastModelLabel = 'Claude'; return extractJSON(r); }
+    catch (e) {
+      if (e.kind !== 'busy' || a === 2) throw e;
+      onStatus('Claude đang quá tải — tự thử lại sau 5 giây…'); await sleep(5000);
+    }
+  }
 }
 function extractJSON(raw) {
   var clean = String(raw || '').replace(/```json\s*/gi, '').replace(/```/g, '').trim();
@@ -873,19 +937,20 @@ async function aiGradeWriting() {
     '\nWORD COUNT: ' + wc + ' words.\n\nSTUDENT RESPONSE TO GRADE:\n---\n' + w.essay + '\n---\n\n' +
     'Criterion 1 (stored as TR) MUST assess how directly the response addresses the given task prompt. If it goes off-topic or misses the task, TR ≤ 5.'}];
   try {
-    var j = await callAI(W_SYS, msgs, W_SCHEMA);
+    var status = function(m){ box.innerHTML = spinner(m); };
+    var j = await callAI(W_SYS, msgs, W_SCHEMA, status);
     var gaps = writingGaps(j, w.essay);
     if (gaps.length) {
       box.innerHTML = spinner('Nhận xét chưa đủ chi tiết theo mẫu — đang yêu cầu AI bổ sung…');
       msgs.push({role:'assistant', text: JSON.stringify(j)});
       msgs.push({role:'user', text: 'Your feedback is too thin compared with the house style. Fix: ' + gaps.join('; ') + '. Return the complete JSON again with every field filled in full detail.'});
-      var j2 = await callAI(W_SYS, msgs, W_SCHEMA);
+      var j2 = await callAI(W_SYS, msgs, W_SCHEMA, status);
       if (writingGaps(j2, w.essay).length <= gaps.length) j = j2;
     }
     // Same normalisation as ArticuWrite: whole-band components, overall rounded to .5
     ['TR','CC','LR','GRA'].forEach(function(c){ j.scores[c] = Math.round(parseFloat(j.scores[c]) || 0); });
     j.overall = roundBand((j.scores.TR + j.scores.CC + j.scores.LR + j.scores.GRA) / 4);
-    j._provider = providerLabel(); j._at = new Date().toISOString();
+    j._provider = lastModelLabel || providerLabel(); j._at = new Date().toISOString();
     aiResult = j;
     lsSet(LOCAL_AI, JSON.stringify(j));
     renderAI(j);
@@ -979,8 +1044,8 @@ async function aiSpeaking() {
     (qs.length ? '\nQUESTIONS THE STUDENT ANSWERED:\n' + qs.map(function(q, i){ return (i + 1) + '. ' + q; }).join('\n') : '') +
     '\n\nTEACHER\'S BASIC NOTES:\n"""\n' + basic + '\n"""';
   try {
-    var j = await callAI(SP_SYS, [{role:'user', text: msg}], SP_SCHEMA);
-    j.basic = basic; j.band = band; j._provider = providerLabel(); j._at = new Date().toISOString();
+    var j = await callAI(SP_SYS, [{role:'user', text: msg}], SP_SCHEMA, function(m){ box.innerHTML = spinner(m); });
+    j.basic = basic; j.band = band; j._provider = lastModelLabel || providerLabel(); j._at = new Date().toISOString();
     notes.spAI = j; saveNotes(false);
     renderSpeakingAI(j);
     toast('Đã viết nhận xét Speaking — nhấn "Lưu Speaking" để lưu lên hệ thống');
@@ -1048,7 +1113,9 @@ async function exportGoogleDoc() {
     return;
   }
   var err = res.error || 'không rõ';
-  if (/Unknown action/i.test(err)) {
+  if (/UrlFetchApp|external_request|authorization|Authorization is required/i.test(err)) {
+    setStatus('err', '⚠️ Apps Script chưa được cấp quyền tạo Google Doc. Mở Apps Script → chọn hàm <b>authorizeOnce</b> → ▶ Run → cho phép (Allow) → rồi <b>Deploy → Manage deployments → Edit → New version → Deploy</b>. Sau đó bấm lại "Tạo Google Doc". Tạm thời có thể dùng <b>📋 Copy để dán</b> hoặc <b>⬇️ Tải .doc</b>.');
+  } else if (/Unknown action/i.test(err)) {
     setStatus('err', '⚠️ Backend Apps Script chưa được cập nhật nên chưa tạo được Google Doc (xem hướng dẫn trong <b>gas/README.md</b>). Tạm thời dùng <b>📋 Copy để dán</b> vào một Google Doc trống, hoặc <b>⬇️ Tải .doc</b> rồi mở bằng Google Docs.');
   } else {
     setStatus('err', '❌ Lỗi tạo Google Doc: ' + esc(err));
