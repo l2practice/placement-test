@@ -7,7 +7,7 @@
 const CONFIG = {
   TEACHER_EMAIL:      'duongthanhtu.dnu@gmail.com',
   // Kept out of source control: set it in Project Settings → Script properties.
-  TEACHER_PASSWORD:   PropertiesService.getScriptProperties().getProperty('TEACHER_PASSWORD') || '',
+  TEACHER_PASSWORD:   String(PropertiesService.getScriptProperties().getProperty('TEACHER_PASSWORD') || '').trim(),
   DEADLINE_DAYS:      7,
   SPEAKING_FOLDER_ID: '17RaSVy23p-_mZkbQDuUmZwCxIMBTgOmS',
   FEEDBACK_FOLDER_ID: '1JP7VbcP-D7y-iVTQ17vHEbXH7Ul7TJEF',
@@ -352,7 +352,8 @@ function _teacherLogin(d){
 }
 function _auth(d){
   if(!CONFIG.TEACHER_PASSWORD)throw new Error('Chua cau hinh TEACHER_PASSWORD trong Script properties.');
-  if(d.password!==CONFIG.TEACHER_PASSWORD)throw new Error('Unauthorized');
+  // trim: a space copied along with the password must not lock the teacher out
+  if(String(d.password||'').trim()!==CONFIG.TEACHER_PASSWORD)throw new Error('Unauthorized');
 }
 
 // ════════════════════════════════════════════════════

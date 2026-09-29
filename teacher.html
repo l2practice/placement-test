@@ -162,7 +162,12 @@ async function doLogin() {
   hideErr('errTeacher');
   var pwd = document.getElementById('pwd').value;
   var res = await api('teacherLogin', {password: pwd});
-  if (!res.ok) { showErr('errTeacher', 'Sai mật khẩu.'); return; }
+  if (!res.ok) {
+    // Only a real mismatch is "wrong password"; show config/connection errors as they are.
+    var e = res.error || '';
+    showErr('errTeacher', /^Sai mat khau|Unauthorized/i.test(e) ? 'Sai mật khẩu.' : 'Không đăng nhập được: ' + e);
+    return;
+  }
   tPwd = pwd;
   Session.tSet(pwd);
   showDash();
