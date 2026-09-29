@@ -51,12 +51,17 @@
 details.raw summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--ink); padding: 8px 0; }
 
 /* ── AI feedback ── */
-.key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-@media (max-width: 600px) { .key-grid { grid-template-columns: 1fr; } }
-.key-grid label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-lt); }
-.key-row { display: flex; gap: 6px; margin-top: 4px; }
-.key-row input { flex: 1; min-width: 0; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px; font: inherit; font-size: 13px; }
-.key-st { font-size: 11.5px; color: var(--text-lt); margin-top: 3px; }
+.ai-set { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.ai-set .lbl-sm { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-lt); }
+.seg { display: inline-flex; border: 1.5px solid var(--border-md); border-radius: 20px; overflow: hidden; }
+.seg button { border: none; background: #fff; padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 600; color: var(--text-md); cursor: pointer; }
+.seg button.on { background: var(--ink); color: #fff; }
+.ai-set select { padding: 6px 10px; border: 1.5px solid var(--border-md); border-radius: 8px; font: inherit; font-size: 13px; background: #fff; }
+.key-box { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; flex: 1 1 280px; min-width: 0; }
+.key-box input { flex: 1; min-width: 160px; padding: 7px 10px; border: 1.5px solid var(--border-md); border-radius: 8px; font: inherit; font-size: 13px; -webkit-text-security: disc; }
+.key-ok { font-size: 13px; color: var(--green); font-weight: 600; }
+.key-ok code { color: var(--text-md); font-weight: 400; }
+.ai-run { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
 .ai-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; background: var(--nav-bg); color: #fff; border-radius: var(--r-sm); margin-bottom: 10px; }
 .ai-head b { font-size: 17px; }
 .ai-bands { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
@@ -158,6 +163,22 @@ function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;
 
   <div class="alert al-warn" id="notDone">⚠️ Thí sinh chưa nộp đủ 4 bài thi.</div>
 
+  <!-- ══ AI settings (Writing + Speaking) ══ -->
+  <div class="card" id="secAI" style="padding:14px 18px">
+    <div class="ai-set">
+      <span class="lbl-sm">🤖 AI chấm & nhận xét</span>
+      <div class="seg" role="group" aria-label="Chọn AI">
+        <button type="button" id="provGemini" onclick="setProvider('gemini')">🔷 Gemini</button>
+        <button type="button" id="provClaude" onclick="setProvider('claude')">✨ Claude</button>
+      </div>
+      <select id="geminiModel" onchange="lsSet('venus_gemini_model', this.value)" title="Model Gemini">
+        <option value="gemini-2.5-flash">Gemini 2.5 Flash (nhanh)</option>
+        <option value="gemini-2.5-pro">Gemini 2.5 Pro (chi tiết hơn)</option>
+      </select>
+      <div class="key-box" id="keyBox"></div>
+    </div>
+  </div>
+
   <!-- ══ V&G ══ -->
   <div class="card" id="secVG" style="display:none">
     <div class="sec-head vg">📝 Ngữ Pháp &amp; Từ Vựng</div>
@@ -183,25 +204,9 @@ function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;
     <div class="txt-sm" style="margin-bottom:6px">Chủ đề: <strong id="wTopic" style="color:var(--text)">—</strong></div>
     <div class="essay-box" id="wEssay"></div>
 
-    <div class="sub-h">🤖 AI chấm bài theo mẫu phiếu nhận xét</div>
-    <div class="key-grid">
-      <div>
-        <label>Anthropic Claude API Key</label>
-        <div class="key-row"><input type="password" id="inputClaudeKey" placeholder="sk-ant-..." autocomplete="off">
-          <button onclick="saveKey('claude')" class="btn btn-teal btn-sm">Lưu</button></div>
-        <div id="claudeKeyStatus" class="key-st">Chưa có key</div>
-      </div>
-      <div>
-        <label>Google Gemini API Key</label>
-        <div class="key-row"><input type="password" id="inputGeminiKey" placeholder="AIza..." autocomplete="off">
-          <button onclick="saveKey('gemini')" class="btn btn-sm" style="background:#4285f4;color:#fff">Lưu</button></div>
-        <div id="geminiKeyStatus" class="key-st">Chưa có key</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-      <button class="btn btn-primary btn-sm" onclick="aiGrade('claude')">✨ Chấm bằng Claude</button>
-      <button class="btn btn-sm" onclick="aiGrade('gemini')" style="background:#4285f4;color:#fff">🔷 Chấm bằng Gemini</button>
-      <span class="txt-sm">Key chỉ lưu trong trình duyệt này.</span>
+    <div class="ai-run">
+      <button class="btn btn-primary btn-sm" onclick="aiGradeWriting()">✨ AI chấm & nhận xét chi tiết</button>
+      <span class="txt-sm" id="wAiHint">Theo mẫu phiếu: nhận xét chung, lỗi lặp lại, Task Response từng đoạn, Grammar, Lexical, Coherence & "đường dây logic".</span>
     </div>
     <div id="aiBox" style="margin-top:12px"></div>
 
@@ -242,13 +247,15 @@ function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;
   <div class="card" id="secSp" style="display:none">
     <div class="sec-head speak">🎙️ Kỹ Năng Nói</div>
     <a id="spLink" href="#" target="_blank" rel="noopener" class="btn btn-outline btn-sm">▶ Nghe file ghi âm (Drive)</a>
+    <div class="sub-h">📝 Nhận xét cơ bản của giáo viên</div>
+    <textarea class="note" id="spCmt" style="min-height:80px" placeholder="Ghi nhanh những gì nghe được, ví dụ: còn lỗi phát âm âm cuối, vốn từ ở mức khá, ngữ điệu ngang như đang đọc, hay ngập ngừng ở câu 3…"></textarea>
     <div class="grade-row">
       <div class="field"><label>Band (1–9)</label>
         <input type="number" id="spBand" min="1" max="9" step="0.5" placeholder="5.0" style="width:96px"></div>
-      <div class="field" style="flex:1;min-width:200px"><label>Nhận xét</label>
-        <input type="text" id="spCmt" placeholder="Nhận xét phát âm, độ trôi chảy, từ vựng..."></div>
+      <button class="btn btn-primary btn-sm" onclick="aiSpeaking()">✨ AI viết nhận xét chi tiết</button>
       <button class="btn btn-outline btn-sm" onclick="gradeSp()">💾 Lưu Speaking</button>
     </div>
+    <div id="spAiBox" style="margin-top:12px"></div>
   </div>
 
   <!-- ══ Overall ══ -->
@@ -317,7 +324,7 @@ var detail = null;       // raw backend response
 var vgA = null, lisA = null;
 var aiResult = null;     // structured AI writing feedback
 var notes = {};          // teacher-editable report text (see NOTE_FIELDS)
-var NOTE_FIELDS = ['vgComment','vgRecs','lisComment','lisRecs','wOverall','wRepeated','overallLevel','classRec','strengths','improvements'];
+var NOTE_FIELDS = ['vgComment','vgRecs','lisComment','lisRecs','wOverall','wRepeated','overallLevel','classRec','strengths','improvements','spAI'];
 var CLASS_REC = {
   A1:'Lớp Foundation (A1 → A2)', A2:'Lớp Elementary IELTS (A2 → B1)', B1:'Lớp Pre-IELTS (B1 → B2, mục tiêu 4.5–5.5)',
   B2:'Lớp IELTS 5.5+ (B2 → C1, mục tiêu 6.0–7.0)', C1:'Lớp IELTS Advanced (mục tiêu 7.0+)', C2:'Lớp IELTS Master (mục tiêu 8.0+)'
@@ -360,7 +367,7 @@ async function load() {
   NOTE_FIELDS.forEach(function(k){ if (notes[k] === undefined || notes[k] === '') fillAuto(k); });
   bindNotes();
   refreshLevelHint();
-  initKeyStatus();
+  initAISettings();
   if (params.get('export') === '1') openPreview();
   loadActivity();
 }
@@ -446,7 +453,7 @@ function renderWriting(w) {
   // Older rows stored the whole AI summary in teacherComment; only keep short notes here.
   if (w.teacherComment && String(w.teacherComment).length < 300) document.getElementById('wCmt').value = w.teacherComment;
   aiResult = parseJSON(w.aiComment) || parseJSON(lsGet(LOCAL_AI));
-  if (aiResult) renderAI(aiResult, aiResult._provider || 'AI');
+  if (aiResult) renderAI(aiResult);
 }
 function writingBand() {
   var t = parseFloat(document.getElementById('wBand').value);
@@ -461,6 +468,7 @@ function renderSpeaking(sp) {
   if (sp.fileUrl) link.href = sp.fileUrl; else link.style.display = 'none';
   if (sp.teacherBand) document.getElementById('spBand').value = sp.teacherBand;
   if (sp.teacherComment) document.getElementById('spCmt').value = sp.teacherComment;
+  renderSpeakingAI(notes.spAI);
 }
 
 // ─────────────── NOTES (auto text + teacher edits) ───────────────
@@ -518,7 +526,7 @@ function autoImprovements() {
   return out.join('\n');
 }
 function fillAuto(k) {
-  var el = document.getElementById('n_' + k); if (!el) return;
+  var el = document.getElementById('n_' + k); if (!el) return;   // e.g. spAI has no text field
   if (k === 'overallLevel' || k === 'classRec') { el.value = notes[k] || ''; return; }
   notes[k] = autoText(k); el.value = notes[k];
 }
@@ -561,33 +569,132 @@ async function gradeW() {
 async function gradeSp() {
   var res = await api('gradeSpeaking', {password: pwd, username: username,
     band: document.getElementById('spBand').value, comment: document.getElementById('spCmt').value});
-  if (res.ok) { toast('Đã lưu Speaking ✓'); refreshLevelHint(); } else alert(res.error);
+  if (res.ok) { toast('Đã lưu Speaking ✓'); refreshLevelHint(); saveNotes(true); } else alert(res.error);
 }
 
-// ─────────────── API KEYS ───────────────
+// ─────────────── AI SETTINGS & KEYS ───────────────
+// Keys live in plain text inputs masked with CSS, never type="password": the browser
+// would otherwise offer to "save the password" on every call and could autofill the
+// teacher password into the key field. Grading always uses the stored key.
 var KEY_STORE = {gemini:'venus_gemini_key', claude:'venus_claude_key'};
-var KEY_INPUT = {gemini:'inputGeminiKey', claude:'inputClaudeKey'};
-function initKeyStatus() {
-  ['gemini','claude'].forEach(function(p){
-    var k = lsGet(KEY_STORE[p]);
-    document.getElementById(p+'KeyStatus').textContent = k ? '✅ Đã lưu (' + k.substring(0,8) + '…)' : '⚠️ Chưa có key';
-    if (k) document.getElementById(KEY_INPUT[p]).value = k;
-  });
+var KEY_PREFIX = {gemini:'AIza', claude:'sk-ant-'};
+var memKeys = {};   // fallback when the browser blocks localStorage
+var provider = lsGet('venus_ai_provider') || 'gemini';
+function storedKey(p) { return lsGet(KEY_STORE[p]) || memKeys[p] || ''; }
+function setProvider(p) {
+  provider = p; lsSet('venus_ai_provider', p);
+  document.getElementById('provGemini').classList.toggle('on', p === 'gemini');
+  document.getElementById('provClaude').classList.toggle('on', p === 'claude');
+  document.getElementById('geminiModel').style.display = p === 'gemini' ? '' : 'none';
+  renderKeyBox(false);
 }
-function saveKey(p) {
-  var k = document.getElementById(KEY_INPUT[p]).value.trim();
-  if (!k) { alert('Vui lòng nhập API key.'); return; }
-  lsSet(KEY_STORE[p], k); initKeyStatus(); toast('Đã lưu key ✓');
+function renderKeyBox(editing) {
+  var k = storedKey(provider), box = document.getElementById('keyBox'), name = provider === 'gemini' ? 'Gemini' : 'Claude';
+  if (k && !editing) {
+    box.innerHTML = '<span class="key-ok">✅ Đã lưu key ' + name + ' <code>' + esc(k.slice(0, 6)) + '…' + esc(k.slice(-4)) + '</code></span>'
+      + '<button type="button" class="btn btn-ghost btn-sm" onclick="renderKeyBox(true)">Đổi key</button>'
+      + '<button type="button" class="btn btn-ghost btn-sm" onclick="clearKey()">Xoá</button>';
+    return;
+  }
+  box.innerHTML = '<input type="text" id="keyInput" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore'
+    + ' placeholder="Dán API key ' + name + ' (' + KEY_PREFIX[provider] + '…)">'
+    + '<button type="button" class="btn btn-teal btn-sm" onclick="saveKey()">Lưu key</button>'
+    + (k ? '<button type="button" class="btn btn-ghost btn-sm" onclick="renderKeyBox(false)">Huỷ</button>' : '');
+  var inp = document.getElementById('keyInput');
+  inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') saveKey(); });
+  if (editing) inp.focus();
 }
-function getKey(p) {
-  var k = document.getElementById(KEY_INPUT[p]).value.trim() || lsGet(KEY_STORE[p]);
-  if (!k) { alert('Vui lòng nhập API key rồi nhấn Lưu.'); document.getElementById(KEY_INPUT[p]).focus(); return null; }
-  lsSet(KEY_STORE[p], k); return k;
+function saveKey() {
+  var k = document.getElementById('keyInput').value.replace(/\s+/g, '');
+  if (!k) { alert('Vui lòng dán API key.'); return; }
+  if (k.indexOf(KEY_PREFIX[provider]) !== 0 && !confirm('Key ' + provider + ' thường bắt đầu bằng "' + KEY_PREFIX[provider] + '". Vẫn lưu key này?')) return;
+  memKeys[provider] = k; lsSet(KEY_STORE[provider], k);
+  if (lsGet(KEY_STORE[provider]) !== k) toast('Trình duyệt chặn lưu lâu dài — key chỉ dùng được đến khi đóng trang');
+  else toast('Đã lưu key ✓');
+  renderKeyBox(false);
+}
+function clearKey() {
+  if (!confirm('Xoá API key ' + provider + ' khỏi trình duyệt này?')) return;
+  delete memKeys[provider]; try { localStorage.removeItem(KEY_STORE[provider]); } catch(e){}
+  renderKeyBox(false);
+}
+function requireKey() {
+  var k = storedKey(provider);
+  if (!k) { renderKeyBox(true); document.getElementById('secAI').scrollIntoView({behavior:'smooth', block:'center'}); alert('Chưa có API key — dán key vào ô ở khung "AI chấm & nhận xét" rồi bấm Lưu key.'); }
+  return k;
+}
+function initAISettings() {
+  var m = lsGet('venus_gemini_model'); if (m) document.getElementById('geminiModel').value = m;
+  setProvider(provider === 'claude' ? 'claude' : 'gemini');
 }
 
-// ─────────────── AI GRADING ───────────────
-var AI_SYS = [
-  'You are a senior IELTS Writing examiner and teacher trainer at Venus English (Vietnam). You write detailed feedback sheets for Vietnamese learners. Grade only the essay provided. Every issue you raise must quote the exact words from the essay.',
+// ─────────────── AI CALL (shared) ───────────────
+/** Gemini's responseSchema uses the OpenAPI subset: upper-case types, no additionalProperties. */
+function toGeminiSchema(s) {
+  var o = {type: String(s.type).toUpperCase()};
+  if (s.properties) { o.properties = {}; Object.keys(s.properties).forEach(function(k){ o.properties[k] = toGeminiSchema(s.properties[k]); }); o.propertyOrdering = Object.keys(s.properties); }
+  if (s.required) o.required = s.required;
+  if (s.items) o.items = toGeminiSchema(s.items);
+  return o;
+}
+/** messages: [{role:'user'|'assistant', text}] — returns the parsed JSON object. */
+async function callAI(system, messages, schema) {
+  var k = storedKey(provider); if (!k) throw new Error('Chưa có API key.');
+  var raw;
+  if (provider === 'gemini') {
+    var model = document.getElementById('geminiModel').value || 'gemini-2.5-flash';
+    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
+      method:'POST', headers:{'Content-Type':'application/json', 'x-goog-api-key': k},
+      body: JSON.stringify({ systemInstruction:{parts:[{text:system}]},
+        contents: messages.map(function(m){ return {role: m.role === 'assistant' ? 'model' : 'user', parts:[{text:m.text}]}; }),
+        generationConfig:{temperature:0.3, maxOutputTokens:32000, responseMimeType:'application/json', responseSchema: toGeminiSchema(schema)} })
+    });
+    var d = await r.json();
+    if (d.error) throw new Error(d.error.status === 'INVALID_ARGUMENT' && /API key/i.test(d.error.message) ? 'API key Gemini không hợp lệ — bấm "Đổi key" và dán lại.' : d.error.message);
+    var cand = (d.candidates || [])[0] || {};
+    if (cand.finishReason === 'MAX_TOKENS') throw new Error('Phản hồi bị cắt do quá dài — thử lại hoặc chọn Gemini 2.5 Pro.');
+    raw = ((cand.content || {}).parts || []).map(function(p){ return p.text || ''; }).join('');
+  } else {
+    var r2 = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01',
+               'anthropic-dangerous-direct-browser-access':'true','anthropic-beta':'server-side-fallback-2026-07-01'},
+      body: JSON.stringify({ model:'claude-sonnet-5-5', max_tokens:16000, fallbacks:'default', system:system,
+        output_config:{effort:'medium', format:{type:'json_schema', schema:schema}},
+        messages: messages.map(function(m){ return {role:m.role, content:m.text}; }) })
+    });
+    var d2 = await r2.json();
+    if (d2.type === 'error' || d2.error) throw new Error(d2.error && d2.error.type === 'authentication_error' ? 'API key Claude không hợp lệ — bấm "Đổi key" và dán lại.' : ((d2.error && d2.error.message) || 'API error'));
+    if (d2.stop_reason === 'refusal') throw new Error('Model từ chối yêu cầu.');
+    if (d2.stop_reason === 'max_tokens') throw new Error('Phản hồi bị cắt do quá dài — thử lại.');
+    raw = (d2.content || []).filter(function(c){ return c.type === 'text'; }).map(function(c){ return c.text; }).join('');
+  }
+  return extractJSON(raw);
+}
+function extractJSON(raw) {
+  var clean = String(raw || '').replace(/```json\s*/gi, '').replace(/```/g, '').trim();
+  var si = clean.indexOf('{'), depth = 0, ei = -1, inStr = false;
+  for (var i = si; si >= 0 && i < clean.length; i++) {
+    var ch = clean[i];
+    if (inStr) { if (ch === '\\') i++; else if (ch === '"') inStr = false; continue; }
+    if (ch === '"') inStr = true; else if (ch === '{') depth++; else if (ch === '}' && --depth === 0) { ei = i; break; }
+  }
+  if (si < 0 || ei < 0) throw new Error('Không đọc được JSON từ AI.');
+  return JSON.parse(clean.substring(si, ei + 1));
+}
+function strObj(props) {
+  var p = {}; props.forEach(function(k){ p[k] = {type:'string'}; });
+  return {type:'object', additionalProperties:false, required:props, properties:p};
+}
+function roundBand(avg) { var w = Math.floor(avg), f = avg - w; return f < 0.25 ? w : (f < 0.75 ? w + 0.5 : w + 1); }
+function spinner(msg) {
+  return '<div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--cream);border-radius:var(--r-sm)"><div class="spinner"></div><span class="txt-sm">' + esc(msg) + '</span></div>';
+}
+function providerLabel() { return provider === 'gemini' ? document.getElementById('geminiModel').selectedOptions[0].textContent.replace(/\s*\(.*\)/, '') : 'Claude'; }
+
+// ─────────────── WRITING AI ───────────────
+var W_SYS = [
+  'You are a senior IELTS Writing examiner and teacher trainer at Venus English (Vietnam). You write detailed feedback sheets for Vietnamese learners, in the centre\'s house style shown in the STYLE EXAMPLE. Grade only the essay provided. Every issue you raise must quote the exact words from the essay.',
   '',
   'BAND DESCRIPTORS (summary)',
   'TR: 7 = covers all parts, clear position throughout, well-extended ideas. 6 = addresses all parts but some less fully; relevant position; some ideas unclear or over-generalised. 5 = partial, position unclear, limited development.',
@@ -602,23 +709,26 @@ var AI_SYS = [
   '- Only simple sentences → GRA at most 5.',
   '- Thesis and conclusion inconsistent → TR at most 6.',
   '',
-  'WHAT TO WRITE (all *_vi fields in natural Vietnamese; quotes from the essay stay in English)',
+  'WHAT TO WRITE (every *_vi field in natural Vietnamese; quotes from the essay stay in English)',
   '1. task_type: the task genre, e.g. "IELTS Writing Task 2 (Essay)", "Informal email", "Review", "Article", "Personal profile".',
-  '2. overall_feedback_vi: one paragraph of 5–7 sentences: what the writer does well (specific), the main weaknesses, and what to prioritise to raise the band.',
-  '3. repeated_errors_vi: systematic errors that recur. Count the spelling mistakes, list them with counts (e.g. \'advices\' x2, \'phenomenom\' x1) and state the consequence under the HARD LIMITS (e.g. "…do đó điểm Lexical Resource bị giới hạn ở Band 6"). If nothing recurs, say so.',
-  '4. tr_comments: one entry per paragraph, in order. paragraph_role = "Opening", "Body 1", "Body 2", …, "Conclusion" (or "Greeting"/"Closing" for letters). assessment_vi = 2–4 sentences: the paragraph\'s job, what works, and the concrete problem (off-topic support, over-generalisation without an example, support that does not prove the topic sentence…) with the reason. suggestion_en = one actionable English sentence with example wording.',
-  '5. gra_errors: every grammar error (at least 2 when they exist). wrong = exact quote, correct = corrected version, explanation_vi = name of the error + the rule + why it is wrong in this sentence.',
-  '6. lr_issues: spelling, wrong word, collocation, register (e.g. "a lot of" in academic writing), unnatural phrasing, uncountable nouns. original = exact quote, better = improved wording (alternatives separated by " / "), explanation_vi = the nuance and why the replacement is better. At least 3.',
-  '7. cc_feedback: assessment_vi = organisation, paragraphing, linking. Then analyse the paragraph with the weakest logic: logic_points = items such as {label_vi:"Câu chủ đề hứa hẹn", content_vi:…}, {label_vi:"Câu bổ trợ (main idea) lại nói về", content_vi:…}, {label_vi:"Ví dụ … bị lạc đề", content_vi:…}, {label_vi:"→ Nhận xét", content_vi:…}. logic_chain = {paragraph:"Body 1", steps:[3–5 short plain-Vietnamese sentences restating each step of that paragraph\'s logic, e.g. "Mở đoạn: …", "Ý chính: …", "Ví dụ: …", "Kết đoạn: …"], verdict_vi:"Các ý chưa liên quan với nhau." or similar}. If every paragraph is logical, say so in logic_points and return steps = [].',
+  '2. overall_feedback_vi: ONE paragraph of 5–7 sentences: whether the task is fully answered and the position is clear, the concrete strengths (organisation, idea development…), the main weaknesses, and what to prioritise to raise the band.',
+  '3. repeated_errors_vi: systematic errors that recur. Count the spelling mistakes, list them with counts and state the consequence under the HARD LIMITS. If nothing recurs, say so in one sentence.',
+  '4. tr_comments: one entry per paragraph of the essay, in order. paragraph_role = "Opening", "Body 1", "Body 2", …, "Conclusion" (or "Greeting"/"Closing" for letters). assessment_vi = 3–4 sentences: what the paragraph does, what works (e.g. a specific example), and the concrete problem with the reason (off-topic support, over-generalisation without an example, support that does not prove the topic sentence, missing link to the question…). suggestion_en = one actionable English sentence with example wording in quotes.',
+  '5. gra_errors: EVERY grammar error in the essay. wrong = exact quote, correct = corrected version (alternatives separated by " / "), explanation_vi = 2–3 sentences: name of the error, the rule, and why it is wrong in this sentence.',
+  '6. lr_issues: every lexical problem: spelling, wrong word, collocation, register (e.g. "a lot of", "look for" in academic writing), unnatural phrasing, uncountable nouns, singular/plural used for generalisation. original = exact quote, better = improved wording (alternatives separated by " / "), explanation_vi = 2–3 sentences on the nuance and why the replacement is better.',
+  '7. cc_feedback: assessment_vi = 3–4 sentences on organisation, paragraphing and linking, naming the paragraph whose supporting ideas do not fit together. logic_points = analysis of that weakest paragraph using these labels in order: "Câu chủ đề hứa hẹn", "Câu bổ trợ (main idea) lại nói về", "→" (why the two do not connect), "Ví dụ … bị lạc đề" (or "Ví dụ" if it works). logic_chain = {paragraph, steps: 4 short plain-Vietnamese sentences restating the paragraph\'s logic ("Mở đoạn: …", "Ý chính: …", "Ví dụ: …", "Kết đoạn: …"), verdict_vi: one-sentence conclusion}. If every paragraph is logical, say so in logic_points and return steps = [].',
+  'Be exhaustive: a placement essay normally has at least 3 grammar errors and 5 lexical issues. Do not stop early.',
   '',
-  'Return ONLY a JSON object with exactly these keys: task_type, scores{TR,CC,LR,GRA}, overall_feedback_vi, repeated_errors_vi, tr_comments[{paragraph_role,assessment_vi,suggestion_en}], gra_errors[{wrong,correct,explanation_vi}], lr_issues[{original,better,explanation_vi}], cc_feedback{assessment_vi, logic_points[{label_vi,content_vi}], logic_chain{paragraph,steps[],verdict_vi}}.'
+  'STYLE EXAMPLE (from the centre\'s own sheet for another essay — match this depth, tone and format; never copy its content):',
+  '{"repeated_errors_vi":"Sai chính tả trên 5 lỗi không thể đạt Band 6 tiêu chí Vocab. Bạn có 3 lỗi chính tả (\'advices\' x2, \'phenomenom\' x1), do đó điểm Lexical Resource của bạn bị giới hạn ở Band 6.",',
+  ' "tr_comments":[{"paragraph_role":"Body 1","assessment_vi":"Đoạn văn trình bày một lý do cho việc mọi người tìm kiếm lời khuyên y tế trực tuyến (hiệu ứng đám đông và sự tin tưởng vào thông tin phổ biến). Ví dụ về aspirin khá cụ thể và minh họa tốt cho luận điểm. Nhưng quan điểm bị lạc đề vì đề bài nói rằng “người dân sử dụng internet…”, nhưng đoạn văn chưa đề cập đến việc sử dụng internet, và các ý phát triển chưa hỗ trợ được cho câu chủ đề.","suggestion_en":"Improve word choice and sentence structure to enhance academic tone and naturalness (e.g., \'a compelling reason\', \'widespread adoption\')."}],',
+  ' "gra_errors":[{"wrong":"advices that is believed","correct":"advice that is believed","explanation_vi":"Lỗi hòa hợp chủ ngữ – động từ. Nếu dùng \'advice\' (số ít không đếm được), động từ là \'is\'. Nếu muốn dùng số nhiều, cần dùng \'pieces of advice\' và động từ \'are\'."}],',
+  ' "lr_issues":[{"original":"Initially","better":"Firstly","explanation_vi":"\'Initially\' mang nghĩa là \'ban đầu\', thường dùng để chỉ thời gian. Nên dùng \'Firstly\' vì dùng để liệt kê và sắp xếp các ý tưởng, luận điểm theo thứ tự logic."},{"original":"misleading belief","better":"misleading beliefs","explanation_vi":"Với văn viết học thuật, người viết phải thể hiện vai trò là người quan sát với quan điểm trung lập, vì vậy nên dùng danh từ số nhiều để khái quát vấn đề."}],',
+  ' "cc_feedback":{"logic_points":[{"label_vi":"Câu chủ đề hứa hẹn","content_vi":"Giải thích lý do tại sao người ta thích virtual medical advices (tư vấn y tế trên mạng) hơn là đi khám trực tiếp."},{"label_vi":"Câu bổ trợ (main idea) lại nói về","content_vi":"Tâm lý đám đông, thích tin vào những lời khuyên phổ biến (prevalent advices / follow the crowd\'s common belief)."},{"label_vi":"→","content_vi":"\\"Tư vấn y tế trực tuyến\\" hoàn toàn khác với \\"niềm tin của đám đông\\". Bài viết dùng tâm lý đám đông để giải thích thói quen lên mạng tìm bệnh nhưng không có từ ngữ nào liên kết hai khái niệm này."},{"label_vi":"Ví dụ (Aspirin) bị lạc đề","content_vi":"Ví dụ chỉ chứng minh được việc người ta hay tin vào quan niệm sai lầm, chứ KHÔNG chứng minh được vì sao người ta thích tư vấn y tế ảo hơn đi khám."}],',
+  '  "logic_chain":{"paragraph":"Body 1","steps":["Mở đoạn: Tôi sẽ kể bạn nghe vì sao người ta thích khám bệnh trên mạng.","Ý chính: Bởi vì người ta hay hùa theo đám đông.","Ví dụ: Người ta hay dùng Aspirin chữa bá bệnh.","Kết đoạn: Điều này làm sức khỏe tệ đi."],"verdict_vi":"Các ý chưa liên quan với nhau."}}}'
 ].join('\n');
 
-function strObj(props) {
-  var p = {}; props.forEach(function(k){ p[k] = {type:'string'}; });
-  return {type:'object', additionalProperties:false, required:props, properties:p};
-}
-var AI_SCHEMA = {
+var W_SCHEMA = {
   type:'object', additionalProperties:false,
   required:['task_type','scores','overall_feedback_vi','repeated_errors_vi','tr_comments','gra_errors','lr_issues','cc_feedback'],
   properties:{
@@ -639,49 +749,42 @@ var AI_SCHEMA = {
   }
 };
 
-function roundBand(avg) { var w = Math.floor(avg), f = avg - w; return f < 0.25 ? w : (f < 0.75 ? w + 0.5 : w + 1); }
+/** Lists what is missing compared with the template, so a thin answer gets one retry. */
+function writingGaps(j, essay) {
+  var paras = String(essay || '').split(/\n\s*\n|\n/).filter(function(x){ return x.trim().split(/\s+/).length > 8; }).length;
+  var gaps = [];
+  if (!j.scores || [j.scores.TR, j.scores.CC, j.scores.LR, j.scores.GRA].some(function(v){ return typeof v !== 'number'; })) gaps.push('scores for all 4 criteria');
+  if (String(j.overall_feedback_vi || '').length < 250) gaps.push('overall_feedback_vi must be a full paragraph of 5–7 sentences');
+  if (!j.tr_comments || j.tr_comments.length < Math.max(2, paras)) gaps.push('tr_comments must have one entry per paragraph (' + Math.max(2, paras) + ' paragraphs)');
+  if (!j.gra_errors || j.gra_errors.length < 2) gaps.push('gra_errors: list every grammar error (at least 2)');
+  if (!j.lr_issues || j.lr_issues.length < 3) gaps.push('lr_issues: list every lexical issue (at least 3)');
+  if (!j.cc_feedback || !(j.cc_feedback.logic_points || []).length) gaps.push('cc_feedback.logic_points analysing the weakest paragraph');
+  return gaps;
+}
 
-async function aiGrade(provider) {
-  var k = getKey(provider); if (!k) return;
+async function aiGradeWriting() {
+  if (!requireKey()) return;
   var w = (detail && detail.writing) || {}, s = (detail && detail.student) || {};
   if (!w.essay) { alert('Không có bài viết để chấm.'); return; }
   var box = document.getElementById('aiBox');
-  box.innerHTML = '<div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--cream);border-radius:var(--r-sm)"><div class="spinner"></div><span class="txt-sm">AI ('+esc(provider)+') đang chấm bài và viết nhận xét chi tiết… (khoảng 30–90 giây)</span></div>';
-  var msg = 'Grade this placement-test writing.\n\nSTUDENT: ' + (s.fullName || 'Student') + '\nTARGET BAND: ' + (s.targetBand || 'not specified') +
-    '\nTASK / TOPIC: ' + (w.topic || '') + '\n\nESSAY:\n---\n' + w.essay + '\n---';
+  box.innerHTML = spinner(providerLabel() + ' đang chấm bài và viết nhận xét chi tiết theo mẫu phiếu… (30–90 giây)');
+  var msgs = [{role:'user', text: 'Grade this placement-test writing and write the full feedback sheet.\n\nSTUDENT: ' + (s.fullName || 'Student') +
+    '\nTARGET BAND: ' + (s.targetBand || 'not specified') + '\nTASK / TOPIC: ' + (w.topic || '') + '\n\nESSAY:\n---\n' + w.essay + '\n---'}];
   try {
-    var raw;
-    if (provider === 'gemini') {
-      var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(k), {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ systemInstruction:{parts:[{text:AI_SYS}]}, contents:[{role:'user', parts:[{text:msg}]}],
-          generationConfig:{temperature:0.2, maxOutputTokens:16000, responseMimeType:'application/json'} })
-      });
-      var d = await r.json();
-      if (d.error) throw new Error(d.error.message);
-      raw = ((((d.candidates||[])[0]||{}).content||{}).parts||[]).map(function(p){ return p.text || ''; }).join('');
-    } else {
-      var r2 = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01',
-                 'anthropic-dangerous-direct-browser-access':'true','anthropic-beta':'server-side-fallback-2026-07-01'},
-        body: JSON.stringify({ model:'claude-sonnet-5-5', max_tokens:16000, fallbacks:'default', system:AI_SYS,
-          output_config:{effort:'medium', format:{type:'json_schema', schema:AI_SCHEMA}},
-          messages:[{role:'user', content:msg}] })
-      });
-      var d2 = await r2.json();
-      if (d2.type === 'error' || d2.error) throw new Error((d2.error && d2.error.message) || 'API error');
-      if (d2.stop_reason === 'refusal') throw new Error('Model từ chối yêu cầu.');
-      if (d2.stop_reason === 'max_tokens') throw new Error('Phản hồi bị cắt do quá dài — thử lại.');
-      raw = (d2.content || []).filter(function(c){ return c.type === 'text'; }).map(function(c){ return c.text; }).join('');
+    var j = await callAI(W_SYS, msgs, W_SCHEMA);
+    var gaps = writingGaps(j, w.essay);
+    if (gaps.length) {
+      box.innerHTML = spinner('Nhận xét chưa đủ chi tiết theo mẫu — đang yêu cầu AI bổ sung…');
+      msgs.push({role:'assistant', text: JSON.stringify(j)});
+      msgs.push({role:'user', text: 'Your feedback is too thin compared with the house style. Fix: ' + gaps.join('; ') + '. Return the complete JSON again with every field filled in full detail.'});
+      var j2 = await callAI(W_SYS, msgs, W_SCHEMA);
+      if (writingGaps(j2, w.essay).length <= gaps.length) j = j2;
     }
-    var j = extractJSON(raw);
-    if (j.scores) j.overall = roundBand((+j.scores.TR + +j.scores.CC + +j.scores.LR + +j.scores.GRA) / 4);
-    j._provider = provider; j._at = new Date().toISOString();
+    j.overall = roundBand((+j.scores.TR + +j.scores.CC + +j.scores.LR + +j.scores.GRA) / 4);
+    j._provider = providerLabel(); j._at = new Date().toISOString();
     aiResult = j;
     lsSet(LOCAL_AI, JSON.stringify(j));
-    renderAI(j, provider);
-    // Pull the AI text into the editable fields unless the teacher already wrote their own.
+    renderAI(j);
     ['wOverall','wRepeated'].forEach(function(key){
       var el = document.getElementById('n_' + key);
       if (!el.value.trim() || confirm('Thay "' + (key === 'wOverall' ? 'Nhận xét chung' : 'Lỗi lặp lại') + '" bằng nội dung AI mới?')) { notes[key] = autoText(key); el.value = notes[key]; }
@@ -690,24 +793,14 @@ async function aiGrade(provider) {
     saveNotes(false); refreshLevelHint();
     toast('AI đã chấm xong — nhấn "Lưu Writing" để lưu lên hệ thống');
   } catch (e) {
-    box.innerHTML = '<div class="al-error">Lỗi AI (' + esc(provider) + '): ' + esc(e.message) + '<br><small>Kiểm tra API key và thử lại.</small></div>';
+    box.innerHTML = '<div class="al-error">Lỗi AI (' + esc(providerLabel()) + '): ' + esc(e.message) + '</div>';
   }
 }
-function extractJSON(raw) {
-  var clean = String(raw || '').replace(/```json\s*/gi, '').replace(/```/g, '').trim();
-  var si = clean.indexOf('{'), depth = 0, ei = -1, inStr = false;
-  for (var i = si; si >= 0 && i < clean.length; i++) {
-    var ch = clean[i];
-    if (inStr) { if (ch === '\\') i++; else if (ch === '"') inStr = false; continue; }
-    if (ch === '"') inStr = true; else if (ch === '{') depth++; else if (ch === '}' && --depth === 0) { ei = i; break; }
-  }
-  if (si < 0 || ei < 0) throw new Error('Không đọc được JSON từ AI.');
-  return JSON.parse(clean.substring(si, ei + 1));
-}
-function renderAI(j, provider) {
+
+function renderAI(j) {
   var sc = j.scores || {}, h = '';
   h += '<div class="ai-head"><div><b>Band AI: ' + esc(j.overall || '—') + '</b>'
-    + '<div class="ai-bands"><span>TR ' + esc(sc.TR) + '</span><span>CC ' + esc(sc.CC) + '</span><span>LR ' + esc(sc.LR) + '</span><span>GRA ' + esc(sc.GRA) + '</span><span>' + esc(provider) + '</span></div></div>'
+    + '<div class="ai-bands"><span>TR ' + esc(sc.TR) + '</span><span>CC ' + esc(sc.CC) + '</span><span>LR ' + esc(sc.LR) + '</span><span>GRA ' + esc(sc.GRA) + '</span><span>' + esc(j._provider || 'AI') + '</span></div></div>'
     + '<button class="btn btn-gold btn-sm" onclick="applyBand()">Dùng band này</button></div>';
   if (j.tr_comments && j.tr_comments.length) {
     h += '<div class="ai-sec"><h4>🎯 Task Response</h4><ol>' + j.tr_comments.map(function(t){
@@ -734,6 +827,79 @@ function renderAI(j, provider) {
   }
   document.getElementById('aiBox').innerHTML = h;
 }
+
+// ─────────────── SPEAKING AI ───────────────
+var SP_CRIT = ['Fluency & Coherence', 'Lexical Resource', 'Grammatical Range & Accuracy', 'Pronunciation'];
+var SP_SYS = [
+  'You are a senior IELTS Speaking examiner and teacher trainer at Venus English (Vietnam). The teacher listened to a placement-test recording and wrote short, basic notes. Your job is to turn those notes into a detailed, well-explained feedback section for the student, in Vietnamese.',
+  '',
+  'RULES',
+  '- Build only on what the teacher observed. Explain each observation in depth: what it means, how it sounds to an examiner, which IELTS criterion it affects and why it limits the band. Do not invent specific mistakes or quotes the teacher did not mention; when you illustrate a typical case, say clearly that it is an illustration ("ví dụ thường gặp").',
+  '- If the notes say nothing about a criterion, write a short neutral assessment based on the band and the other notes, without inventing faults.',
+  '- Bands: whole or .5; keep the four criterion bands consistent with the teacher\'s overall band (their average should round to it). If no band is given, estimate conservatively from the notes.',
+  '- Improvement advice must be concrete and doable: a named technique or exercise, how long/how often, and what to listen for (e.g. shadowing 10 phút/ngày với BBC 6 Minute English, ghi âm lại câu trả lời Part 1 rồi đánh dấu chỗ ngập ngừng…).',
+  '',
+  'WHAT TO WRITE (all Vietnamese)',
+  '1. overall_vi: one paragraph of 5–7 sentences — overall impression, the strongest point, the main problems from the teacher\'s notes and why they matter.',
+  '2. criteria: exactly 4 entries in this order: ' + SP_CRIT.join(', ') + '. For each: band; assessment_vi = 3–5 sentences expanding the teacher\'s relevant observations; improvement_vi = 2–3 sentences of concrete practice.',
+  '3. priorities_vi: 3 practice priorities in order, each one sentence starting with the skill (e.g. "Ngữ điệu: …").'
+].join('\n');
+var SP_SCHEMA = {
+  type:'object', additionalProperties:false, required:['overall_vi','criteria','priorities_vi'],
+  properties:{
+    overall_vi:{type:'string'},
+    criteria:{type:'array', items:{type:'object', additionalProperties:false, required:['name','band','assessment_vi','improvement_vi'],
+      properties:{name:{type:'string'}, band:{type:'number'}, assessment_vi:{type:'string'}, improvement_vi:{type:'string'}}}},
+    priorities_vi:{type:'array', items:{type:'string'}}
+  }
+};
+var spQuestions = null;
+async function speakingQuestions() {
+  if (spQuestions) return spQuestions;
+  try {
+    var r = await fetch(GAS_URL, {method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify({action:'getQuestions'})});
+    var d = await r.json(); spQuestions = (d.questions || []).map(function(q){ return q.question; });
+  } catch (e) { spQuestions = []; }
+  return spQuestions;
+}
+async function aiSpeaking() {
+  var basic = document.getElementById('spCmt').value.trim();
+  if (!basic) { alert('Hãy ghi vài nhận xét cơ bản trước (ví dụ: phát âm, độ trôi chảy, từ vựng, ngữ pháp) — AI sẽ viết chi tiết dựa trên đó.'); document.getElementById('spCmt').focus(); return; }
+  if (!requireKey()) return;
+  var band = document.getElementById('spBand').value, s = (detail && detail.student) || {};
+  var box = document.getElementById('spAiBox');
+  box.innerHTML = spinner(providerLabel() + ' đang viết nhận xét Speaking chi tiết…');
+  var qs = await speakingQuestions();
+  var msg = 'STUDENT: ' + (s.fullName || 'Student') + '\nTARGET BAND: ' + (s.targetBand || 'not specified') +
+    '\nTEACHER\'S OVERALL SPEAKING BAND: ' + (band || 'not given') +
+    (qs.length ? '\nQUESTIONS THE STUDENT ANSWERED:\n' + qs.map(function(q, i){ return (i + 1) + '. ' + q; }).join('\n') : '') +
+    '\n\nTEACHER\'S BASIC NOTES:\n"""\n' + basic + '\n"""';
+  try {
+    var j = await callAI(SP_SYS, [{role:'user', text: msg}], SP_SCHEMA);
+    j.basic = basic; j.band = band; j._provider = providerLabel(); j._at = new Date().toISOString();
+    notes.spAI = j; saveNotes(false);
+    renderSpeakingAI(j);
+    toast('Đã viết nhận xét Speaking — nhấn "Lưu Speaking" để lưu lên hệ thống');
+  } catch (e) {
+    box.innerHTML = '<div class="al-error">Lỗi AI (' + esc(providerLabel()) + '): ' + esc(e.message) + '</div>';
+  }
+}
+function renderSpeakingAI(j) {
+  if (!j) { document.getElementById('spAiBox').innerHTML = ''; return; }
+  var h = '<div class="ai-head"><div><b>Nhận xét Speaking chi tiết</b><div class="ai-bands">'
+    + (j.criteria || []).map(function(c){ return '<span>' + esc(c.name.split(' ')[0]) + ' ' + esc(c.band) + '</span>'; }).join('')
+    + '<span>' + esc(j._provider || 'AI') + '</span></div></div>'
+    + '<button class="btn btn-ghost btn-sm" style="background:rgba(255,255,255,.1);color:#fff" onclick="clearSpeakingAI()">Xoá</button></div>';
+  h += '<div class="ai-sec"><h4>⭐ Nhận xét chung</h4><p>' + esc(j.overall_vi) + '</p></div>';
+  (j.criteria || []).forEach(function(c){
+    h += '<div class="ai-sec"><h4>' + esc(c.name) + ' — Band ' + esc(c.band) + '</h4><p>' + esc(c.assessment_vi) + '</p>'
+      + '<p class="fx-n" style="color:#1e7e42;margin-top:4px">→ ' + esc(c.improvement_vi) + '</p></div>';
+  });
+  if (j.priorities_vi && j.priorities_vi.length) h += '<div class="ai-sec"><h4>✅ Ưu tiên luyện tập</h4><ol>' + j.priorities_vi.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ol></div>';
+  document.getElementById('spAiBox').innerHTML = h;
+}
+function clearSpeakingAI() { if (!confirm('Xoá nhận xét AI cho Speaking?')) return; delete notes.spAI; saveNotes(false); renderSpeakingAI(null); }
+
 function applyBand() { if (aiResult) { document.getElementById('wBand').value = aiResult.overall; refreshLevelHint(); toast('Áp dụng band ' + aiResult.overall); } }
 
 // ─────────────── REPORT / EXPORT ───────────────
@@ -746,7 +912,7 @@ function buildCtx() {
   if (d.listening) ctx.listening = { level: d.listening.level, analysis: lisA, answers: d.listening.answers || {}, comment: notes.lisComment, recs: notes.lisRecs };
   if (d.writing) ctx.writing = { topic: d.writing.topic, essay: d.writing.essay, band: writingBand(), ai: aiResult,
     overallComment: notes.wOverall, repeatedErrors: notes.wRepeated, teacherComment: document.getElementById('wCmt').value.trim() };
-  if (d.speaking) ctx.speaking = { band: document.getElementById('spBand').value, comment: document.getElementById('spCmt').value.trim() };
+  if (d.speaking) ctx.speaking = { band: document.getElementById('spBand').value, comment: document.getElementById('spCmt').value.trim(), ai: notes.spAI || null };
   return ctx;
 }
 function docTitle() {

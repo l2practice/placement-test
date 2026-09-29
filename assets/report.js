@@ -341,11 +341,29 @@ var Report = (function () {
   }
 
   function speakingSection(ctx) {
-    var sp_ = ctx.speaking; if (!sp_ || (!sp_.band && !sp_.comment)) return '';
-    return h2('🎙 PHẦN 4: Kỹ Năng Nói') + table([
+    var sp_ = ctx.speaking, ai = sp_ && sp_.ai;
+    if (!sp_ || (!sp_.band && !sp_.comment && !ai)) return '';
+    var html = h2('🎙 PHẦN 4: Kỹ Năng Nói') + table([
       [b('Band giáo viên'), esc(sp_.band || 'Chưa chấm')],
       [b('Trình độ'), esc(levelFromBand(sp_.band) || '—')]
-    ], { widths: [30, 70] }) + (sp_.comment ? h3('Nhận xét') + multiline(sp_.comment) : '') + blank();
+    ], { widths: [30, 70] }) + blank();
+    if (!ai) return html + (sp_.comment ? h3('Nhận xét') + multiline(sp_.comment) + blank() : '');
+    var ink = 'font-size:11pt;color:' + C.ink + ';';
+    html += h3('💬 Feedback') + h4('⭐ Nhận xét chung') + multiline(ai.overall_vi, ink);
+    var icons = { 'Fluency & Coherence': '🗣', 'Lexical Resource': '📚', 'Grammatical Range & Accuracy': '🔧', 'Pronunciation': '🔊' };
+    (ai.criteria || []).forEach(function (c) {
+      html += h4((icons[c.name] || '✅') + ' ' + c.name + ' — Band ' + c.band) + multiline(c.assessment_vi, ink) +
+        p(sp('→ ' + esc(c.improvement_vi), 'font-style:italic;color:' + C.green + ';'));
+    });
+    if (ai.priorities_vi && ai.priorities_vi.length) html += h4('✅ Ưu tiên luyện tập') + listItems(ai.priorities_vi.map(esc), 'ol');
+    if (ai.criteria && ai.criteria.length) {
+      html += blank() + h3('Đánh giá theo 4 tiêu chí IELTS Speaking');
+      var rows = [[b('Tiêu chí'), b('Band')]];
+      ai.criteria.forEach(function (c) { rows.push(['✅ ' + esc(c.name), Number(c.band).toFixed(1)]); });
+      rows.push(['🎯 ' + b('OVERALL'), b(esc(sp_.band || '—'))]);
+      html += table(rows, { widths: [70, 30], align: ['left', 'center'] });
+    }
+    return html + blank();
   }
 
   function summarySection(ctx) {
