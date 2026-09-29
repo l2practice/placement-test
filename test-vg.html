@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ngữ Pháp & Từ Vựng — Venus English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   VENUS ENGLISH PLACEMENT TEST
+   IELTS Professional Design System
+   ═══════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+:root {
+  --navy:      #1a3557;
+  --navy-dk:   #0f2038;
+  --navy-md:   #2a4d7a;
+  --teal:      #1a7a6e;
+  --teal-lt:   #22a394;
+  --gold:      #c8942a;
+  --gold-lt:   #e8b84b;
+  --sky:       #e8f4f8;
+  --sky-dk:    #d0e8f0;
+  --white:     #ffffff;
+  --cream:     #fafbfc;
+  --text:      #1a2535;
+  --text-md:   #4a5568;
+  --text-lt:   #718096;
+  --border:    #e2e8f0;
+  --border-md: #cbd5e0;
+  --green:     #2d7a4f;
+  --green-lt:  #e6f7ee;
+  --red:       #c53030;
+  --red-lt:    #fff5f5;
+  --amber:     #b7791f;
+  --amber-lt:  #fffbeb;
+  --r:         12px;
+  --r-sm:      8px;
+  --r-lg:      16px;
+  --sh:        0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(26,53,87,.08);
+  --sh-md:     0 4px 24px rgba(26,53,87,.14);
+  --sh-lg:     0 8px 40px rgba(26,53,87,.18);
+}
+
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--navy-dk) 0%, var(--navy) 55%, var(--navy-md) 100%);
+  color: var(--white);
+  padding: 40px 24px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(200,148,42,.1);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--teal-lt));
+}
+.hero-logo {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.hero-logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 23px; font-weight: 700;
+  color: var(--navy-dk);
+  font-family: 'Merriweather', serif;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(200,148,42,.4);
+}
+.hero-logo-text { font-size: 20px; font-weight: 600; color: rgba(255,255,255,.85); line-height: 1.2; }
+.hero-logo-sub  { font-size: 14px; color: rgba(255,255,255,.55); letter-spacing: .5px; }
+.hero h1 {
+  font-family: 'Merriweather', serif;
+  font-size: clamp(29px, 5vw, 42px);
+  font-weight: 700;
+  line-height: 1.25;
+  position: relative;
+  letter-spacing: -.3px;
+}
+.hero p { margin-top: 8px; font-size: 18px; color: rgba(255,255,255,.68); position: relative; }
+
+/* ── NAV ── */
+.nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Merriweather', serif;
+  font-size: 21px; font-weight: 700; color: var(--navy);
+}
+.nav-brand-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold);
+}
+.nav-r { display: flex; align-items: center; gap: 8px; }
+.nav-user { font-size: 17px; color: var(--text-md); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── LAYOUT ── */
+.wrap     { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+.wrap-lg  { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: var(--r);
+  padding: 22px 20px;
+  box-shadow: var(--sh);
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-family: 'Merriweather', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.card-sub { font-size: 17px; color: var(--text-lt); margin-bottom: 16px; }
+
+/* ── SECTION HEADER (colored bar) ── */
+.sec-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--r-sm);
+  margin-bottom: 14px;
+  font-weight: 700; font-size: 20px;
+}
+.sec-head.vg      { background:#e8f0fb; color:#1a3b7a; }
+.sec-head.writing { background:#e6f7ee; color:#1a5c35; }
+.sec-head.listen  { background:#e8f4f8; color:#0f4c6b; }
+.sec-head.speak   { background:#f3e8fb; color:#4a1a7a; }
+
+/* ── FORM FIELDS ── */
+.field { margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: .6px; text-transform: uppercase;
+  color: var(--text-md);
+  margin-bottom: 5px;
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border-md);
+  border-radius: var(--r-sm);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 20px; color: var(--text);
+  background: var(--cream);
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--navy-md);
+  box-shadow: 0 0 0 3px rgba(26,53,87,.1);
+  background: var(--white);
+}
+.field textarea { resize: vertical; min-height: 150px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:480px){ .field-row { grid-template-columns: 1fr; } }
+
+/* ── PILLS (single select) ── */
+.pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill {
+  padding: 7px 14px;
+  border: 1.5px solid var(--border-md);
+  border-radius: 20px;
+  cursor: pointer; font-size: 17px; font-weight: 500;
+  transition: all .15s; user-select: none; color: var(--text-md);
+}
+.pill:hover { border-color: var(--navy-md); color: var(--navy); }
+.pill.on { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+/* ── CHECKS (multi select) ── */
+.checks { display: flex; flex-wrap: wrap; gap: 7px; }
+.chk {
+  padding: 7px 14px;
+  border: 1.5px solid var(--border-md);
+  border-radius: var(--r-sm);
+  cursor: pointer; font-size: 17px; font-weight: 500;
+  transition: all .15s; user-select: none; color: var(--text-md);
+}
+.chk:hover { border-color: var(--teal); }
+.chk.on { background: rgba(26,122,110,.08); border-color: var(--teal); color: var(--teal); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 22px;
+  border-radius: var(--r-sm);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 18px; font-weight: 700;
+  cursor: pointer; border: none;
+  transition: all .15s; text-decoration: none;
+  letter-spacing: .2px;
+}
+.btn-primary   { background: var(--navy); color: var(--white); }
+.btn-primary:hover { background: var(--navy-dk); box-shadow: var(--sh-md); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-teal      { background: var(--teal); color: var(--white); }
+.btn-teal:hover { background: var(--teal-lt); }
+.btn-gold      { background: var(--gold); color: var(--white); }
+.btn-gold:hover { background: #a87820; }
+.btn-outline   { background: transparent; color: var(--navy); border: 1.5px solid var(--navy-md); }
+.btn-outline:hover { background: var(--sky); }
+.btn-ghost     { background: transparent; color: var(--text-md); border: 1.5px solid var(--border-md); }
+.btn-ghost:hover { border-color: var(--navy-md); color: var(--navy); }
+.btn-full      { width: 100%; }
+.btn-sm        { padding: 7px 14px; font-size: 17px; }
+
+/* ── PROGRESS BAR ── */
+.prog-wrap { width: 100%; height: 6px; background: var(--sky-dk); border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--navy-md), var(--teal-lt)); border-radius: 3px; transition: width .4s ease; }
+
+/* ── STEP INDICATOR ── */
+.step-row { display: flex; gap: 4px; margin-bottom: 18px; }
+.step-dot { flex: 1; height: 3px; border-radius: 2px; background: var(--border-md); }
+.step-dot.done  { background: var(--teal); }
+.step-dot.active{ background: var(--navy); }
+
+/* ── ALERTS ── */
+.alert {
+  padding: 11px 14px;
+  border-radius: var(--r-sm);
+  font-size: 18px;
+  display: none;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.alert.show, .alert[style*="display:flex"], .alert[style*="display: flex"] { display: flex; }
+.al-info    { background: var(--sky); color: #0f4c6b; border-left: 3px solid #4a9bc4; }
+.al-success { background: var(--green-lt); color: var(--green); border-left: 3px solid var(--green); }
+.al-warn    { background: var(--amber-lt); color: var(--amber); border-left: 3px solid var(--gold); }
+.al-error   { background: var(--red-lt); color: var(--red); border-left: 3px solid var(--red); display:block; font-size:17px; padding:9px 12px; border-radius:var(--r-sm); margin-bottom:10px; }
+.al-error[style*="none"],.al-error:empty { display:none!important; }
+
+/* ── QUESTION BLOCKS ── */
+.qblock {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: border-color .15s;
+}
+.qblock:hover { border-color: var(--navy-md); }
+.qblock.answered { border-color: var(--teal); border-left-width: 3px; }
+.q-num { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.q-text { font-size: 18px; line-height: 1.55; margin-bottom: 10px; color: var(--text); }
+.q-opts { display: flex; flex-direction: column; gap: 6px; }
+.q-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  cursor: pointer; font-size: 17px;
+  transition: all .12s; color: var(--text-md);
+}
+.q-opt:hover { background: var(--sky); border-color: var(--navy-md); color: var(--navy); }
+.q-opt.on { background: var(--sky); border-color: var(--navy); color: var(--navy); font-weight: 600; }
+.q-opt input[type=radio] { accent-color: var(--navy); width: 15px; height: 15px; flex-shrink: 0; }
+
+/* ── DASHBOARD TEST CARDS ── */
+.test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:420px){ .test-grid { grid-template-columns: 1fr; } }
+
+.tcard {
+  border-radius: var(--r);
+  padding: 18px 16px;
+  position: relative; overflow: hidden;
+  border: 2px solid transparent;
+  transition: all .2s;
+}
+.tcard-icon { font-size: 31px; margin-bottom: 8px; }
+.tcard-name { font-family: 'Merriweather', serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.tcard-info { font-size: 14px; color: var(--text-lt); }
+.tcard-badge { position: absolute; top: 10px; right: 10px; font-size: 12px; font-weight: 700; padding: 3px 7px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px; }
+
+.tcard.avail { background: var(--white); border-color: var(--border); box-shadow: var(--sh); cursor: pointer; }
+.tcard.avail:hover { border-color: var(--navy-md); box-shadow: var(--sh-md); transform: translateY(-2px); }
+.tcard.done  { background: var(--green-lt); border-color: #a3d9be; cursor: default; }
+.tcard.done .tcard-name { color: var(--green); }
+.tcard.locked { background: var(--cream); opacity: .55; cursor: not-allowed; }
+
+.badge-done { background: #a3d9be; color: var(--green); }
+.badge-new  { background: #fde68a; color: #78350f; }
+
+/* ── DEADLINE BAR ── */
+.dl-bar {
+  background: linear-gradient(90deg, var(--navy-dk), var(--navy));
+  color: var(--white);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 18px;
+  box-shadow: var(--sh);
+}
+.dl-label { font-size: 14px; opacity: .7; margin-bottom: 2px; letter-spacing: .5px; text-transform: uppercase; }
+.dl-date  { font-family: 'Merriweather', serif; font-size: 21px; font-weight: 700; }
+.dl-pill  { background: rgba(255,255,255,.15); border-radius: 20px; padding: 4px 12px; font-size: 17px; font-weight: 600; }
+.dl-pill.urgent { background: rgba(220,38,38,.35); }
+
+/* ── AUDIO PLAYER ── */
+.audio-wrap {
+  background: linear-gradient(135deg, var(--navy-dk), var(--navy-md));
+  border-radius: var(--r);
+  padding: 16px;
+  color: var(--white);
+  margin-bottom: 16px;
+  box-shadow: var(--sh);
+}
+.audio-wrap audio { width: 100%; margin-top: 8px; height: 36px; }
+.audio-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 3px; }
+.audio-title { font-size: 17px; font-weight: 600; }
+.audio-plays { font-size: 14px; margin-top: 4px; opacity: .7; }
+
+/* ── WRITING TOPIC CARDS ── */
+.topic-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 13px 14px;
+  margin-bottom: 8px;
+  cursor: pointer; transition: all .15s;
+}
+.topic-card:hover { border-color: var(--navy-md); background: var(--sky); }
+.topic-card.on    { border-color: var(--navy); background: var(--sky); border-left: 3px solid var(--navy); }
+.topic-card h4    { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.topic-card p     { font-size: 16px; color: var(--text-lt); line-height: 1.5; }
+
+/* ── RECORDING ── */
+.rec-area {
+  border: 2px dashed var(--border-md);
+  border-radius: var(--r);
+  padding: 26px;
+  text-align: center;
+  background: var(--cream);
+  transition: all .3s;
+}
+.rec-area.live {
+  border-color: #e53e3e;
+  background: #fff5f5;
+  animation: rpulse 1.5s infinite;
+}
+@keyframes rpulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(229,62,62,.25); }
+  50%      { box-shadow: 0 0 0 10px rgba(229,62,62,0); }
+}
+.rec-icon  { font-size: 52px; margin-bottom: 8px; }
+.rec-timer { font-family: 'Merriweather', serif; font-size: 36px; font-weight: 700; color: var(--navy); }
+
+/* ── TEACHER TABLE ── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 17px; }
+.tbl th { background: var(--navy); color: var(--white); padding: 9px 12px; text-align: left; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+.tbl td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.tbl tr:hover td { background: var(--sky); }
+.tbl tr:last-child td { border-bottom: none; }
+
+.chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.chip-done  { background: var(--green-lt); color: var(--green); }
+.chip-none  { background: var(--sky-dk); color: var(--text-lt); }
+.chip-warn  { background: var(--amber-lt); color: var(--amber); }
+.chip-navy  { background: var(--navy); color: var(--white); }
+
+/* ── STAT CARD ── */
+.stat-card { background: var(--white); border-radius: var(--r-sm); padding: 16px; text-align: center; box-shadow: var(--sh); border: 1px solid var(--border); }
+.stat-num  { font-family: 'Merriweather', serif; font-size: 34px; font-weight: 700; line-height: 1; }
+.stat-lbl  { font-size: 14px; color: var(--text-lt); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ── LOADING OVERLAY ── */
+#ov { position: fixed; inset: 0; background: rgba(250,251,252,.9); backdrop-filter: blur(3px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 999; gap: 12px; }
+.spinner { width: 32px; height: 32px; border: 3px solid var(--border-md); border-top-color: var(--navy); border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#ovMsg { font-size: 18px; color: var(--text-md); }
+
+/* ── MISC ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.txt-center { text-align: center; }
+.txt-sm { font-size: 17px; color: var(--text-lt); }
+.word-count { font-size: 16px; color: var(--text-lt); text-align: right; margin-top: 4px; }
+.link { color: var(--navy); font-weight: 600; text-decoration: none; }
+.link:hover { color: var(--teal); text-decoration: underline; }
+
+/* ── SUCCESS PAGE ── */
+.success-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.success-box { max-width: 440px; width: 100%; text-align: center; }
+.success-icon-wrap { width: 80px; height: 80px; border-radius: 50%; background: var(--green-lt); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 47px; }
+.success-box h1 { font-family: 'Merriweather', serif; font-size: 29px; color: var(--navy); margin-bottom: 8px; }
+.success-box p  { font-size: 18px; color: var(--text-md); line-height: 1.6; margin-bottom: 20px; }
+
+/* ── ESSAY BOX ── */
+.essay-box { background: var(--cream); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px; font-size: 18px; line-height: 1.75; white-space: pre-wrap; max-height: 260px; overflow-y: auto; color: var(--text); }
+
+/* ── WRONG ANSWER TABLE ── */
+.wa-tbl { width: 100%; border-collapse: collapse; font-size: 16px; }
+.wa-tbl th { padding: 6px 10px; background: var(--sky-dk); font-size: 13px; text-transform: uppercase; letter-spacing: .5px; text-align: left; }
+.wa-tbl td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+.wa-tbl .ok { color: var(--green); font-weight: 700; }
+.wa-tbl .no { color: var(--red); font-weight: 700; }
+
+/* ── GRADE ROW ── */
+.grade-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-top: 12px; }
+.grade-row .field { margin: 0; }
+
+/* ── AI RESULT ── */
+.ai-box { background: var(--sky); border-left: 3px solid var(--teal); border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 14px; margin-top: 12px; font-size: 17px; display: none; }
+.ai-box table { width: 100%; border-collapse: collapse; font-size: 17px; margin-top: 8px; }
+.ai-box table td { padding: 5px 8px; border-bottom: 1px solid var(--sky-dk); }
+.ai-box table td:first-child { font-weight: 700; width: 120px; color: var(--navy); white-space: nowrap; }
+
+
+/* ── 2-COLUMN TEST LAYOUT ── */
+.test-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 56px);
+}
+@media (max-width: 700px) {
+  .test-layout { grid-template-columns: 1fr; }
+  .nav-panel { display: none; }
+  .nav-panel.mobile-show { display: block; }
+}
+
+/* ── NAV PANEL (left) ── */
+.nav-panel {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 16px 12px;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+.nav-panel-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--text-lt);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.q-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.q-nav-btn {
+  aspect-ratio: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px; font-weight: 600;
+  background: var(--white);
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--text-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.q-nav-btn:hover { border-color: var(--navy); color: var(--navy); background: var(--sky); }
+.q-nav-btn.answered { background: var(--teal); border-color: var(--teal); color: var(--white); }
+.q-nav-btn.current  { border-color: var(--navy); background: var(--navy); color: var(--white); box-shadow: 0 2px 8px rgba(26,53,87,.3); }
+
+/* Legend */
+.nav-legend { font-size: 11px; color: var(--text-lt); }
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+/* Timer */
+.timer-box {
+  background: var(--navy);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.timer-label { font-size: 10px; color: rgba(255,255,255,.65); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
+.timer-value { font-family: 'Merriweather', serif; font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: 1px; }
+.timer-warn .timer-value { color: var(--gold-lt); }
+
+/* Progress summary */
+.nav-progress { margin-bottom: 14px; }
+.nav-progress-bar { width: 100%; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.nav-progress-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width .3s; }
+.nav-progress-txt { font-size: 11px; color: var(--text-lt); display: flex; justify-content: space-between; margin-top: 3px; }
+
+/* ── MAIN CONTENT (right) ── */
+.main-content { padding: 20px; max-width: 760px; }
+
+/* Single question block (full width, scrollable) */
+.qblock-active {
+  animation: slideIn .25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Nav buttons row */
+.q-nav-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+  gap: 10px;
+}
+
+/* Mobile nav toggle */
+.mobile-nav-toggle {
+  display: none;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+}
+@media (max-width: 700px) { .mobile-nav-toggle { display: inline-flex; } }
+</style>
+<script>
+const GAS_URL='https://script.google.com/macros/s/AKfycbwwx6KoClB_kwvEOC4-5lQcQgh6J8n0xm1x3SI33EHxzhc5PXugKlrVsNSdUnDjZDVZ/exec';
+const Session={get:()=>{try{return JSON.parse(sessionStorage.getItem('ve_user')||'null');}catch(e){return null;}},set:(d)=>sessionStorage.setItem('ve_user',JSON.stringify(d)),clear:()=>sessionStorage.removeItem('ve_user'),require:(to)=>{var u=Session.get();if(!u){location.href=(to||'login.html');return null;}return u;},tGet:()=>sessionStorage.getItem('ve_teacher'),tSet:(p)=>sessionStorage.setItem('ve_teacher',p),tClear:()=>sessionStorage.removeItem('ve_teacher'),tRequire:()=>{var p=sessionStorage.getItem('ve_teacher');if(!p){location.href='teacher.html';return null;}return p;}};
+async function api(action,payload,msg){payload=payload||{};msg=msg||'Đang xử lý...';showLoading(true,msg);try{var r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({action:action},payload)),redirect:'follow'});return await r.json();}catch(e){return{ok:false,error:'Lỗi kết nối: '+e.message};}finally{showLoading(false);}}
+function showLoading(on,msg){var el=document.getElementById('ov');if(!el)return;document.getElementById('ovMsg').textContent=msg||'Đang xử lý...';el.style.display=on?'flex':'none';}
+function showErr(id,msg){var el=document.getElementById(id);if(!el)return;el.textContent=msg;el.style.display='block';}
+function hideErr(id){var el=document.getElementById(id);if(el)el.style.display='none';}
+</script>
+</head>
+<body>
+<div id="ov" style="display:none"><div class="spinner"></div><p id="ovMsg">Đang nộp bài...</p></div>
+
+<!-- Sticky top nav -->
+<nav class="nav" style="position:sticky;top:0;z-index:200">
+  <div style="display:flex;align-items:center;gap:10px">
+    <button class="btn btn-ghost btn-sm" onclick="goBack()">← Thoát</button>
+    <button class="mobile-nav-toggle" onclick="toggleMobileNav()">☰ Số câu</button>
+  </div>
+  <div class="nav-brand"><div class="nav-brand-dot"></div>Ngữ Pháp & Từ Vựng</div>
+  <div class="nav-r">
+    <span class="txt-sm" id="cnt" style="min-width:50px;text-align:right">0 / 50</span>
+  </div>
+</nav>
+
+<div class="test-layout">
+
+  <!-- ── LEFT NAV PANEL ── -->
+  <div class="nav-panel" id="navPanel">
+
+    <!-- Timer -->
+    <div class="timer-box" id="timerBox">
+      <div class="timer-label">Thời gian</div>
+      <div class="timer-value" id="timerVal">00:00</div>
+    </div>
+
+    <!-- Progress -->
+    <div class="nav-progress">
+      <div class="nav-progress-txt">
+        <span>Đã trả lời</span>
+        <span id="navPrgTxt">0 / 50</span>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" id="navPrgFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Question grid -->
+    <div class="nav-panel-title">Câu hỏi</div>
+    <div class="q-nav-grid" id="qNavGrid"></div>
+
+    <!-- Legend -->
+    <div class="nav-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--teal)"></div>
+        <span>Đã trả lời</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--navy)"></div>
+        <span>Câu hiện tại</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--white);border:1.5px solid var(--border)"></div>
+        <span>Chưa trả lời</span>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button class="btn btn-primary btn-full" style="margin-top:16px" onclick="submitVG()">
+      Nộp bài →
+    </button>
+    <div id="navErrMsg" style="display:none;font-size:12px;color:var(--red);margin-top:8px;text-align:center"></div>
+  </div>
+
+  <!-- ── RIGHT: QUESTION CONTENT ── -->
+  <div class="main-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 56px)">
+    <div id="questionArea" style="width:100%;max-width:780px"></div>
+    <div id="submitErr" class="al-error" style="display:none;margin-top:16px;width:100%;max-width:780px"></div>
+    <div style="width:100%;max-width:780px;display:flex;justify-content:space-between;align-items:center;margin-top:20px">
+      <button class="btn btn-ghost" id="btnPrev" onclick="goPrev()">← Câu trước</button>
+      <span class="txt-sm" id="qPositionTxt" style="color:var(--text-lt)">Câu 1 / 50</span>
+      <button class="btn btn-primary" id="btnNext" onclick="goNext()">Câu sau →</button>
+    </div>
+  </div>
+
+</div><!-- /test-layout -->
+
+<script>var user = Session.require();
+if (!user) { location.href = 'login.html'; }
+else if (user && user.vgDone) { location.href = 'dashboard.html'; }
+
+var answers = {};
+var currentQ = 1;
+var totalQ = 50;
+var timerSec = 0;
+var timerInterval = null;
+var exitCount = 0;
+var pageHidden = false;
+var tabHiddenAt = 0;
+var QS = [
+  {n:1,q:"I'm 18 and my brother is 20, so he's ........ me.",o:["a. the oldest of","b. older than","c. as old as"]},
+  {n:2,q:"Carl's very ........ He's never late, and he never forgets to do things.",o:["a. reliable","b. patient","c. strict"]},
+  {n:3,q:"We stayed in a lovely villa ........ the sea.",o:["a. it overlooks","b. overlooked","c. overlooking"]},
+  {n:4,q:"Not until the 1980s ........ for the average person to own a computer.",o:["a. it was possible","b. was it possible","c. was possible"]},
+  {n:5,q:"Jan ........ her arm on a hot iron.",o:["a. broke","b. burned","c. sprained"]},
+  {n:6,q:"Tomorrow's a holiday, so we ........ go to work.",o:["a. have to","b. mustn't","c. don't have to"]},
+  {n:7,q:"I usually ........ swimming at least once a week.",o:["a. go","b. do","c. play"]},
+  {n:8,q:"My friend Siena ........ to Russia last year.",o:["a. went","b. has gone","c. has been"]},
+  {n:9,q:"This is ........ area, with a lot of factories and warehouses.",o:["a. an agricultural","b. an industrial","c. a residential"]},
+  {n:10,q:"If I ........ well in my exams, I ........ to university.",o:["a. will do / will go","b. will do / go","c. do / will go"]},
+  {n:11,q:"She was so upset that she burst ........ tears.",o:["a. into","b. out","c. with"]},
+  {n:12,q:"Where did you go ........ holiday last year?",o:["a. for","b. on","c. to"]},
+  {n:13,q:"Ocean currents ........ play an important part in regulating global climate.",o:["a. are known to","b. thought to","c. are believed that they"]},
+  {n:14,q:"My cousin ........ getting a job in Bahrain.",o:["a. would like","b. is planning","c. is thinking of"]},
+  {n:15,q:"I can't ........ your hair, because I haven't got any scissors.",o:["a. brush","b. cut","c. wash"]},
+  {n:16,q:"I wish I ........ have an exam tomorrow!",o:["a. don't","b. didn't","c. won't"]},
+  {n:17,q:"The government plans to ........ taxes on sales of luxury items.",o:["a. increase","b. expand","c. go up"]},
+  {n:18,q:"When I first moved to Hong Kong, life in a different country was very strange, but now I'm used ........ here.",o:["a. living","b. to live","c. to living"]},
+  {n:19,q:"There ........ milk in the fridge.",o:["a. is some","b. are some","c. is a"]},
+  {n:20,q:"Criminals are people who are guilty of ........ the law.",o:["a. breaking","b. cheating","c. committing"]},
+  {n:21,q:"Why on earth isn't Josh here yet? ........ for him for over an hour!",o:["a. I'm waiting","b. I've been waiting","c. I've waited"]},
+  {n:22,q:'"It\'s pouring down, and it\'s freezing." What are the weather conditions?',o:["a. high winds and snow","b. heavy rain and cold temperatures","c. thick cloud but quite warm"]},
+  {n:23,q:"........ feeling OK? You don't look very well.",o:["a. Do you","b. You are","c. Are you"]},
+  {n:24,q:"Daniel's hair is getting far too long; he should ........ soon.",o:["a. cut it","b. have cut it","c. have it cut"]},
+  {n:25,q:"Mandy works for a computer software company. She got ........ recently, and so now she's an area manager.",o:["a. made redundant","b. promoted","c. a raise"]},
+  {n:26,q:"I can't hear you — it's ........ noisy in here.",o:["a. too","b. too much","c. too many"]},
+  {n:27,q:"Jamal has just sent me ........ to arrange plans for this weekend.",o:["a. a blog","b. an email","c. a website"]},
+  {n:28,q:"I promise I'll call you as soon as I ........ .",o:["a. arrive","b. arrived","c. will arrive"]},
+  {n:29,q:"Photographers and designers need to be very ........ .",o:["a. creative","b. fit","c. annoying"]},
+  {n:30,q:"The global financial crisis, ........ is forcing lots of small businesses to close, does not look set to end soon.",o:["a. it","b. that","c. which"]},
+  {n:31,q:"There ........ a terrible accident if the pilot hadn't reacted so quickly.",o:["a. had been","b. was","c. would have been"]},
+  {n:32,q:'"Are you ready to order?" "Not yet — I\'m still looking at the ........"',o:["a. bill","b. menu","c. service"]},
+  {n:33,q:'"My job is never boring." The speaker\'s job is always ........ .',o:["a. interesting","b. popular","c. difficult"]},
+  {n:34,q:"I've been working here ........ about the last two years.",o:["a. during","b. for","c. since"]},
+  {n:35,q:'"It leaves from Platform 2 at 4.15." The speaker is talking about ........ .',o:["a. an airline flight","b. a train","c. a taxi"]},
+  {n:36,q:"I went to a lovely ........ last Saturday. The bride was my best friend when we were at school.",o:["a. anniversary","b. marriage","c. wedding"]},
+  {n:37,q:'"I\'ve got a headache." "Maybe you ........ to take an aspirin."',o:["a. should","b. ought","c. would"]},
+  {n:38,q:"I'll never get used to ........ on the left.",o:["a. drive","b. driving","c. drove"]},
+  {n:39,q:"The ........ in that country is very high, so most people can read and write.",o:["a. literacy rate","b. birth rate","c. mortality rate"]},
+  {n:40,q:"I was sure I had put my keys somewhere, but I couldn't ........ them.",o:["a. find out","b. come across","c. find"]},
+  {n:41,q:"The area used to be quite ........, but since the buildings were renovated, it's become quite fashionable.",o:["a. a trendy","b. a rundown","c. an affluent"]},
+  {n:42,q:"The news from the hospital isn't good — I hope she ........ soon.",o:["a. recovers","b. repairs","c. heals"]},
+  {n:43,q:"If only I ........ to him — things would have been so different.",o:["a. had listened","b. listened","c. would have listened"]},
+  {n:44,q:"The ........ from the concert hall was so great that we could hear it from our house.",o:["a. music","b. sound","c. noise"]},
+  {n:45,q:"Scientists have made a significant ........ in the fight against malaria.",o:["a. breakthrough","b. investigation","c. discovery"]},
+  {n:46,q:"I couldn't ........ the answer to the puzzle.",o:["a. check in","b. look up","c. work out"]},
+  {n:47,q:"The charity depends ........ on donations from the public.",o:["a. mainly","b. heavily","c. largely"]},
+  {n:48,q:"The committee was ........ of ten members, all of whom were experts in their fields.",o:["a. formed","b. made","c. comprised"]},
+  {n:49,q:"........ worries me most is the lack of communication between departments.",o:["a. That","b. What","c. Which"]},
+  {n:50,q:"I wouldn't say the policy is wrong ........; I'd say it's badly timed.",o:["a. as such","b. by itself","c. in its own"]},
+  ];
+
+if (user && !user.vgDone) {
+  api('trackActivity', {username: user.username, testType:'vg', action:'enter', note:'Start session'});
+  buildNavGrid();
+  showQuestion(1);
+  startTimer();
+}
+
+function startTimer() {
+  timerInterval = setInterval(function() {
+    timerSec++;
+    var m = Math.floor(timerSec / 60);
+    var s = timerSec % 60;
+    document.getElementById('timerVal').textContent =
+      String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }, 1000);
+}
+
+// ── BUILD NAV GRID ──
+function buildNavGrid() {
+  var grid = document.getElementById('qNavGrid');
+  grid.innerHTML = '';
+  for (var i = 1; i <= totalQ; i++) {
+    var btn = document.createElement('button');
+    btn.className = 'q-nav-btn' + (i === currentQ ? ' current' : '');
+    btn.textContent = i;
+    btn.id = 'navbtn' + i;
+    (function(n) {
+      btn.onclick = function() { goToQuestion(n); };
+    })(i);
+    grid.appendChild(btn);
+  }
+}
+
+// ── SHOW SINGLE QUESTION (large, full content area) ──
+function showQuestion(n) {
+  currentQ = n;
+  var q = QS[n - 1];
+  var selected = answers[n] || null;
+  var area = document.getElementById('questionArea');
+
+  area.innerHTML = '<div class="qblock qblock-active" id="qb' + n + '" style="padding:32px 36px">'
+    + '<div class="q-num" style="font-size:13px;margin-bottom:14px">Câu ' + n + ' / ' + totalQ + '</div>'
+    + '<div class="q-text" id="qtxt' + n + '" style="font-size:26px;line-height:1.6;margin-bottom:28px;font-weight:500">' + q.q + '</div>'
+    + '<div class="q-opts" style="gap:12px">'
+    + q.o.map(function(opt, i) {
+        var l = ['a','b','c'][i];
+        var isSel = selected === l;
+        return '<label class="q-opt' + (isSel?' on':'') + '" id="qo' + n + '_' + l + '" style="padding:16px 20px;font-size:18px">'
+          + '<input type="radio" name="q' + n + '" value="' + l + '" style="width:20px;height:20px"'
+          + (isSel?' checked':'')
+          + ' onchange="pick(' + n + ',\'' + l + '\')">'
+          + ' ' + opt + '</label>';
+      }).join('')
+    + '</div></div>';
+
+  // Update nav buttons
+  document.querySelectorAll('.q-nav-btn').forEach(function(b, i) {
+    b.classList.remove('current','answered');
+    var qn = i + 1;
+    if (qn === n) b.classList.add('current');
+    else if (answers[qn]) b.classList.add('answered');
+  });
+
+  document.getElementById('qPositionTxt').textContent = 'Câu ' + n + ' / ' + totalQ;
+  document.getElementById('btnPrev').disabled = (n <= 1);
+  document.getElementById('btnNext').textContent = n < totalQ ? 'Câu sau →' : 'Xem lại & Nộp';
+
+  window.scrollTo(0, 0);
+  setTimeout(function() { protectAllQuestions(); }, 80);
+}
+
+function goToQuestion(n) {
+  if (n < 1 || n > totalQ) return;
+  showQuestion(n);
+}
+
+function goNext() {
+  if (currentQ < totalQ) { goToQuestion(currentQ + 1); return; }
+  var unanswered = [];
+  for (var i = 1; i <= totalQ; i++) if (!answers[i]) unanswered.push(i);
+  if (unanswered.length > 0) {
+    document.getElementById('submitErr').textContent = 'Còn ' + unanswered.length + ' câu chưa trả lời. Các câu được tô vàng trong danh sách bên trái.';
+    document.getElementById('submitErr').style.display = 'block';
+    unanswered.forEach(function(n) {
+      var btn = document.getElementById('navbtn'+n);
+      if (btn) btn.style.background = '#fef3c7';
+    });
+    goToQuestion(unanswered[0]);
+  } else {
+    submitVG();
+  }
+}
+
+function goPrev() { goToQuestion(Math.max(1, currentQ - 1)); }
+
+// ── PICK ANSWER ──
+function pick(n, l) {
+  answers[n] = l;
+  ['a','b','c'].forEach(function(x) {
+    var el = document.getElementById('qo' + n + '_' + x);
+    if (el) el.classList.toggle('on', x === l);
+  });
+  var navBtn = document.getElementById('navbtn' + n);
+  if (navBtn) { navBtn.style.background=''; navBtn.classList.remove('current'); navBtn.classList.add('answered'); }
+  document.querySelectorAll('.q-nav-btn').forEach(function(b,i) {
+    if (i + 1 === currentQ) b.classList.add('current');
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  var cnt = Object.keys(answers).length;
+  document.getElementById('cnt').textContent = cnt + ' / 50';
+  document.getElementById('navPrgTxt').textContent = cnt + ' / 50';
+  document.getElementById('navPrgFill').style.width = (cnt / 50 * 100) + '%';
+}
+
+// ── SUBMIT ──
+async function submitVG() {
+  var unanswered = QS.map(function(q){return q.n;}).filter(function(n){return !answers[n];});
+  var errEl = document.getElementById('submitErr');
+  if (unanswered.length > 0) {
+    errEl.textContent = 'Còn ' + unanswered.length + ' câu chưa trả lời. Vui lòng trả lời đủ trước khi nộp.';
+    errEl.style.display = 'block';
+    // Highlight unanswered in nav
+    unanswered.forEach(function(n) {
+      var btn = document.getElementById('navbtn'+n);
+      if (btn) btn.style.background = '#fef3c7';
+    });
+    goToQuestion(unanswered[0]);
+    return;
+  }
+  errEl.style.display = 'none';
+  clearInterval(timerInterval);
+  var res = await api('submitVG', {username: user.username, answers: answers});
+  if (!res.ok) { showErr('submitErr', res.error); errEl.style.display = 'block'; return; }
+  user.vgDone = true;
+  Session.set(user);
+  location.href = 'done.html?test=vg';
+}
+
+// ── EXIT TRACKING ──
+var confirmingExit = false;
+
+function goBack() {
+  exitCount++;
+  var confirmed = confirm(
+    'Bạn có chắc muốn thoát?\n\n' +
+    '⚠️ Lưu ý: Giáo viên sẽ ghi nhận bạn đã thoát khỏi bài thi này.\n' +
+    'Hành động này sẽ được ghi lại trong hệ thống.\n\n' +
+    'Nhấn OK để thoát, Cancel để tiếp tục làm bài.'
+  );
+  if (confirmed) {
+    clearInterval(timerInterval);
+    api('trackActivity', {
+      username: user.username,
+      testType: 'vg',
+      action: 'exit',
+      note: 'Thoat sau ' + timerSec + 'giay, da lam ' + Object.keys(answers).length + '/50 cau'
+    });
+    setTimeout(function() { location.href = 'dashboard.html'; }, 200);
+  }
+}
+
+// ═══ TAB SWITCH DETECTION — dừng đồng hồ, cảnh báo, ghi log ═══
+var tabHiddenAt = 0;
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    pageHidden = true;
+    tabHiddenAt = Date.now();
+    // Dừng đồng hồ ngay lập tức
+    if (typeof timerInterval !== 'undefined' && timerInterval) clearInterval(timerInterval);
+    api('trackActivity', {
+      username: user.username,
+      testType: 'vg',
+      action: 'tab_hidden',
+      note: 'Chuyen tab luc ' + (typeof timerSec!=='undefined'?timerSec:0) + 'giay'
+    });
+  } else if (pageHidden) {
+    pageHidden = false;
+    var awaySec = Math.round((Date.now() - tabHiddenAt) / 1000);
+    api('trackActivity', {
+      username: user.username,
+      testType: 'vg',
+      action: 'tab_returned',
+      note: 'Quay lai sau ' + awaySec + 'giay roi khoi tab'
+    });
+    // Khởi động lại đồng hồ
+    if (typeof startTimer === 'function') startTimer();
+    // Cảnh báo to cho sinh viên
+    showTabWarning();
+  }
+});
+
+function showTabWarning() {
+  var ov = document.createElement('div');
+  ov.id = 'tabWarnOverlay';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(220,38,38,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:32px;font-family:"Source Sans 3",sans-serif;';
+  ov.innerHTML = '<div style="font-size:48px;margin-bottom:16px">⚠️</div>'
+    + '<h2 style="font-family:\'Merriweather\',serif;font-size:24px;margin-bottom:12px">Bạn vừa chuyển tab!</h2>'
+    + '<p style="font-size:16px;max-width:480px;line-height:1.6;margin-bottom:24px">Hành động này đã được ghi nhận và sẽ thông báo cho giáo viên biết. Vui lòng tiếp tục làm bài và không rời khỏi trang trong lúc thi.</p>'
+    + '<button id="tabWarnClose" style="background:#fff;color:#dc2626;border:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:15px;cursor:pointer">Tôi đã hiểu, tiếp tục làm bài</button>';
+  document.body.appendChild(ov);
+  document.getElementById('tabWarnClose').onclick = function() { ov.remove(); };
+}
+
+// Cấm chuột phải trong khi làm bài (chống copy/inspect dễ dàng)
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+// Cấm phím tắt phổ biến để copy/devtools
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && (e.key==='c'||e.key==='C'||e.key==='u'||e.key==='U'||e.key==='s'||e.key==='S')) {
+    e.preventDefault(); return false;
+  }
+  if (e.key === 'F12') { e.preventDefault(); return false; }
+  if (e.ctrlKey && e.shiftKey && (e.key==='I'||e.key==='i'||e.key==='J'||e.key==='j'||e.key==='C'||e.key==='c')) {
+    e.preventDefault(); return false;
+  }
+});
+
+// Block beforeunload
+window.addEventListener('beforeunload', function(e) {
+  if (!user.vgDone) {
+    e.preventDefault();
+    e.returnValue = 'Bạn có chắc muốn thoát? Tiến trình chưa được lưu.';
+    return e.returnValue;
+  }
+});
+
+// Mobile nav toggle
+function toggleMobileNav() {
+  var panel = document.getElementById('navPanel');
+  panel.classList.toggle('mobile-show');
+}
+</script>
+
+<script>
+
+
+// ═══════════════════════════════════════
+// CANVAS QUESTION RENDERER
+// Renders question text as PNG image — blocks copy/translate/select
+// ═══════════════════════════════════════
+function renderQuestionAsImage(text, maxWidth) {
+  maxWidth = maxWidth || 600;
+  var dpr = window.devicePixelRatio || 1;
+  var fontSize = 17;
+  var lineHeight = fontSize * 1.6;
+  var padding = 0;
+  var fontFace = '500 ' + fontSize + 'px "Source Sans 3", system-ui, sans-serif';
+
+  // Measure and wrap text
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.font = fontFace;
+
+  function wrapText(txt, maxW) {
+    var words = txt.split(' ');
+    var lines = [];
+    var current = '';
+    words.forEach(function(w) {
+      var test = current ? current + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && current) {
+        lines.push(current);
+        current = w;
+      } else {
+        current = test;
+      }
+    });
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  var usableWidth = maxWidth - padding * 2;
+  var lines = wrapText(text, usableWidth);
+  var h = lines.length * lineHeight + padding * 2;
+
+  canvas.width = maxWidth * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = maxWidth + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(dpr, dpr);
+
+  // Background transparent
+  ctx.clearRect(0, 0, maxWidth, h);
+
+  // Text
+  ctx.font = fontFace;
+  ctx.fillStyle = '#1a2535';
+  ctx.textBaseline = 'top';
+  lines.forEach(function(line, i) {
+    ctx.fillText(line, padding, padding + i * lineHeight);
+  });
+
+  var img = new Image();
+  img.src = canvas.toDataURL('image/png');
+  img.style.display = 'block';
+  img.style.userSelect = 'none';
+  img.style.webkitUserSelect = 'none';
+  img.style.pointerEvents = 'none';
+  img.style.maxWidth = '100%';
+  img.draggable = false;
+  return img;
+}
+
+function renderOptionAsImage(text, maxWidth) {
+  maxWidth = maxWidth || 560;
+  var dpr = window.devicePixelRatio || 1;
+  var fontSize = 16;
+  var lineHeight = fontSize * 1.55;
+  var fontFace = fontSize + 'px "Source Sans 3", system-ui, sans-serif';
+
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.font = fontFace;
+
+  function wrapText(txt, maxW) {
+    var words = txt.split(' ');
+    var lines = []; var current = '';
+    words.forEach(function(w) {
+      var test = current ? current + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && current) { lines.push(current); current = w; }
+      else { current = test; }
+    });
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  var lines = wrapText(text, maxWidth);
+  var h = lines.length * lineHeight + 4;
+  canvas.width = maxWidth * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = maxWidth + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, maxWidth, h);
+  ctx.font = fontFace;
+  ctx.fillStyle = '#4a5568';
+  ctx.textBaseline = 'top';
+  lines.forEach(function(line, i) { ctx.fillText(line, 0, 2 + i * lineHeight); });
+
+  var img = new Image();
+  img.src = canvas.toDataURL('image/png');
+  img.style.display = 'block';
+  img.style.userSelect = 'none';
+  img.style.webkitUserSelect = 'none';
+  img.style.pointerEvents = 'none';
+  img.style.maxWidth = '100%';
+  img.draggable = false;
+  return img;
+}
+
+// Apply to all .q-text and .q-opt label text
+function protectAllQuestions() {
+  var container = document.getElementById('qs') || document.getElementById('parts');
+  if (!container) return;
+  var maxW = Math.min(container.offsetWidth - 32, 620);
+
+  // Replace q-text content with canvas image
+  container.querySelectorAll('.q-text').forEach(function(el) {
+    var txt = el.textContent.trim();
+    if (!txt) return;
+    el.innerHTML = '';
+    el.appendChild(renderQuestionAsImage(txt, maxW));
+  });
+
+  // Replace option text (keep radio input, replace text node)
+  container.querySelectorAll('.q-opt').forEach(function(label) {
+    var input = label.querySelector('input');
+    var txt = label.textContent.trim();
+    if (!txt || !input) return;
+    label.innerHTML = '';
+    label.appendChild(input);
+    label.appendChild(renderOptionAsImage(txt, maxW - 32));
+    label.style.alignItems = 'center';
+    label.style.gap = '10px';
+  });
+}
+
+// Anti-copy/translate measures
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+document.addEventListener('selectstart', function(e) {
+  // Allow selecting form inputs
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  e.preventDefault();
+});
+document.addEventListener('copy', function(e) { e.preventDefault(); });
+document.addEventListener('keydown', function(e) {
+  // Block Ctrl+A, Ctrl+C, Ctrl+U (view source)
+  if (e.ctrlKey && (e.key==='a'||e.key==='c'||e.key==='u'||e.key==='s')) e.preventDefault();
+  // Block F12
+  if (e.key==='F12') e.preventDefault();
+});
+
+// Call after questions are rendered
+window.addEventListener('load', function() {
+  setTimeout(protectAllQuestions, 100);
+});
+
+</script>
+</body>
+</html>
